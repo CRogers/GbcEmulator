@@ -7,10 +7,13 @@ namespace RomTools
 {
     public partial class GameBoy
     {
+        private readonly Registers r = new Registers();
         public Registers Registers { get { return r; } }
-        private Registers r = new Registers();
+        
+        private readonly Registers rsv = new Registers();
+        public Registers Rsv { get { return rsv; } }
 
-        private byte[] rom;    
+        private byte[] rom;
     
         public GameBoy(byte[] rom)
         {

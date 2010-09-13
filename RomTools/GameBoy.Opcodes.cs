@@ -20,7 +20,7 @@ namespace RomTools
             return BytesToUShort(rom[++r.PC], rom[++r.PC]);
         }
 
-        private ushort ReadUShort(int address)
+        private ushort ReadUShort(ushort address)
         {
             return BytesToUShort(rom[address], rom[address + 1]);
         }
@@ -53,10 +53,47 @@ namespace RomTools
             b = t;
         }
 
+        private void Call(ushort address)
+        {
+            WriteByte(r.SP - 1, r.SPh); 
+            WriteByte(r.SP - 2, r.SPl); 
+            r.SP -= 2; 
+            r.PC = address;
+        }
+
+        private void Call()
+        {
+            Call(ReadUShort());
+        }
+
+        private void Ret()
+        {
+            r.PCl = ReadByte(r.SP);
+            r.PCh = ReadByte(r.SP + 1);
+            r.SP += 2;
+        }
+
+        private void RegisterStore()
+        {
+            rsv.AF = r.AF;
+            rsv.BC = r.BC;
+            rsv.DE = r.DE;
+            rsv.HL = r.HL;
+        }
+
+        private void RegisterRecover()
+        {
+            r.AF = rsv.AF;
+            r.BC = rsv.BC;
+            r.DE = rsv.DE;
+            r.HL = rsv.HL;
+        }
+
         private void InitOpcodes()
         {
-            // TODO: Remeber to add added gbc specific instructions!
+            // TODO: Remember to add added gbc specific instructions!
             // http://nemesis.lonestar.org/computers/tandy/software/apps/m4/qd/opcodes.html
+            // http://github.com/Two9A/jsGB/blob/master/js/z80.js
 
             opcodes = new Dictionary<byte, Action>
                           {
@@ -175,7 +212,7 @@ namespace RomTools
                               {0x22, () => WriteByte(r.HL++, r.A) }, //a
 
                               // LD A, (HLI)
-                              {0x2A, () => r.A = ReadByte(r.HL++) }, // c
+                              {0x2A, () => r.A = ReadByte(r.HL++) }, //c
 
                               // LD SQ, HL
                               {0xF9, () => r.SP = r.HL },
@@ -310,7 +347,7 @@ namespace RomTools
 
                               // Rotate Instructions
 
-                              // WARN: Rotate instructions left out!
+                              // BUG: Rotate instructions left out!
 
                               // Logical Byte Instructions
                               
@@ -366,9 +403,63 @@ namespace RomTools
                               {0xCA, () => { if(r.FlagZ) r.PC = ReadUShort(); } },
                               {0xD2, () => { if(!r.FlagC) r.PC = ReadUShort(); } },
                               {0xDA, () => { if(r.FlagC) r.PC = ReadUShort(); } },
-                              {0xE2, () => { if(!r.FlagP) r.PC = ReadUShort(); } },   // BUG: Possibly wrong: JP PO, address (odd?)
-                              {0xEA, () => { if(r.FlagP) r.PC = ReadUShort(); } },    // BUG: Possibly wrong: JP PE, address (even?)
-            
+                              //{0xE2, () => { if(!r.FlagP) r.PC = ReadUShort(); } },   // BUG: Possibly wrong: JP PO, address (odd?)
+                              //{0xEA, () => { if(r.FlagP) r.PC = ReadUShort(); } },    // BUG: Possibly wrong: JP PE, address (even?)
+                              {0xDA, () => { if(r.FlagP) r.PC = ReadUShort(); } },
+                              //{0xDA, () => { if(r.FlagM) r.PC = ReadUShort(); } },    // BUG: FlagM may not exist on GBC?
+
+                              // CALL X
+                              {0xCD, Call },
+                              {0xC4, () => { if(!r.FlagZ) Call(); } },
+                              {0xCC, () => { if(r.FlagZ) Call(); } },
+                              {0xD4, () => { if(!r.FlagC) Call(); } },
+                              {0xDC, () => { if(r.FlagC) Call(); } },
+                              //{0xE4, () => { if(!r.FlagC) Call(); } },                // BUG: More PO problems
+                              //{0xEC,                                                  // BUG: And also PE problems
+                              {0xF4, () => { if(r.FlagP) Call(); } },
+                              // BUG: FlagM?
+
+                              // RET X
+                              {0xC9, Ret },
+                              {0xC0, () => { if(!r.FlagZ) Ret(); } },
+                              {0xC8, () => { if(r.FlagZ) Ret(); } },
+                              {0xD0, () => { if(!r.FlagC) Ret(); } },
+                              {0xD8, () => { if(r.FlagC) Ret(); } },
+                              //{0xE0, () => { if(!r.FlagC) Ret(); } },                 // BUG: More PO problems
+                              //{0xE8,                                                  // BUG: And also PE problems
+                              {0xF0, () => { if(r.FlagP) Ret(); } },
+
+                              // RETI
+                              {0xD9, () => { RegisterStore(); r.PC = ReadUShort(r.SP); r.SP += 2 } }, //a BUG: should set IME?
+
+                              // RST X
+                              {0xC7, () => Call(0) },
+                              {0xCF, () => Call(8) },
+                              {0xD7, () => Call(0x10) },
+                              {0xDF, () => Call(0x18) },
+                              {0xE7, () => Call(0x20) },
+                              {0xEF, () => Call(0x28) },
+                              {0xF7, () => Call(0x30) },
+                              {0xFF, () => Call(0x38) },
+
+                              // Stack Operation Instructions
+
+                              // PUSH X
+                              {0xC5, () => { WriteByte(r.SP-2, r.C); WriteByte(r.SP-1, r.B); r.SP -= 2; } },
+                              {0xD5, () => { WriteByte(r.SP-2, r.E); WriteByte(r.SP-1, r.D); r.SP -= 2; } },
+                              {0xE5, () => { WriteByte(r.SP-2, r.L); WriteByte(r.SP-1, r.H); r.SP -= 2; } },
+                              {0xF5, () => { WriteByte(r.SP-2, r.F); WriteByte(r.SP-1, r.A); r.SP -= 2; } },
+
+                              // POP X
+                              {0xC1, () => { r.B = ReadByte(r.SP+1); r.C = ReadByte(r.SP); r.SP += 2; } },
+                              {0xD1, () => { r.D = ReadByte(r.SP+1); r.E = ReadByte(r.SP); r.SP += 2; } },
+                              {0xE1, () => { r.H = ReadByte(r.SP+1); r.L = ReadByte(r.SP); r.SP += 2; } },
+                              {0xF1, () => { r.A = ReadByte(r.SP+1); r.F = ReadByte(r.SP); r.SP += 2; } },
+
+                              // No IN/OUT instructions for Gameboy
+
+
+
                           };
         }
     }

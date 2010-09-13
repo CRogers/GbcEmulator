@@ -38,9 +38,12 @@ namespace RomTools
         [FieldOffset(7)] public sbyte SignedH;
 
         [FieldOffset(8)] public ushort SP;
-        [FieldOffset(8)] public short SignedSP;
+        [FieldOffset(8)] public byte SPl;
+        [FieldOffset(9)] public byte SPh;
+
         [FieldOffset(10)] public ushort PC;
-        [FieldOffset(10)] public short SignedPC;
+        [FieldOffset(10)] public byte PCl;
+        [FieldOffset(11)] public byte PCh;
 
         /// <summary>
         /// Carry flag
