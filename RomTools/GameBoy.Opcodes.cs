@@ -8,20 +8,19 @@ namespace RomTools
     {
         private Dictionary<byte, Action> opcodes;
 
-        private static ushort BytesToUShort(byte a, byte b)
+        private static ushort BytesToUShortLE(byte a, byte b)
         {
-            return (ushort) ((a << 8) | b);
+            return (ushort)(a | (b << 8));
         }
 
-        // BUG: Should be little endian? Perhaps make BytesToShort convert from LE
         private ushort ReadUShort()
         {
-            return BytesToUShort(rom[++r.PC], rom[++r.PC]);
+            return BytesToUShortLE(rom[++r.PC], rom[++r.PC]);
         }
 
         private ushort ReadUShort(ushort address)
         {
-            return BytesToUShort(rom[address], rom[address + 1]);
+            return BytesToUShortLE(rom[address], rom[address + 1]);
         }
 
         private byte ReadByte()
@@ -36,8 +35,8 @@ namespace RomTools
 
         private void WriteUShort(int address, ushort value)
         {
-            rom[address] = (byte)(value & 0xFF00);
-            rom[address + 1] = (byte)(value & 0x00FF);
+            rom[address] = (byte)(value & 0xFF);
+            rom[address + 1] = (byte)(value >> 8);
         }
 
         private void WriteByte(int address, byte value)

@@ -5,6 +5,10 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "RomTools", "RomTools\RomToo
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TestProject", "TestProject\TestProject.csproj", "{9D75C33C-E453-4FF5-BA03-0AB15298F1CD}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "OpcodeInfoExtractor", "OpcodeInfoExtractor\OpcodeInfoExtractor.csproj", "{9FAA319D-16FD-4EEC-8E39-1C5C7211E748}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Assembler", "Assembler\Assembler.csproj", "{8686ECF3-3FBD-4699-AC43-11A25A13C20F}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -35,6 +39,26 @@ Global
 		{9D75C33C-E453-4FF5-BA03-0AB15298F1CD}.Release|Mixed Platforms.Build.0 = Release|x86
 		{9D75C33C-E453-4FF5-BA03-0AB15298F1CD}.Release|x86.ActiveCfg = Release|x86
 		{9D75C33C-E453-4FF5-BA03-0AB15298F1CD}.Release|x86.Build.0 = Release|x86
+		{9FAA319D-16FD-4EEC-8E39-1C5C7211E748}.Debug|Any CPU.ActiveCfg = Debug|x86
+		{9FAA319D-16FD-4EEC-8E39-1C5C7211E748}.Debug|Mixed Platforms.ActiveCfg = Debug|x86
+		{9FAA319D-16FD-4EEC-8E39-1C5C7211E748}.Debug|Mixed Platforms.Build.0 = Debug|x86
+		{9FAA319D-16FD-4EEC-8E39-1C5C7211E748}.Debug|x86.ActiveCfg = Debug|x86
+		{9FAA319D-16FD-4EEC-8E39-1C5C7211E748}.Debug|x86.Build.0 = Debug|x86
+		{9FAA319D-16FD-4EEC-8E39-1C5C7211E748}.Release|Any CPU.ActiveCfg = Release|x86
+		{9FAA319D-16FD-4EEC-8E39-1C5C7211E748}.Release|Mixed Platforms.ActiveCfg = Release|x86
+		{9FAA319D-16FD-4EEC-8E39-1C5C7211E748}.Release|Mixed Platforms.Build.0 = Release|x86
+		{9FAA319D-16FD-4EEC-8E39-1C5C7211E748}.Release|x86.ActiveCfg = Release|x86
+		{9FAA319D-16FD-4EEC-8E39-1C5C7211E748}.Release|x86.Build.0 = Release|x86
+		{8686ECF3-3FBD-4699-AC43-11A25A13C20F}.Debug|Any CPU.ActiveCfg = Debug|x86
+		{8686ECF3-3FBD-4699-AC43-11A25A13C20F}.Debug|Mixed Platforms.ActiveCfg = Debug|x86
+		{8686ECF3-3FBD-4699-AC43-11A25A13C20F}.Debug|Mixed Platforms.Build.0 = Debug|x86
+		{8686ECF3-3FBD-4699-AC43-11A25A13C20F}.Debug|x86.ActiveCfg = Debug|x86
+		{8686ECF3-3FBD-4699-AC43-11A25A13C20F}.Debug|x86.Build.0 = Debug|x86
+		{8686ECF3-3FBD-4699-AC43-11A25A13C20F}.Release|Any CPU.ActiveCfg = Release|x86
+		{8686ECF3-3FBD-4699-AC43-11A25A13C20F}.Release|Mixed Platforms.ActiveCfg = Release|x86
+		{8686ECF3-3FBD-4699-AC43-11A25A13C20F}.Release|Mixed Platforms.Build.0 = Release|x86
+		{8686ECF3-3FBD-4699-AC43-11A25A13C20F}.Release|x86.ActiveCfg = Release|x86
+		{8686ECF3-3FBD-4699-AC43-11A25A13C20F}.Release|x86.Build.0 = Release|x86
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

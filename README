@@ -6,11 +6,15 @@ Current Jobs/Roadmap:
 
 	* RomInfo
 		- Virtually complete, reads metadata from ROM
+		
+	* Assembler
+		- Supports all opcodes not starting with 0xCB
+		- Outputs flat binary files
 
 	* Opcodes
 		- Adding opcodes
 		- Checking opcodes are correct
-		- Removing/correct buggy opcodes indentified by // BUG: notifications once correct implementations are found
+		- Correcting buggy opcodes indentified by // BUG: notifications once correct implementations are found
 		- Sorting out flags and setting them in opcodes
 		- Sorting out timings for each operation
 		- Refactoring/Ordering
@@ -32,3 +36,35 @@ Current Jobs/Roadmap:
 		
 	* Timer
 		- Research/Needs to be implemented
+		
+---------------------------------------------------------------------------------------------------------
+
+To use the assembler, simply use the exact same instructions from http://imrannazar.com/Gameboy-Z80-Opcode-Map,
+subject to these constraints:
+
+	- Instructions are one per line
+	- Whitespace can be put inbetween instructions, registers, constants and commas
+	- Everything after after the _instruction + a space (or other whitespace character)_ is a comment
+	- There must not be whitespace between registers/constants and brackets: "( HL )" -NO, "(HL)" -YES
+	- It does not yet support commands which have machine code starting with 0xCB as the first byte
+	- Mnemonics are case-insensitive
+	
+For example, this is a valid program:
+
+ld	A, 1
+add	A, 4
+
+ld	B, -128 ; Comment test
+add A, B Everything after space is a comment!
+
+ld	C, 255
+
+ld	HL, 12
+
+nop
+nop
+nop
+
+ld	(HL), 123
+inc HL
+ld	(HL), 234
