@@ -1,0 +1,34 @@
+GbcEmulator is an attempt to create a fully working GameBoy Color emulator, with a package that will read ROM metadata.
+
+Current Status: PRE-PRE-ALPHA; NON-FUNCTIONAL; IN RAPID DEVELOPMENT
+
+Current Jobs/Roadmap:
+
+	* RomInfo
+		- Virtually complete, reads metadata from ROM
+
+	* Opcodes
+		- Adding opcodes
+		- Checking opcodes are correct
+		- Removing/correct buggy opcodes indentified by // BUG: notifications once correct implementations are found
+		- Sorting out flags and setting them in opcodes
+		- Sorting out timings for each operation
+		- Refactoring/Ordering
+		
+	* Memory Controller
+		- Research/Needs to be implemented
+		
+	* GPU
+		- Research/Needs to be implemented
+		
+	* Sound
+		- Research/Needs to be implemented
+		
+	* Video Output
+		- XNA/WPF. WPF is preferable so there can be Silverlight version
+		
+	* Input
+		- Research/Needs to be implemented
+		
+	* Timer
+		- Research/Needs to be implemented

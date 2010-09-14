@@ -13,12 +13,17 @@ namespace RomTools
         private readonly Registers rsv = new Registers();
         public Registers Rsv { get { return rsv; } }
 
+        private bool halted = false;
+        private bool stopped = false;
+
         private byte[] rom;
     
         public GameBoy(byte[] rom)
         {
             InitOpcodes();
             this.rom = rom;
+
+            FindMissingOpcodes();
         }
 
         public void RunCode(byte address)

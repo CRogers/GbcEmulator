@@ -1,12 +1,8 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Runtime.InteropServices;
-using System.Text;
+﻿using System.Runtime.InteropServices;
 
 namespace RomTools
 {
-    [StructLayout(LayoutKind.Explicit, Size=12)]
+    [StructLayout(LayoutKind.Explicit, Size=15)]
     public class Registers
     {
         [FieldOffset(0)] public ushort AF;
@@ -44,6 +40,14 @@ namespace RomTools
         [FieldOffset(10)] public ushort PC;
         [FieldOffset(10)] public byte PCl;
         [FieldOffset(11)] public byte PCh;
+
+        // Interrupt information: http://www.z80.info/zip/z80-documented.pdf 
+        //                        http://landley.net/history/mirror/cpm/z80.html
+        [FieldOffset(12)] public bool IFF1;
+        [FieldOffset(13)] public bool IFF2;
+        [FieldOffset(14)] public byte I;
+
+        // Register R for Memomry Refresh Register?
 
         /// <summary>
         /// Carry flag

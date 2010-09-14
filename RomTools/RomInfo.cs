@@ -3,6 +3,8 @@ using System.Linq;
 
 namespace RomTools
 {
+    // Taken from GB Spec at http://www.devrs.com/gb/files/gbspec.txt
+
     public class RomInfo
     {
         public byte[] NintendoGraphic { get; private set; }
