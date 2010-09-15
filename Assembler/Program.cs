@@ -1,4 +1,6 @@
-﻿using System.IO;
+﻿using System;
+using System.Diagnostics;
+using System.IO;
 using System.Linq;
 using System.Text;
 using System.Xml.Serialization;
@@ -17,13 +19,26 @@ namespace Assembler
             using (var ms = new MemoryStream(Encoding.ASCII.GetBytes(Properties.Resources.opcode_dict)))
                 Opcodes = ((Opcode[])xmls.Deserialize(ms)).Select(o => new RegexOpcode(o)).ToArray();
 
-            var code = File.ReadAllLines("test.asm");
-            var assembled = Assembler.Assemble(code);
+            if (Debugger.IsAttached)
+                args = new[] { "test.asm", "test.bin" };
+                //args = new[] { "-d", "test.bin", "test_d.asm" };
 
-            File.WriteAllBytes("test.bin", assembled);
+            if(args[0] == "-d")
+            {
+                var data = File.ReadAllBytes(args[1]);
+                var disassembled = Disassembler.Disassemble(data, true, false, true, true);
+                File.WriteAllText(args[2], disassembled);
+            }
+            else
+            {
+                var code = File.ReadAllLines(args[0]);
+                var assembled = Assembler.Assemble(code);
 
-            var gb = new GameBoy(assembled);
-            gb.RunCode(0);
+                File.WriteAllBytes(args[1], assembled);
+
+                var gb = new GameBoy(assembled);
+                gb.RunCode(0);
+            }
         }
     }
 }

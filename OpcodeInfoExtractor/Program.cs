@@ -29,8 +29,9 @@ namespace OpcodeInfoExtractor
             // -65536_0: [,\s](-(3276[0-8]|327[0-5]\d|32[0-6]\d\d|3[01]\d{1,3}|[0-2]?\d{1,4}))[,\s]
             // Both:     [,\s]((6553[0-5]|655[0-2]\d|65[0-4]\d\d|6[0-4]\d{1,3}|[0-5]?\d{1,4})|(-(3276[0-8]|327[0-5]\d|32[0-6]\d\d|3[01]\d{1,3}|[0-2]?\d{1,4})))[,\s]
 
-            const string byteregex = @"((-(1[0-2][0-8]|1[01]\d|\d?\d))|(2[0-5][0-5]|2[0-4]\d|1?\d?\d))";
-            const string shortregex = @"((6553[0-5]|655[0-2]\d|65[0-4]\d\d|6[0-4]\d{1,3}|[0-5]?\d{1,4})|(-(3276[0-8]|327[0-5]\d|32[0-6]\d\d|3[01]\d{1,3}|[0-2]?\d{1,4})))";
+            // Parens left off end so it can incorporate a \w+ for matching labels in JP and JR operations
+            const string byteregex = @"((-(1[0-2][0-8]|1[01]\d|\d?\d))|(2[0-5][0-5]|2[0-4]\d|1?\d?\d)";
+            const string shortregex = @"((6553[0-5]|655[0-2]\d|65[0-4]\d\d|6[0-4]\d{1,3}|[0-5]?\d{1,4})|(-(3276[0-8]|327[0-5]\d|32[0-6]\d\d|3[01]\d{1,3}|[0-2]?\d{1,4}))";
 
             string data = File.ReadAllText("opcodes.txt");
 
@@ -50,7 +51,17 @@ namespace OpcodeInfoExtractor
 
                     // Dynamically create regexs for the opcodes, so it can match for whitespace/constants etc and escapes brackets (parens)
                     string opregex = op.Replace(" ", @"\s+").Replace("(", @"\(").Replace(")", @"\)").Replace(",", @"\s*,\s*")
-                                       .Replace("nn", shortregex).Replace("n", byteregex) + @"[\s;]";
+                                       .Replace("nn", shortregex).Replace("n", byteregex);
+
+                    // Add on an option to match labels in jump commands
+                    if (op.Substring(0,2) == "JP")
+                        opregex += @"|[_a-zA-Z]\w+";
+
+                    // Close the right paren of the first capturing group
+                    if(bytesFollowing > 0)
+                        opregex += ")";
+
+                    opregex += @"[\s;]";
 
                     opcodes[b] = new Opcode(op, opregex, (byte)b, bytesFollowing, mc[j].Groups["abbr"].Value);
                 }
