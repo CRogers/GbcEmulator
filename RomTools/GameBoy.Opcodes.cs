@@ -7,6 +7,7 @@ namespace RomTools
     public partial class GameBoy
     {
         private Dictionary<byte, Action> opcodes;
+        private Dictionary<byte, Action> cbopcodes;
 
         private static ushort BytesToUShortLE(byte a, byte b)
         {
@@ -513,9 +514,342 @@ namespace RomTools
 
                               // No IN/OUT instructions for Gameboy
 
-
-                              // EXTENDED CB PREFIX OPCODES
                           };
+
+
+            // EXTENDED CB PREFIX OPCODES
+
+            cbopcodes = new Dictionary<byte, Action>
+                            {
+                                // Rotate Commands
+
+                                // RLC X
+                                {0x07, () => r.A = Rlc(r.A) },
+                                {0x00, () => r.B = Rlc(r.B) },
+                                {0x01, () => r.C = Rlc(r.C) },
+                                {0x02, () => r.D = Rlc(r.D) },
+                                {0x03, () => r.E = Rlc(r.E) },
+                                {0x04, () => r.H = Rlc(r.H) },
+                                {0x05, () => r.L = Rlc(r.L) },
+                                {0x06, () => WriteByte(r.HL, Rlc(ReadByte(r.HL))) },
+
+                                // RRC X
+                                {0x0F, () => r.A = Rrc(r.A) },
+                                {0x08, () => r.B = Rrc(r.B) },
+                                {0x09, () => r.C = Rrc(r.C) },
+                                {0x0A, () => r.D = Rrc(r.D) },
+                                {0x0B, () => r.E = Rrc(r.E) },
+                                {0x0C, () => r.H = Rrc(r.H) },
+                                {0x0D, () => r.L = Rrc(r.L) },
+                                {0x0E, () => WriteByte(r.HL, Rrc(ReadByte(r.HL))) },
+
+                                // RL X
+                                {0x17, () => r.A = Rl(r.A) },
+                                {0x10, () => r.B = Rl(r.B) },
+                                {0x11, () => r.C = Rl(r.C) },
+                                {0x12, () => r.D = Rl(r.D) },
+                                {0x13, () => r.E = Rl(r.E) },
+                                {0x14, () => r.H = Rl(r.H) },
+                                {0x15, () => r.L = Rl(r.L) },
+                                {0x16, () => WriteByte(r.HL, Rl(ReadByte(r.HL))) },
+
+                                // RR X
+                                {0x1F, () => r.A = Rr(r.A) },
+                                {0x18, () => r.B = Rr(r.B) },
+                                {0x19, () => r.C = Rr(r.C) },
+                                {0x1A, () => r.D = Rr(r.D) },
+                                {0x1B, () => r.E = Rr(r.E) },
+                                {0x1C, () => r.H = Rr(r.H) },
+                                {0x1D, () => r.L = Rr(r.L) },
+                                {0x1E, () => WriteByte(r.HL, Rr(ReadByte(r.HL))) },
+
+                                // SLA X
+                                {0x27, () => r.A = Sla(r.A) },
+                                {0x20, () => r.B = Sla(r.B) },
+                                {0x21, () => r.C = Sla(r.C) },
+                                {0x22, () => r.D = Sla(r.D) },
+                                {0x23, () => r.E = Sla(r.E) },
+                                {0x24, () => r.H = Sla(r.H) },
+                                {0x25, () => r.L = Sla(r.L) },
+                                {0x26, () => WriteByte(r.HL, Sla(ReadByte(r.HL))) },
+
+                                // SRA X
+                                {0x2F, () => r.A = Sra(r.A) },
+                                {0x28, () => r.B = Sra(r.B) },
+                                {0x29, () => r.C = Sra(r.C) },
+                                {0x2A, () => r.D = Sra(r.D) },
+                                {0x2B, () => r.E = Sra(r.E) },
+                                {0x2C, () => r.H = Sra(r.H) },
+                                {0x2D, () => r.L = Sra(r.L) },
+                                {0x2E, () => WriteByte(r.HL, Sra(ReadByte(r.HL))) },
+
+                                // SWAP X
+                                {0x37, () => r.A = Swap(r.A) },
+                                {0x30, () => r.B = Swap(r.B) },
+                                {0x31, () => r.C = Swap(r.C) },
+                                {0x32, () => r.D = Swap(r.D) },
+                                {0x33, () => r.E = Swap(r.E) },
+                                {0x34, () => r.H = Swap(r.H) },
+                                {0x35, () => r.L = Swap(r.L) },
+                                {0x36, () => WriteByte(r.HL, Swap(ReadByte(r.HL))) },
+
+                                // SRL X
+                                {0x3F, () => r.A = Srl(r.A) },
+                                {0x38, () => r.B = Srl(r.B) },
+                                {0x39, () => r.C = Srl(r.C) },
+                                {0x3A, () => r.D = Srl(r.D) },
+                                {0x3B, () => r.E = Srl(r.E) },
+                                {0x3C, () => r.H = Srl(r.H) },
+                                {0x3D, () => r.L = Srl(r.L) },
+                                {0x3E, () => WriteByte(r.HL, Srl(ReadByte(r.HL))) },
+
+                                // BIT
+
+                                // BIT 0, X
+                                {0x47, () => Bit(0, r.A) },
+                                {0x40, () => Bit(0, r.B) },
+                                {0x41, () => Bit(0, r.C) },
+                                {0x42, () => Bit(0, r.D) },
+                                {0x43, () => Bit(0, r.E) },
+                                {0x44, () => Bit(0, r.H) },
+                                {0x45, () => Bit(0, r.L) },
+                                {0x46, () => Bit(0, ReadByte(r.HL)) },
+
+                                // BIT 1, X
+                                {0x4F, () => Bit(1, r.A) },
+                                {0x48, () => Bit(1, r.B) },
+                                {0x49, () => Bit(1, r.C) },
+                                {0x4A, () => Bit(1, r.D) },
+                                {0x4B, () => Bit(1, r.E) },
+                                {0x4C, () => Bit(1, r.H) },
+                                {0x4D, () => Bit(1, r.L) },
+                                {0x4E, () => Bit(1, ReadByte(r.HL)) },
+
+                                // BIT 2, X
+                                {0x57, () => Bit(2, r.A) },
+                                {0x50, () => Bit(2, r.B) },
+                                {0x51, () => Bit(2, r.C) },
+                                {0x52, () => Bit(2, r.D) },
+                                {0x53, () => Bit(2, r.E) },
+                                {0x54, () => Bit(2, r.H) },
+                                {0x55, () => Bit(2, r.L) },
+                                {0x56, () => Bit(2, ReadByte(r.HL)) },
+
+                                // BIT 3, X
+                                {0x5F, () => Bit(3, r.A) },
+                                {0x58, () => Bit(3, r.B) },
+                                {0x59, () => Bit(3, r.C) },
+                                {0x5A, () => Bit(3, r.D) },
+                                {0x5B, () => Bit(3, r.E) },
+                                {0x5C, () => Bit(3, r.H) },
+                                {0x5D, () => Bit(3, r.L) },
+                                {0x5E, () => Bit(3, ReadByte(r.HL)) },
+
+                                // BIT 4, X
+                                {0x67, () => Bit(4, r.A) },
+                                {0x60, () => Bit(4, r.B) },
+                                {0x61, () => Bit(4, r.C) },
+                                {0x62, () => Bit(4, r.D) },
+                                {0x63, () => Bit(4, r.E) },
+                                {0x64, () => Bit(4, r.H) },
+                                {0x65, () => Bit(4, r.L) },
+                                {0x66, () => Bit(4, ReadByte(r.HL)) },
+
+                                // BIT 5, X
+                                {0x6F, () => Bit(5, r.A) },
+                                {0x68, () => Bit(5, r.B) },
+                                {0x69, () => Bit(5, r.C) },
+                                {0x6A, () => Bit(5, r.D) },
+                                {0x6B, () => Bit(5, r.E) },
+                                {0x6C, () => Bit(5, r.H) },
+                                {0x6D, () => Bit(5, r.L) },
+                                {0x6E, () => Bit(5, ReadByte(r.HL)) },
+
+                                // BIT 6, X
+                                {0x77, () => Bit(6, r.A) },
+                                {0x70, () => Bit(6, r.B) },
+                                {0x71, () => Bit(6, r.C) },
+                                {0x72, () => Bit(6, r.D) },
+                                {0x73, () => Bit(6, r.E) },
+                                {0x74, () => Bit(6, r.H) },
+                                {0x75, () => Bit(6, r.L) },
+                                {0x76, () => Bit(6, ReadByte(r.HL)) },
+
+                                // BIT 7, X
+                                {0x7F, () => Bit(7, r.A) },
+                                {0x78, () => Bit(7, r.B) },
+                                {0x79, () => Bit(7, r.C) },
+                                {0x7A, () => Bit(7, r.D) },
+                                {0x7B, () => Bit(7, r.E) },
+                                {0x7C, () => Bit(7, r.H) },
+                                {0x7D, () => Bit(7, r.L) },
+                                {0x7E, () => Bit(7, ReadByte(r.HL)) },
+
+                                // RES
+
+                                // RES 0, X
+                                {0x87, () => r.A = Res(0, r.A) },
+                                {0x80, () => r.B = Res(0, r.B) },
+                                {0x81, () => r.C = Res(0, r.C) },
+                                {0x82, () => r.D = Res(0, r.D) },
+                                {0x83, () => r.E = Res(0, r.E) },
+                                {0x84, () => r.H = Res(0, r.H) },
+                                {0x85, () => r.L = Res(0, r.L) },
+                                {0x86, () => WriteByte(r.HL, Res(0, ReadByte(r.HL))) },
+
+                                // RES 1, X
+                                {0x8F, () => r.A = Res(1, r.A) },
+                                {0x88, () => r.B = Res(1, r.B) },
+                                {0x89, () => r.C = Res(1, r.C) },
+                                {0x8A, () => r.D = Res(1, r.D) },
+                                {0x8B, () => r.E = Res(1, r.E) },
+                                {0x8C, () => r.H = Res(1, r.H) },
+                                {0x8D, () => r.L = Res(1, r.L) },
+                                {0x8E, () => WriteByte(r.HL, Res(1, ReadByte(r.HL))) },
+
+                                // RES 2, X
+                                {0x97, () => r.A = Res(2, r.A) },
+                                {0x90, () => r.B = Res(2, r.B) },
+                                {0x91, () => r.C = Res(2, r.C) },
+                                {0x92, () => r.D = Res(2, r.D) },
+                                {0x93, () => r.E = Res(2, r.E) },
+                                {0x94, () => r.H = Res(2, r.H) },
+                                {0x95, () => r.L = Res(2, r.L) },
+                                {0x96, () => WriteByte(r.HL, Res(2, ReadByte(r.HL))) },
+
+                                // RES 3, X
+                                {0x9F, () => r.A = Res(3, r.A) },
+                                {0x98, () => r.B = Res(3, r.B) },
+                                {0x99, () => r.C = Res(3, r.C) },
+                                {0x9A, () => r.D = Res(3, r.D) },
+                                {0x9B, () => r.E = Res(3, r.E) },
+                                {0x9C, () => r.H = Res(3, r.H) },
+                                {0x9D, () => r.L = Res(3, r.L) },
+                                {0x9E, () => WriteByte(r.HL, Res(3, ReadByte(r.HL))) },
+
+                                // RES 4, X
+                                {0xA7, () => r.A = Res(4, r.A) },
+                                {0xA0, () => r.B = Res(4, r.B) },
+                                {0xA1, () => r.C = Res(4, r.C) },
+                                {0xA2, () => r.D = Res(4, r.D) },
+                                {0xA3, () => r.E = Res(4, r.E) },
+                                {0xA4, () => r.H = Res(4, r.H) },
+                                {0xA5, () => r.L = Res(4, r.L) },
+                                {0xA6, () => WriteByte(r.HL, Res(4, ReadByte(r.HL))) },
+
+                                // RES 5, X
+                                {0xAF, () => r.A = Res(5, r.A) },
+                                {0xA8, () => r.B = Res(5, r.B) },
+                                {0xA9, () => r.C = Res(5, r.C) },
+                                {0xAA, () => r.D = Res(5, r.D) },
+                                {0xAB, () => r.E = Res(5, r.E) },
+                                {0xAC, () => r.H = Res(5, r.H) },
+                                {0xAD, () => r.L = Res(5, r.L) },
+                                {0xAE, () => WriteByte(r.HL, Res(5, ReadByte(r.HL))) },
+
+                                // RES 6, X
+                                {0xB7, () => r.A = Res(6, r.A) },
+                                {0xB0, () => r.B = Res(6, r.B) },
+                                {0xB1, () => r.C = Res(6, r.C) },
+                                {0xB2, () => r.D = Res(6, r.D) },
+                                {0xB3, () => r.E = Res(6, r.E) },
+                                {0xB4, () => r.H = Res(6, r.H) },
+                                {0xB5, () => r.L = Res(6, r.L) },
+                                {0xB6, () => WriteByte(r.HL, Res(6, ReadByte(r.HL))) },
+
+                                // RES 7, X
+                                {0xBF, () => r.A = Res(7, r.A) },
+                                {0xB8, () => r.B = Res(7, r.B) },
+                                {0xB9, () => r.C = Res(7, r.C) },
+                                {0xBA, () => r.D = Res(7, r.D) },
+                                {0xBB, () => r.E = Res(7, r.E) },
+                                {0xBC, () => r.H = Res(7, r.H) },
+                                {0xBD, () => r.L = Res(7, r.L) },
+                                {0xBE, () => WriteByte(r.HL, Res(7, ReadByte(r.HL))) },
+
+                                // SET
+
+                                // SET 0, X
+                                {0xC7, () => r.A = Set(0, r.A) },
+                                {0xC0, () => r.B = Set(0, r.B) },
+                                {0xC1, () => r.C = Set(0, r.C) },
+                                {0xC2, () => r.D = Set(0, r.D) },
+                                {0xC3, () => r.E = Set(0, r.E) },
+                                {0xC4, () => r.H = Set(0, r.H) },
+                                {0xC5, () => r.L = Set(0, r.L) },
+                                {0xC6, () => WriteByte(r.HL, Set(0, ReadByte(r.HL))) },
+
+                                // SET 1, X
+                                {0xCF, () => r.A = Set(1, r.A) },
+                                {0xC8, () => r.B = Set(1, r.B) },
+                                {0xC9, () => r.C = Set(1, r.C) },
+                                {0xCA, () => r.D = Set(1, r.D) },
+                                {0xCB, () => r.E = Set(1, r.E) },
+                                {0xCC, () => r.H = Set(1, r.H) },
+                                {0xCD, () => r.L = Set(1, r.L) },
+                                {0xCE, () => WriteByte(r.HL, Set(1, ReadByte(r.HL))) },
+
+                                // SET 2, X
+                                {0xD7, () => r.A = Set(2, r.A) },
+                                {0xD0, () => r.B = Set(2, r.B) },
+                                {0xD1, () => r.C = Set(2, r.C) },
+                                {0xD2, () => r.D = Set(2, r.D) },
+                                {0xD3, () => r.E = Set(2, r.E) },
+                                {0xD4, () => r.H = Set(2, r.H) },
+                                {0xD5, () => r.L = Set(2, r.L) },
+                                {0xD6, () => WriteByte(r.HL, Set(2, ReadByte(r.HL))) },
+
+                                // SET 3, X
+                                {0xDF, () => r.A = Set(3, r.A) },
+                                {0xD8, () => r.B = Set(3, r.B) },
+                                {0xD9, () => r.C = Set(3, r.C) },
+                                {0xDA, () => r.D = Set(3, r.D) },
+                                {0xDB, () => r.E = Set(3, r.E) },
+                                {0xDC, () => r.H = Set(3, r.H) },
+                                {0xDD, () => r.L = Set(3, r.L) },
+                                {0xDE, () => WriteByte(r.HL, Set(3, ReadByte(r.HL))) },
+
+                                // SET 4, X
+                                {0xE7, () => r.A = Set(4, r.A) },
+                                {0xE0, () => r.B = Set(4, r.B) },
+                                {0xE1, () => r.C = Set(4, r.C) },
+                                {0xE2, () => r.D = Set(4, r.D) },
+                                {0xE3, () => r.E = Set(4, r.E) },
+                                {0xE4, () => r.H = Set(4, r.H) },
+                                {0xE5, () => r.L = Set(4, r.L) },
+                                {0xE6, () => WriteByte(r.HL, Set(4, ReadByte(r.HL))) },
+
+                                // SET 5, X
+                                {0xEF, () => r.A = Set(5, r.A) },
+                                {0xE8, () => r.B = Set(5, r.B) },
+                                {0xE9, () => r.C = Set(5, r.C) },
+                                {0xEA, () => r.D = Set(5, r.D) },
+                                {0xEB, () => r.E = Set(5, r.E) },
+                                {0xEC, () => r.H = Set(5, r.H) },
+                                {0xED, () => r.L = Set(5, r.L) },
+                                {0xEE, () => WriteByte(r.HL, Set(5, ReadByte(r.HL))) },
+
+                                // SET 6, X
+                                {0xF7, () => r.A = Set(6, r.A) },
+                                {0xF0, () => r.B = Set(6, r.B) },
+                                {0xF1, () => r.C = Set(6, r.C) },
+                                {0xF2, () => r.D = Set(6, r.D) },
+                                {0xF3, () => r.E = Set(6, r.E) },
+                                {0xF4, () => r.H = Set(6, r.H) },
+                                {0xF5, () => r.L = Set(6, r.L) },
+                                {0xF6, () => WriteByte(r.HL, Set(6, ReadByte(r.HL))) },
+
+                                // SET 7, X
+                                {0xFF, () => r.A = Set(7, r.A) },
+                                {0xF8, () => r.B = Set(7, r.B) },
+                                {0xF9, () => r.C = Set(7, r.C) },
+                                {0xFA, () => r.D = Set(7, r.D) },
+                                {0xFB, () => r.E = Set(7, r.E) },
+                                {0xFC, () => r.H = Set(7, r.H) },
+                                {0xFD, () => r.L = Set(7, r.L) },
+                                {0xFE, () => WriteByte(r.HL, Set(7, ReadByte(r.HL))) },
+                                
+                            };
         }
 
         private void FindMissingOpcodes()

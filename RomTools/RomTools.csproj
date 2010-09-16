@@ -43,6 +43,7 @@
     <Compile Include="CartridgeType.cs" />
     <Compile Include="ExtensionMethods.cs" />
     <Compile Include="GameBoy.cs" />
+    <Compile Include="GameBoy.Helpers.cs" />
     <Compile Include="GameBoy.Opcodes.cs" />
     <Compile Include="MemorySize.cs" />
     <Compile Include="Registers.cs" />
