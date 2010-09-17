@@ -1,68 +1,68 @@
 <?xml version="1.0"?>
 <ArrayOfOpcode xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema">
   <Opcode Op="NOP" OpRegex="NOP[\s;]" Code="0" BytesFollowing="0" Description="No Operation" />
-  <Opcode Op="LD BC,nn" OpRegex="LD\s+BC\s*,\s*((6553[0-5]|655[0-2]\d|65[0-4]\d\d|6[0-4]\d{1,3}|[0-5]?\d{1,4})|(-(3276[0-8]|327[0-5]\d|32[0-6]\d\d|3[01]\d{1,3}|[0-2]?\d{1,4})))[\s;]" Code="1" BytesFollowing="2" Description="Load 16-bit immediate into BC" />
+  <Opcode Op="LD BC,nn" OpRegex="LD\s+BC\s*,\s*([0-9A-F]{1,4}h|(6553[0-5]|655[0-2]\d|65[0-4]\d\d|6[0-4]\d{1,3}|[0-5]?\d{1,4})|(-(3276[0-8]|327[0-5]\d|32[0-6]\d\d|3[01]\d{1,3}|[0-2]?\d{1,4})))[\s;]" Code="1" BytesFollowing="2" Description="Load 16-bit immediate into BC" />
   <Opcode Op="LD (BC),A" OpRegex="LD\s+\(BC\)\s*,\s*A[\s;]" Code="2" BytesFollowing="0" Description="Save A to address pointed by BC" />
   <Opcode Op="INC BC" OpRegex="INC\s+BC[\s;]" Code="3" BytesFollowing="0" Description="Increment 16-bit BC" />
   <Opcode Op="INC B" OpRegex="INC\s+B[\s;]" Code="4" BytesFollowing="0" Description="Increment B" />
   <Opcode Op="DEC B" OpRegex="DEC\s+B[\s;]" Code="5" BytesFollowing="0" Description="Decrement B" />
-  <Opcode Op="LD B,n" OpRegex="LD\s+B\s*,\s*((-(1[0-2][0-8]|1[01]\d|\d?\d))|(2[0-5][0-5]|2[0-4]\d|1?\d?\d))[\s;]" Code="6" BytesFollowing="1" Description="Load 8-bit immediate into B" />
+  <Opcode Op="LD B,n" OpRegex="LD\s+B\s*,\s*([0-9A-F]{1,2}h|-(1[0-2][0-8]|1[01]\d|\d?\d)|(2[0-5][0-5]|2[0-4]\d|1?\d?\d))[\s;]" Code="6" BytesFollowing="1" Description="Load 8-bit immediate into B" />
   <Opcode Op="RLC A" OpRegex="RLC\s+A[\s;]" Code="7" BytesFollowing="0" Description="Rotate A left with carry" />
-  <Opcode Op="LD (nn),SP" OpRegex="LD\s+\(((6553[0-5]|655[0-2]\d|65[0-4]\d\d|6[0-4]\d{1,3}|[0-5]?\d{1,4})|(-(3276[0-8]|327[0-5]\d|32[0-6]\d\d|3[01]\d{1,3}|[0-2]?\d{1,4}))\)\s*,\s*SP)[\s;]" Code="8" BytesFollowing="2" Description="Save SP to given address" />
+  <Opcode Op="LD (nn),SP" OpRegex="LD\s+\(([0-9A-F]{1,4}h|(6553[0-5]|655[0-2]\d|65[0-4]\d\d|6[0-4]\d{1,3}|[0-5]?\d{1,4})|(-(3276[0-8]|327[0-5]\d|32[0-6]\d\d|3[01]\d{1,3}|[0-2]?\d{1,4}))\)\s*,\s*SP)[\s;]" Code="8" BytesFollowing="2" Description="Save SP to given address" />
   <Opcode Op="ADD HL,BC" OpRegex="ADD\s+HL\s*,\s*BC[\s;]" Code="9" BytesFollowing="0" Description="Add 16-bit BC to HL" />
   <Opcode Op="LD A,(BC)" OpRegex="LD\s+A\s*,\s*\(BC\)[\s;]" Code="10" BytesFollowing="0" Description="Load A from address pointed to by BC" />
   <Opcode Op="DEC BC" OpRegex="DEC\s+BC[\s;]" Code="11" BytesFollowing="0" Description="Decrement 16-bit BC" />
   <Opcode Op="INC C" OpRegex="INC\s+C[\s;]" Code="12" BytesFollowing="0" Description="Increment C" />
   <Opcode Op="DEC C" OpRegex="DEC\s+C[\s;]" Code="13" BytesFollowing="0" Description="Decrement C" />
-  <Opcode Op="LD C,n" OpRegex="LD\s+C\s*,\s*((-(1[0-2][0-8]|1[01]\d|\d?\d))|(2[0-5][0-5]|2[0-4]\d|1?\d?\d))[\s;]" Code="14" BytesFollowing="1" Description="Load 8-bit immediate into C" />
+  <Opcode Op="LD C,n" OpRegex="LD\s+C\s*,\s*([0-9A-F]{1,2}h|-(1[0-2][0-8]|1[01]\d|\d?\d)|(2[0-5][0-5]|2[0-4]\d|1?\d?\d))[\s;]" Code="14" BytesFollowing="1" Description="Load 8-bit immediate into C" />
   <Opcode Op="RRC A" OpRegex="RRC\s+A[\s;]" Code="15" BytesFollowing="0" Description="Rotate A right with carry" />
   <Opcode Op="STOP" OpRegex="STOP[\s;]" Code="16" BytesFollowing="0" Description="Stop processor" />
-  <Opcode Op="LD DE,nn" OpRegex="LD\s+DE\s*,\s*((6553[0-5]|655[0-2]\d|65[0-4]\d\d|6[0-4]\d{1,3}|[0-5]?\d{1,4})|(-(3276[0-8]|327[0-5]\d|32[0-6]\d\d|3[01]\d{1,3}|[0-2]?\d{1,4})))[\s;]" Code="17" BytesFollowing="2" Description="Load 16-bit immediate into DE" />
+  <Opcode Op="LD DE,nn" OpRegex="LD\s+DE\s*,\s*([0-9A-F]{1,4}h|(6553[0-5]|655[0-2]\d|65[0-4]\d\d|6[0-4]\d{1,3}|[0-5]?\d{1,4})|(-(3276[0-8]|327[0-5]\d|32[0-6]\d\d|3[01]\d{1,3}|[0-2]?\d{1,4})))[\s;]" Code="17" BytesFollowing="2" Description="Load 16-bit immediate into DE" />
   <Opcode Op="LD (DE),A" OpRegex="LD\s+\(DE\)\s*,\s*A[\s;]" Code="18" BytesFollowing="0" Description="Save A to address pointed by DE" />
   <Opcode Op="INC DE" OpRegex="INC\s+DE[\s;]" Code="19" BytesFollowing="0" Description="Increment 16-bit DE" />
   <Opcode Op="INC D" OpRegex="INC\s+D[\s;]" Code="20" BytesFollowing="0" Description="Increment D" />
   <Opcode Op="DEC D" OpRegex="DEC\s+D[\s;]" Code="21" BytesFollowing="0" Description="Decrement D" />
-  <Opcode Op="LD D,n" OpRegex="LD\s+D\s*,\s*((-(1[0-2][0-8]|1[01]\d|\d?\d))|(2[0-5][0-5]|2[0-4]\d|1?\d?\d))[\s;]" Code="22" BytesFollowing="1" Description="Load 8-bit immediate into D" />
+  <Opcode Op="LD D,n" OpRegex="LD\s+D\s*,\s*([0-9A-F]{1,2}h|-(1[0-2][0-8]|1[01]\d|\d?\d)|(2[0-5][0-5]|2[0-4]\d|1?\d?\d))[\s;]" Code="22" BytesFollowing="1" Description="Load 8-bit immediate into D" />
   <Opcode Op="RL A" OpRegex="RL\s+A[\s;]" Code="23" BytesFollowing="0" Description="Rotate A left" />
-  <Opcode Op="JR n" OpRegex="JR\s+((-(1[0-2][0-8]|1[01]\d|\d?\d))|(2[0-5][0-5]|2[0-4]\d|1?\d?\d)|[_a-zA-Z]\w+)[\s;]" Code="24" BytesFollowing="1" Description="Relative jump by signed immediate" />
+  <Opcode Op="JR n" OpRegex="JR\s+([0-9A-F]{1,2}h|-(1[0-2][0-8]|1[01]\d|\d?\d)|(2[0-5][0-5]|2[0-4]\d|1?\d?\d))[\s;]" Code="24" BytesFollowing="1" Description="Relative jump by signed immediate" />
   <Opcode Op="ADD HL,DE" OpRegex="ADD\s+HL\s*,\s*DE[\s;]" Code="25" BytesFollowing="0" Description="Add 16-bit DE to HL" />
   <Opcode Op="LD A,(DE)" OpRegex="LD\s+A\s*,\s*\(DE\)[\s;]" Code="26" BytesFollowing="0" Description="Load A from address pointed to by DE" />
   <Opcode Op="DEC DE" OpRegex="DEC\s+DE[\s;]" Code="27" BytesFollowing="0" Description="Decrement 16-bit DE" />
   <Opcode Op="INC E" OpRegex="INC\s+E[\s;]" Code="28" BytesFollowing="0" Description="Increment E" />
   <Opcode Op="DEC E" OpRegex="DEC\s+E[\s;]" Code="29" BytesFollowing="0" Description="Decrement E" />
-  <Opcode Op="LD E,n" OpRegex="LD\s+E\s*,\s*((-(1[0-2][0-8]|1[01]\d|\d?\d))|(2[0-5][0-5]|2[0-4]\d|1?\d?\d))[\s;]" Code="30" BytesFollowing="1" Description="Load 8-bit immediate into E" />
+  <Opcode Op="LD E,n" OpRegex="LD\s+E\s*,\s*([0-9A-F]{1,2}h|-(1[0-2][0-8]|1[01]\d|\d?\d)|(2[0-5][0-5]|2[0-4]\d|1?\d?\d))[\s;]" Code="30" BytesFollowing="1" Description="Load 8-bit immediate into E" />
   <Opcode Op="RR A" OpRegex="RR\s+A[\s;]" Code="31" BytesFollowing="0" Description="Rotate A right" />
-  <Opcode Op="JR NZ,n" OpRegex="JR\s+NZ\s*,\s*((-(1[0-2][0-8]|1[01]\d|\d?\d))|(2[0-5][0-5]|2[0-4]\d|1?\d?\d)|[_a-zA-Z]\w+)[\s;]" Code="32" BytesFollowing="1" Description="Relative jump by signed immediate if last result was not zero" />
-  <Opcode Op="LD HL,nn" OpRegex="LD\s+HL\s*,\s*((6553[0-5]|655[0-2]\d|65[0-4]\d\d|6[0-4]\d{1,3}|[0-5]?\d{1,4})|(-(3276[0-8]|327[0-5]\d|32[0-6]\d\d|3[01]\d{1,3}|[0-2]?\d{1,4})))[\s;]" Code="33" BytesFollowing="2" Description="Load 16-bit immediate into HL" />
+  <Opcode Op="JR NZ,n" OpRegex="JR\s+NZ\s*,\s*([0-9A-F]{1,2}h|-(1[0-2][0-8]|1[01]\d|\d?\d)|(2[0-5][0-5]|2[0-4]\d|1?\d?\d))[\s;]" Code="32" BytesFollowing="1" Description="Relative jump by signed immediate if last result was not zero" />
+  <Opcode Op="LD HL,nn" OpRegex="LD\s+HL\s*,\s*([0-9A-F]{1,4}h|(6553[0-5]|655[0-2]\d|65[0-4]\d\d|6[0-4]\d{1,3}|[0-5]?\d{1,4})|(-(3276[0-8]|327[0-5]\d|32[0-6]\d\d|3[01]\d{1,3}|[0-2]?\d{1,4})))[\s;]" Code="33" BytesFollowing="2" Description="Load 16-bit immediate into HL" />
   <Opcode Op="LDI (HL),A" OpRegex="LDI\s+\(HL\)\s*,\s*A[\s;]" Code="34" BytesFollowing="0" Description="Save A to address pointed by HL, and increment HL" />
   <Opcode Op="INC HL" OpRegex="INC\s+HL[\s;]" Code="35" BytesFollowing="0" Description="Increment 16-bit HL" />
   <Opcode Op="INC H" OpRegex="INC\s+H[\s;]" Code="36" BytesFollowing="0" Description="Increment H" />
   <Opcode Op="DEC H" OpRegex="DEC\s+H[\s;]" Code="37" BytesFollowing="0" Description="Decrement H" />
-  <Opcode Op="LD H,n" OpRegex="LD\s+H\s*,\s*((-(1[0-2][0-8]|1[01]\d|\d?\d))|(2[0-5][0-5]|2[0-4]\d|1?\d?\d))[\s;]" Code="38" BytesFollowing="1" Description="Load 8-bit immediate into H" />
+  <Opcode Op="LD H,n" OpRegex="LD\s+H\s*,\s*([0-9A-F]{1,2}h|-(1[0-2][0-8]|1[01]\d|\d?\d)|(2[0-5][0-5]|2[0-4]\d|1?\d?\d))[\s;]" Code="38" BytesFollowing="1" Description="Load 8-bit immediate into H" />
   <Opcode Op="DAA" OpRegex="DAA[\s;]" Code="39" BytesFollowing="0" Description="Adjust A for BCD addition" />
-  <Opcode Op="JR Z,n" OpRegex="JR\s+Z\s*,\s*((-(1[0-2][0-8]|1[01]\d|\d?\d))|(2[0-5][0-5]|2[0-4]\d|1?\d?\d)|[_a-zA-Z]\w+)[\s;]" Code="40" BytesFollowing="1" Description="Relative jump by signed immediate if last result was zero" />
+  <Opcode Op="JR Z,n" OpRegex="JR\s+Z\s*,\s*([0-9A-F]{1,2}h|-(1[0-2][0-8]|1[01]\d|\d?\d)|(2[0-5][0-5]|2[0-4]\d|1?\d?\d))[\s;]" Code="40" BytesFollowing="1" Description="Relative jump by signed immediate if last result was zero" />
   <Opcode Op="ADD HL,HL" OpRegex="ADD\s+HL\s*,\s*HL[\s;]" Code="41" BytesFollowing="0" Description="Add 16-bit HL to HL" />
   <Opcode Op="LDI A,(HL)" OpRegex="LDI\s+A\s*,\s*\(HL\)[\s;]" Code="42" BytesFollowing="0" Description="Load A from address pointed to by HL, and increment HL" />
   <Opcode Op="DEC HL" OpRegex="DEC\s+HL[\s;]" Code="43" BytesFollowing="0" Description="Decrement 16-bit HL" />
   <Opcode Op="INC L" OpRegex="INC\s+L[\s;]" Code="44" BytesFollowing="0" Description="Increment L" />
   <Opcode Op="DEC L" OpRegex="DEC\s+L[\s;]" Code="45" BytesFollowing="0" Description="Decrement L" />
-  <Opcode Op="LD L,n" OpRegex="LD\s+L\s*,\s*((-(1[0-2][0-8]|1[01]\d|\d?\d))|(2[0-5][0-5]|2[0-4]\d|1?\d?\d))[\s;]" Code="46" BytesFollowing="1" Description="Load 8-bit immediate into L" />
+  <Opcode Op="LD L,n" OpRegex="LD\s+L\s*,\s*([0-9A-F]{1,2}h|-(1[0-2][0-8]|1[01]\d|\d?\d)|(2[0-5][0-5]|2[0-4]\d|1?\d?\d))[\s;]" Code="46" BytesFollowing="1" Description="Load 8-bit immediate into L" />
   <Opcode Op="CPL" OpRegex="CPL[\s;]" Code="47" BytesFollowing="0" Description="Complement (logical NOT) on A" />
-  <Opcode Op="JR NC,n" OpRegex="JR\s+NC\s*,\s*((-(1[0-2][0-8]|1[01]\d|\d?\d))|(2[0-5][0-5]|2[0-4]\d|1?\d?\d)|[_a-zA-Z]\w+)[\s;]" Code="48" BytesFollowing="1" Description="Relative jump by signed immediate if last result caused no carry" />
-  <Opcode Op="LD SP,nn" OpRegex="LD\s+SP\s*,\s*((6553[0-5]|655[0-2]\d|65[0-4]\d\d|6[0-4]\d{1,3}|[0-5]?\d{1,4})|(-(3276[0-8]|327[0-5]\d|32[0-6]\d\d|3[01]\d{1,3}|[0-2]?\d{1,4})))[\s;]" Code="49" BytesFollowing="2" Description="Load 16-bit immediate into SP" />
+  <Opcode Op="JR NC,n" OpRegex="JR\s+NC\s*,\s*([0-9A-F]{1,2}h|-(1[0-2][0-8]|1[01]\d|\d?\d)|(2[0-5][0-5]|2[0-4]\d|1?\d?\d))[\s;]" Code="48" BytesFollowing="1" Description="Relative jump by signed immediate if last result caused no carry" />
+  <Opcode Op="LD SP,nn" OpRegex="LD\s+SP\s*,\s*([0-9A-F]{1,4}h|(6553[0-5]|655[0-2]\d|65[0-4]\d\d|6[0-4]\d{1,3}|[0-5]?\d{1,4})|(-(3276[0-8]|327[0-5]\d|32[0-6]\d\d|3[01]\d{1,3}|[0-2]?\d{1,4})))[\s;]" Code="49" BytesFollowing="2" Description="Load 16-bit immediate into SP" />
   <Opcode Op="LDD (HL),A" OpRegex="LDD\s+\(HL\)\s*,\s*A[\s;]" Code="50" BytesFollowing="0" Description="Save A to address pointed by HL, and decrement HL" />
   <Opcode Op="INC SP" OpRegex="INC\s+SP[\s;]" Code="51" BytesFollowing="0" Description="Increment 16-bit HL" />
   <Opcode Op="INC (HL)" OpRegex="INC\s+\(HL\)[\s;]" Code="52" BytesFollowing="0" Description="Increment value pointed by HL" />
   <Opcode Op="DEC (HL)" OpRegex="DEC\s+\(HL\)[\s;]" Code="53" BytesFollowing="0" Description="Decrement value pointed by HL" />
-  <Opcode Op="LD (HL),n" OpRegex="LD\s+\(HL\)\s*,\s*((-(1[0-2][0-8]|1[01]\d|\d?\d))|(2[0-5][0-5]|2[0-4]\d|1?\d?\d))[\s;]" Code="54" BytesFollowing="1" Description="Load 8-bit immediate into address pointed by HL" />
+  <Opcode Op="LD (HL),n" OpRegex="LD\s+\(HL\)\s*,\s*([0-9A-F]{1,2}h|-(1[0-2][0-8]|1[01]\d|\d?\d)|(2[0-5][0-5]|2[0-4]\d|1?\d?\d))[\s;]" Code="54" BytesFollowing="1" Description="Load 8-bit immediate into address pointed by HL" />
   <Opcode Op="SCF" OpRegex="SCF[\s;]" Code="55" BytesFollowing="0" Description="Set carry flag" />
-  <Opcode Op="JR C,n" OpRegex="JR\s+C\s*,\s*((-(1[0-2][0-8]|1[01]\d|\d?\d))|(2[0-5][0-5]|2[0-4]\d|1?\d?\d)|[_a-zA-Z]\w+)[\s;]" Code="56" BytesFollowing="1" Description="Relative jump by signed immediate if last result caused carry" />
+  <Opcode Op="JR C,n" OpRegex="JR\s+C\s*,\s*([0-9A-F]{1,2}h|-(1[0-2][0-8]|1[01]\d|\d?\d)|(2[0-5][0-5]|2[0-4]\d|1?\d?\d))[\s;]" Code="56" BytesFollowing="1" Description="Relative jump by signed immediate if last result caused carry" />
   <Opcode Op="ADD HL,SP" OpRegex="ADD\s+HL\s*,\s*SP[\s;]" Code="57" BytesFollowing="0" Description="Add 16-bit SP to HL" />
   <Opcode Op="LDD A,(HL)" OpRegex="LDD\s+A\s*,\s*\(HL\)[\s;]" Code="58" BytesFollowing="0" Description="Load A from address pointed to by HL, and decrement HL" />
   <Opcode Op="DEC SP" OpRegex="DEC\s+SP[\s;]" Code="59" BytesFollowing="0" Description="Decrement 16-bit SP" />
   <Opcode Op="INC A" OpRegex="INC\s+A[\s;]" Code="60" BytesFollowing="0" Description="Increment A" />
   <Opcode Op="DEC A" OpRegex="DEC\s+A[\s;]" Code="61" BytesFollowing="0" Description="Decrement A" />
-  <Opcode Op="LD A,n" OpRegex="LD\s+A\s*,\s*((-(1[0-2][0-8]|1[01]\d|\d?\d))|(2[0-5][0-5]|2[0-4]\d|1?\d?\d))[\s;]" Code="62" BytesFollowing="1" Description="Load 8-bit immediate into A" />
+  <Opcode Op="LD A,n" OpRegex="LD\s+A\s*,\s*([0-9A-F]{1,2}h|-(1[0-2][0-8]|1[01]\d|\d?\d)|(2[0-5][0-5]|2[0-4]\d|1?\d?\d))[\s;]" Code="62" BytesFollowing="1" Description="Load 8-bit immediate into A" />
   <Opcode Op="CCF" OpRegex="CCF[\s;]" Code="63" BytesFollowing="0" Description="Clear carry flag" />
   <Opcode Op="LD B,B" OpRegex="LD\s+B\s*,\s*B[\s;]" Code="64" BytesFollowing="0" Description="Copy B to B" />
   <Opcode Op="LD B,C" OpRegex="LD\s+B\s*,\s*C[\s;]" Code="65" BytesFollowing="0" Description="Copy C to B" />
@@ -194,53 +194,53 @@
   <Opcode Op="CP A" OpRegex="CP\s+A[\s;]" Code="191" BytesFollowing="0" Description="Compare A against A" />
   <Opcode Op="RET NZ" OpRegex="RET\s+NZ[\s;]" Code="192" BytesFollowing="0" Description="Return if last result was not zero" />
   <Opcode Op="POP BC" OpRegex="POP\s+BC[\s;]" Code="193" BytesFollowing="0" Description="Pop 16-bit value from stack into BC" />
-  <Opcode Op="JP NZ,nn" OpRegex="JP\s+NZ\s*,\s*((6553[0-5]|655[0-2]\d|65[0-4]\d\d|6[0-4]\d{1,3}|[0-5]?\d{1,4})|(-(3276[0-8]|327[0-5]\d|32[0-6]\d\d|3[01]\d{1,3}|[0-2]?\d{1,4}))|[_a-zA-Z]\w+)[\s;]" Code="194" BytesFollowing="2" Description="Absolute jump to 16-bit location if last result was not zero" />
-  <Opcode Op="JP nn" OpRegex="JP\s+((6553[0-5]|655[0-2]\d|65[0-4]\d\d|6[0-4]\d{1,3}|[0-5]?\d{1,4})|(-(3276[0-8]|327[0-5]\d|32[0-6]\d\d|3[01]\d{1,3}|[0-2]?\d{1,4}))|[_a-zA-Z]\w+)[\s;]" Code="195" BytesFollowing="2" Description="Absolute jump to 16-bit location" />
-  <Opcode Op="CALL NZ,nn" OpRegex="CALL\s+NZ\s*,\s*((6553[0-5]|655[0-2]\d|65[0-4]\d\d|6[0-4]\d{1,3}|[0-5]?\d{1,4})|(-(3276[0-8]|327[0-5]\d|32[0-6]\d\d|3[01]\d{1,3}|[0-2]?\d{1,4})))[\s;]" Code="196" BytesFollowing="2" Description="Call routine at 16-bit location if last result was not zero" />
+  <Opcode Op="JP NZ,nn" OpRegex="JP\s+NZ\s*,\s*([0-9A-F]{1,4}h|(6553[0-5]|655[0-2]\d|65[0-4]\d\d|6[0-4]\d{1,3}|[0-5]?\d{1,4})|(-(3276[0-8]|327[0-5]\d|32[0-6]\d\d|3[01]\d{1,3}|[0-2]?\d{1,4}))|[_a-zA-Z]\w+)[\s;]" Code="194" BytesFollowing="2" Description="Absolute jump to 16-bit location if last result was not zero" />
+  <Opcode Op="JP nn" OpRegex="JP\s+([0-9A-F]{1,4}h|(6553[0-5]|655[0-2]\d|65[0-4]\d\d|6[0-4]\d{1,3}|[0-5]?\d{1,4})|(-(3276[0-8]|327[0-5]\d|32[0-6]\d\d|3[01]\d{1,3}|[0-2]?\d{1,4}))|[_a-zA-Z]\w+)[\s;]" Code="195" BytesFollowing="2" Description="Absolute jump to 16-bit location" />
+  <Opcode Op="CALL NZ,nn" OpRegex="CALL\s+NZ\s*,\s*([0-9A-F]{1,4}h|(6553[0-5]|655[0-2]\d|65[0-4]\d\d|6[0-4]\d{1,3}|[0-5]?\d{1,4})|(-(3276[0-8]|327[0-5]\d|32[0-6]\d\d|3[01]\d{1,3}|[0-2]?\d{1,4})))[\s;]" Code="196" BytesFollowing="2" Description="Call routine at 16-bit location if last result was not zero" />
   <Opcode Op="PUSH BC" OpRegex="PUSH\s+BC[\s;]" Code="197" BytesFollowing="0" Description="Push 16-bit BC onto stack" />
-  <Opcode Op="ADD A,n" OpRegex="ADD\s+A\s*,\s*((-(1[0-2][0-8]|1[01]\d|\d?\d))|(2[0-5][0-5]|2[0-4]\d|1?\d?\d))[\s;]" Code="198" BytesFollowing="1" Description="Add 8-bit immediate to A" />
+  <Opcode Op="ADD A,n" OpRegex="ADD\s+A\s*,\s*([0-9A-F]{1,2}h|-(1[0-2][0-8]|1[01]\d|\d?\d)|(2[0-5][0-5]|2[0-4]\d|1?\d?\d))[\s;]" Code="198" BytesFollowing="1" Description="Add 8-bit immediate to A" />
   <Opcode Op="RST 0" OpRegex="RST\s+0[\s;]" Code="199" BytesFollowing="0" Description="Call routine at address 0000h" />
   <Opcode Op="RET Z" OpRegex="RET\s+Z[\s;]" Code="200" BytesFollowing="0" Description="Return if last result was zero" />
   <Opcode Op="RET" OpRegex="RET[\s;]" Code="201" BytesFollowing="0" Description="Return to calling routine" />
-  <Opcode Op="JP Z,nn" OpRegex="JP\s+Z\s*,\s*((6553[0-5]|655[0-2]\d|65[0-4]\d\d|6[0-4]\d{1,3}|[0-5]?\d{1,4})|(-(3276[0-8]|327[0-5]\d|32[0-6]\d\d|3[01]\d{1,3}|[0-2]?\d{1,4}))|[_a-zA-Z]\w+)[\s;]" Code="202" BytesFollowing="2" Description="Absolute jump to 16-bit location if last result was zero" />
-  <Opcode Op="CALL Z,nn" OpRegex="CALL\s+Z\s*,\s*((6553[0-5]|655[0-2]\d|65[0-4]\d\d|6[0-4]\d{1,3}|[0-5]?\d{1,4})|(-(3276[0-8]|327[0-5]\d|32[0-6]\d\d|3[01]\d{1,3}|[0-2]?\d{1,4})))[\s;]" Code="204" BytesFollowing="2" Description="Call routine at 16-bit location if last result was zero" />
-  <Opcode Op="CALL nn" OpRegex="CALL\s+((6553[0-5]|655[0-2]\d|65[0-4]\d\d|6[0-4]\d{1,3}|[0-5]?\d{1,4})|(-(3276[0-8]|327[0-5]\d|32[0-6]\d\d|3[01]\d{1,3}|[0-2]?\d{1,4})))[\s;]" Code="205" BytesFollowing="2" Description="Call routine at 16-bit location" />
-  <Opcode Op="ADC A,n" OpRegex="ADC\s+A\s*,\s*((-(1[0-2][0-8]|1[01]\d|\d?\d))|(2[0-5][0-5]|2[0-4]\d|1?\d?\d))[\s;]" Code="206" BytesFollowing="1" Description="Add 8-bit immediate and carry to A" />
+  <Opcode Op="JP Z,nn" OpRegex="JP\s+Z\s*,\s*([0-9A-F]{1,4}h|(6553[0-5]|655[0-2]\d|65[0-4]\d\d|6[0-4]\d{1,3}|[0-5]?\d{1,4})|(-(3276[0-8]|327[0-5]\d|32[0-6]\d\d|3[01]\d{1,3}|[0-2]?\d{1,4}))|[_a-zA-Z]\w+)[\s;]" Code="202" BytesFollowing="2" Description="Absolute jump to 16-bit location if last result was zero" />
+  <Opcode Op="CALL Z,nn" OpRegex="CALL\s+Z\s*,\s*([0-9A-F]{1,4}h|(6553[0-5]|655[0-2]\d|65[0-4]\d\d|6[0-4]\d{1,3}|[0-5]?\d{1,4})|(-(3276[0-8]|327[0-5]\d|32[0-6]\d\d|3[01]\d{1,3}|[0-2]?\d{1,4})))[\s;]" Code="204" BytesFollowing="2" Description="Call routine at 16-bit location if last result was zero" />
+  <Opcode Op="CALL nn" OpRegex="CALL\s+([0-9A-F]{1,4}h|(6553[0-5]|655[0-2]\d|65[0-4]\d\d|6[0-4]\d{1,3}|[0-5]?\d{1,4})|(-(3276[0-8]|327[0-5]\d|32[0-6]\d\d|3[01]\d{1,3}|[0-2]?\d{1,4})))[\s;]" Code="205" BytesFollowing="2" Description="Call routine at 16-bit location" />
+  <Opcode Op="ADC A,n" OpRegex="ADC\s+A\s*,\s*([0-9A-F]{1,2}h|-(1[0-2][0-8]|1[01]\d|\d?\d)|(2[0-5][0-5]|2[0-4]\d|1?\d?\d))[\s;]" Code="206" BytesFollowing="1" Description="Add 8-bit immediate and carry to A" />
   <Opcode Op="RST 8" OpRegex="RST\s+8[\s;]" Code="207" BytesFollowing="0" Description="Call routine at address 0008h" />
   <Opcode Op="RET NC" OpRegex="RET\s+NC[\s;]" Code="208" BytesFollowing="0" Description="Return if last result caused no carry" />
   <Opcode Op="POP DE" OpRegex="POP\s+DE[\s;]" Code="209" BytesFollowing="0" Description="Pop 16-bit value from stack into DE" />
-  <Opcode Op="JP NC,nn" OpRegex="JP\s+NC\s*,\s*((6553[0-5]|655[0-2]\d|65[0-4]\d\d|6[0-4]\d{1,3}|[0-5]?\d{1,4})|(-(3276[0-8]|327[0-5]\d|32[0-6]\d\d|3[01]\d{1,3}|[0-2]?\d{1,4}))|[_a-zA-Z]\w+)[\s;]" Code="210" BytesFollowing="2" Description="Absolute jump to 16-bit location if last result caused no carry" />
-  <Opcode Op="CALL NC,nn" OpRegex="CALL\s+NC\s*,\s*((6553[0-5]|655[0-2]\d|65[0-4]\d\d|6[0-4]\d{1,3}|[0-5]?\d{1,4})|(-(3276[0-8]|327[0-5]\d|32[0-6]\d\d|3[01]\d{1,3}|[0-2]?\d{1,4})))[\s;]" Code="212" BytesFollowing="2" Description="Call routine at 16-bit location if last result caused no carry" />
+  <Opcode Op="JP NC,nn" OpRegex="JP\s+NC\s*,\s*([0-9A-F]{1,4}h|(6553[0-5]|655[0-2]\d|65[0-4]\d\d|6[0-4]\d{1,3}|[0-5]?\d{1,4})|(-(3276[0-8]|327[0-5]\d|32[0-6]\d\d|3[01]\d{1,3}|[0-2]?\d{1,4}))|[_a-zA-Z]\w+)[\s;]" Code="210" BytesFollowing="2" Description="Absolute jump to 16-bit location if last result caused no carry" />
+  <Opcode Op="CALL NC,nn" OpRegex="CALL\s+NC\s*,\s*([0-9A-F]{1,4}h|(6553[0-5]|655[0-2]\d|65[0-4]\d\d|6[0-4]\d{1,3}|[0-5]?\d{1,4})|(-(3276[0-8]|327[0-5]\d|32[0-6]\d\d|3[01]\d{1,3}|[0-2]?\d{1,4})))[\s;]" Code="212" BytesFollowing="2" Description="Call routine at 16-bit location if last result caused no carry" />
   <Opcode Op="PUSH DE" OpRegex="PUSH\s+DE[\s;]" Code="213" BytesFollowing="0" Description="Push 16-bit DE onto stack" />
-  <Opcode Op="SUB A,n" OpRegex="SUB\s+A\s*,\s*((-(1[0-2][0-8]|1[01]\d|\d?\d))|(2[0-5][0-5]|2[0-4]\d|1?\d?\d))[\s;]" Code="214" BytesFollowing="1" Description="Subtract 8-bit immediate from A" />
+  <Opcode Op="SUB A,n" OpRegex="SUB\s+A\s*,\s*([0-9A-F]{1,2}h|-(1[0-2][0-8]|1[01]\d|\d?\d)|(2[0-5][0-5]|2[0-4]\d|1?\d?\d))[\s;]" Code="214" BytesFollowing="1" Description="Subtract 8-bit immediate from A" />
   <Opcode Op="RST 10" OpRegex="RST\s+10[\s;]" Code="215" BytesFollowing="0" Description="Call routine at address 0010h" />
   <Opcode Op="RET C" OpRegex="RET\s+C[\s;]" Code="216" BytesFollowing="0" Description="Return if last result caused carry" />
   <Opcode Op="RETI" OpRegex="RETI[\s;]" Code="217" BytesFollowing="0" Description="Enable interrupts and return to calling routine" />
-  <Opcode Op="JP C,nn" OpRegex="JP\s+C\s*,\s*((6553[0-5]|655[0-2]\d|65[0-4]\d\d|6[0-4]\d{1,3}|[0-5]?\d{1,4})|(-(3276[0-8]|327[0-5]\d|32[0-6]\d\d|3[01]\d{1,3}|[0-2]?\d{1,4}))|[_a-zA-Z]\w+)[\s;]" Code="218" BytesFollowing="2" Description="Absolute jump to 16-bit location if last result caused carry" />
-  <Opcode Op="CALL C,nn" OpRegex="CALL\s+C\s*,\s*((6553[0-5]|655[0-2]\d|65[0-4]\d\d|6[0-4]\d{1,3}|[0-5]?\d{1,4})|(-(3276[0-8]|327[0-5]\d|32[0-6]\d\d|3[01]\d{1,3}|[0-2]?\d{1,4})))[\s;]" Code="220" BytesFollowing="2" Description="Call routine at 16-bit location if last result caused carry" />
-  <Opcode Op="SBC A,n" OpRegex="SBC\s+A\s*,\s*((-(1[0-2][0-8]|1[01]\d|\d?\d))|(2[0-5][0-5]|2[0-4]\d|1?\d?\d))[\s;]" Code="222" BytesFollowing="1" Description="Subtract 8-bit immediate and carry from A" />
+  <Opcode Op="JP C,nn" OpRegex="JP\s+C\s*,\s*([0-9A-F]{1,4}h|(6553[0-5]|655[0-2]\d|65[0-4]\d\d|6[0-4]\d{1,3}|[0-5]?\d{1,4})|(-(3276[0-8]|327[0-5]\d|32[0-6]\d\d|3[01]\d{1,3}|[0-2]?\d{1,4}))|[_a-zA-Z]\w+)[\s;]" Code="218" BytesFollowing="2" Description="Absolute jump to 16-bit location if last result caused carry" />
+  <Opcode Op="CALL C,nn" OpRegex="CALL\s+C\s*,\s*([0-9A-F]{1,4}h|(6553[0-5]|655[0-2]\d|65[0-4]\d\d|6[0-4]\d{1,3}|[0-5]?\d{1,4})|(-(3276[0-8]|327[0-5]\d|32[0-6]\d\d|3[01]\d{1,3}|[0-2]?\d{1,4})))[\s;]" Code="220" BytesFollowing="2" Description="Call routine at 16-bit location if last result caused carry" />
+  <Opcode Op="SBC A,n" OpRegex="SBC\s+A\s*,\s*([0-9A-F]{1,2}h|-(1[0-2][0-8]|1[01]\d|\d?\d)|(2[0-5][0-5]|2[0-4]\d|1?\d?\d))[\s;]" Code="222" BytesFollowing="1" Description="Subtract 8-bit immediate and carry from A" />
   <Opcode Op="RST 18" OpRegex="RST\s+18[\s;]" Code="223" BytesFollowing="0" Description="Call routine at address 0018h" />
-  <Opcode Op="LDH (n),A" OpRegex="LDH\s+\(((-(1[0-2][0-8]|1[01]\d|\d?\d))|(2[0-5][0-5]|2[0-4]\d|1?\d?\d)\)\s*,\s*A)[\s;]" Code="224" BytesFollowing="1" Description="Save A at address pointed to by (FF00h + 8-bit immediate)" />
+  <Opcode Op="LDH (n),A" OpRegex="LDH\s+\(([0-9A-F]{1,2}h|-(1[0-2][0-8]|1[01]\d|\d?\d)|(2[0-5][0-5]|2[0-4]\d|1?\d?\d)\)\s*,\s*A)[\s;]" Code="224" BytesFollowing="1" Description="Save A at address pointed to by (FF00h + 8-bit immediate)" />
   <Opcode Op="POP HL" OpRegex="POP\s+HL[\s;]" Code="225" BytesFollowing="0" Description="Pop 16-bit value from stack into HL" />
   <Opcode Op="LDH (C),A" OpRegex="LDH\s+\(C\)\s*,\s*A[\s;]" Code="226" BytesFollowing="0" Description="Save A at address pointed to by (FF00h + C)" />
   <Opcode Op="PUSH HL" OpRegex="PUSH\s+HL[\s;]" Code="229" BytesFollowing="0" Description="Push 16-bit HL onto stack" />
-  <Opcode Op="AND n" OpRegex="AND\s+((-(1[0-2][0-8]|1[01]\d|\d?\d))|(2[0-5][0-5]|2[0-4]\d|1?\d?\d))[\s;]" Code="230" BytesFollowing="1" Description="Logical AND 8-bit immediate against A" />
+  <Opcode Op="AND n" OpRegex="AND\s+([0-9A-F]{1,2}h|-(1[0-2][0-8]|1[01]\d|\d?\d)|(2[0-5][0-5]|2[0-4]\d|1?\d?\d))[\s;]" Code="230" BytesFollowing="1" Description="Logical AND 8-bit immediate against A" />
   <Opcode Op="RST 20" OpRegex="RST\s+20[\s;]" Code="231" BytesFollowing="0" Description="Call routine at address 0020h" />
   <Opcode Op="ADD SP,d" OpRegex="ADD\s+SP\s*,\s*d[\s;]" Code="232" BytesFollowing="0" Description="Add signed 8-bit immediate to SP" />
   <Opcode Op="JP (HL)" OpRegex="JP\s+\(HL\)|[_a-zA-Z]\w+[\s;]" Code="233" BytesFollowing="0" Description="Jump to 16-bit value pointed by HL" />
-  <Opcode Op="LD (nn),A" OpRegex="LD\s+\(((6553[0-5]|655[0-2]\d|65[0-4]\d\d|6[0-4]\d{1,3}|[0-5]?\d{1,4})|(-(3276[0-8]|327[0-5]\d|32[0-6]\d\d|3[01]\d{1,3}|[0-2]?\d{1,4}))\)\s*,\s*A)[\s;]" Code="234" BytesFollowing="2" Description="Save A at given 16-bit address" />
-  <Opcode Op="XOR n" OpRegex="XOR\s+((-(1[0-2][0-8]|1[01]\d|\d?\d))|(2[0-5][0-5]|2[0-4]\d|1?\d?\d))[\s;]" Code="238" BytesFollowing="1" Description="Logical XOR 8-bit immediate against A" />
+  <Opcode Op="LD (nn),A" OpRegex="LD\s+\(([0-9A-F]{1,4}h|(6553[0-5]|655[0-2]\d|65[0-4]\d\d|6[0-4]\d{1,3}|[0-5]?\d{1,4})|(-(3276[0-8]|327[0-5]\d|32[0-6]\d\d|3[01]\d{1,3}|[0-2]?\d{1,4}))\)\s*,\s*A)[\s;]" Code="234" BytesFollowing="2" Description="Save A at given 16-bit address" />
+  <Opcode Op="XOR n" OpRegex="XOR\s+([0-9A-F]{1,2}h|-(1[0-2][0-8]|1[01]\d|\d?\d)|(2[0-5][0-5]|2[0-4]\d|1?\d?\d))[\s;]" Code="238" BytesFollowing="1" Description="Logical XOR 8-bit immediate against A" />
   <Opcode Op="RST 28" OpRegex="RST\s+28[\s;]" Code="239" BytesFollowing="0" Description="Call routine at address 0028h" />
-  <Opcode Op="LDH A,(n)" OpRegex="LDH\s+A\s*,\s*\(((-(1[0-2][0-8]|1[01]\d|\d?\d))|(2[0-5][0-5]|2[0-4]\d|1?\d?\d)\))[\s;]" Code="240" BytesFollowing="1" Description="Load A from address pointed to by (FF00h + 8-bit immediate)" />
+  <Opcode Op="LDH A,(n)" OpRegex="LDH\s+A\s*,\s*\(([0-9A-F]{1,2}h|-(1[0-2][0-8]|1[01]\d|\d?\d)|(2[0-5][0-5]|2[0-4]\d|1?\d?\d)\))[\s;]" Code="240" BytesFollowing="1" Description="Load A from address pointed to by (FF00h + 8-bit immediate)" />
   <Opcode Op="POP AF" OpRegex="POP\s+AF[\s;]" Code="241" BytesFollowing="0" Description="Pop 16-bit value from stack into AF" />
   <Opcode Op="DI" OpRegex="DI[\s;]" Code="243" BytesFollowing="0" Description="DIsable interrupts" />
   <Opcode Op="PUSH AF" OpRegex="PUSH\s+AF[\s;]" Code="245" BytesFollowing="0" Description="Push 16-bit AF onto stack" />
-  <Opcode Op="OR n" OpRegex="OR\s+((-(1[0-2][0-8]|1[01]\d|\d?\d))|(2[0-5][0-5]|2[0-4]\d|1?\d?\d))[\s;]" Code="246" BytesFollowing="1" Description="Logical OR 8-bit immediate against A" />
+  <Opcode Op="OR n" OpRegex="OR\s+([0-9A-F]{1,2}h|-(1[0-2][0-8]|1[01]\d|\d?\d)|(2[0-5][0-5]|2[0-4]\d|1?\d?\d))[\s;]" Code="246" BytesFollowing="1" Description="Logical OR 8-bit immediate against A" />
   <Opcode Op="RST 30" OpRegex="RST\s+30[\s;]" Code="247" BytesFollowing="0" Description="Call routine at address 0030h" />
   <Opcode Op="LDHL SP,d" OpRegex="LDHL\s+SP\s*,\s*d[\s;]" Code="248" BytesFollowing="0" Description="Add signed 8-bit immediate to SP and save result in HL" />
   <Opcode Op="LD SP,HL" OpRegex="LD\s+SP\s*,\s*HL[\s;]" Code="249" BytesFollowing="0" Description="Copy HL to SP" />
-  <Opcode Op="LD A,(nn)" OpRegex="LD\s+A\s*,\s*\(((6553[0-5]|655[0-2]\d|65[0-4]\d\d|6[0-4]\d{1,3}|[0-5]?\d{1,4})|(-(3276[0-8]|327[0-5]\d|32[0-6]\d\d|3[01]\d{1,3}|[0-2]?\d{1,4}))\))[\s;]" Code="250" BytesFollowing="2" Description="Load A from given 16-bit address" />
+  <Opcode Op="LD A,(nn)" OpRegex="LD\s+A\s*,\s*\(([0-9A-F]{1,4}h|(6553[0-5]|655[0-2]\d|65[0-4]\d\d|6[0-4]\d{1,3}|[0-5]?\d{1,4})|(-(3276[0-8]|327[0-5]\d|32[0-6]\d\d|3[01]\d{1,3}|[0-2]?\d{1,4}))\))[\s;]" Code="250" BytesFollowing="2" Description="Load A from given 16-bit address" />
   <Opcode Op="EI" OpRegex="EI[\s;]" Code="251" BytesFollowing="0" Description="Enable interrupts" />
-  <Opcode Op="CP n" OpRegex="CP\s+((-(1[0-2][0-8]|1[01]\d|\d?\d))|(2[0-5][0-5]|2[0-4]\d|1?\d?\d))[\s;]" Code="254" BytesFollowing="1" Description="Compare 8-bit immediate against A" />
+  <Opcode Op="CP n" OpRegex="CP\s+([0-9A-F]{1,2}h|-(1[0-2][0-8]|1[01]\d|\d?\d)|(2[0-5][0-5]|2[0-4]\d|1?\d?\d))[\s;]" Code="254" BytesFollowing="1" Description="Compare 8-bit immediate against A" />
   <Opcode Op="RST 38" OpRegex="RST\s+38[\s;]" Code="255" BytesFollowing="0" Description="Call routine at address 0038h" />
 </ArrayOfOpcode>

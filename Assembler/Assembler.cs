@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Text;
 using System.Text.RegularExpressions;
 
 namespace Assembler
@@ -12,6 +13,8 @@ namespace Assembler
             Regex whitespaceOrComment = new Regex(@"^\s*(;.*)?\s*$");
 
             var output = new List<byte>();
+
+            code = ChangeFromHex(code);
 
             // Add a space on the end so regex can do proper anchoring
             code = code.Where(s => !whitespaceOrComment.IsMatch(s)).Select(s => s + " ").ToArray();
@@ -49,6 +52,23 @@ namespace Assembler
             }
 
             return output.ToArray();
+        }
+
+        private static string[] ChangeFromHex(string[] str)
+        {
+            StringBuilder sb = new StringBuilder(string.Join("\n", str));
+
+            Regex hex = new Regex(@"([0-9A-F]{1,4})h");
+            int removedChars = 0;
+            foreach (Match match in hex.Matches(sb.ToString()))
+            {
+                sb.Remove(match.Index - removedChars, match.Length);
+                string replacement = Convert.ToUInt16(match.Groups[1].Value, 16).ToString();
+                sb.Insert(match.Index - removedChars, replacement);
+                removedChars += match.Length - replacement.Length;
+            }
+
+            return sb.ToString().Split(new[] { '\n', '\r' }, StringSplitOptions.RemoveEmptyEntries);
         }
 
         private static RegexOpcode[] GetRegexOpcodes(string[] code)

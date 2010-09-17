@@ -2,19 +2,144 @@
 {
     public partial class GameBoy
     {
-        #region Arithmetic Operations
-        /*private void FlagSZSet(int value)
+        // BUG: All FlagH setting for borrows from subractions could be wrong!
+
+        private void FlagSZSet(byte value)
         {
-            
+            r.FlagZ = value == 0;
+            r.FlagS = (sbyte)value < 0;
         }
 
-        private byte Add(byte a, byte b)
+        private void FlagSZHSet(byte value, byte initial, byte operand)
         {
-            var result = a + b;
-        
-        }*/
+            r.FlagZ = value == 0;
+            r.FlagS = (sbyte)value < 0;
+            r.FlagH = (r.A ^ initial ^ operand).GetBit(4);
+        }
+
+
+        //////////////////////////////////////////////////////////////////////////
+        #region Arithmetic Operations
+        private void Add(byte b)
+        {
+            var result = (byte)(r.A + b);
+            r.FlagN = false;
+            r.FlagC = result > byte.MaxValue;
+            FlagSZHSet(result, r.A, b);
+
+            r.A = result;
+        }
+
+        private void Adc(byte b)
+        {
+            var result = (byte)(r.A + b + r.FlagCInt);
+            r.FlagN = false;
+            r.FlagC = result > byte.MaxValue;
+            FlagSZHSet(result, r.A, b);
+
+            r.A = result;
+        }
+
+        private void Sub(byte b)
+        {
+            var result = (byte)(r.A + b);
+            r.FlagN = false;
+            r.FlagC = result < byte.MinValue;
+            FlagSZHSet(result, r.A, b);
+
+            r.A = result;
+        }
+
+        private void Sbc(byte b)
+        {
+            var result = (byte)(r.A + b + r.FlagCInt);
+            r.FlagN = false;
+            r.FlagC = result < byte.MinValue;
+            FlagSZHSet(result, r.A, b);
+
+            r.A = result;
+        }
+
+        private void Add(ushort u)
+        {
+            var result = r.HL + u;
+            r.FlagH = (r.A ^ u ^ result).GetBit(12);
+            r.FlagN = false;
+            r.FlagC = result > byte.MaxValue;
+            r.FlagZ = r.HL == 0;
+            r.FlagS = (short)r.HL < 0;
+
+            r.HL = (ushort) result;
+        }
+
+        private byte Inc(byte b)
+        {
+            var result = (byte)(b+1);
+            r.FlagP = b == 0x7F;
+            r.FlagN = false;
+            FlagSZHSet(result, r.A, b);
+
+            return result;
+        }
+
+        private byte Dec(byte b)
+        {
+            var result = (byte)(b - 1);
+            r.FlagP = b == 0x80;
+            r.FlagN = true;
+            FlagSZHSet(result, r.A, b);
+
+            return result;
+        }
         #endregion
 
+
+        //////////////////////////////////////////////////////////////////////////
+        #region Logical Operations
+        private void And(byte b)
+        {
+            var result = (byte)(r.A & b);
+            FlagSZSet(result);
+            r.FlagH = true;
+            r.FlagN = false;
+            r.FlagC = false;
+
+            r.A = result;
+        }
+
+        private void Or(byte b)
+        {
+            var result = (byte)(r.A | b);
+            FlagSZSet(result);
+            r.FlagH = false;
+            r.FlagN = false;
+            r.FlagC = false;
+
+            r.A = result;
+        }
+
+        private void Xor(byte b)
+        {
+            var result = (byte)(r.A ^ b);
+            FlagSZSet(result);
+            r.FlagH = false;
+            r.FlagN = false;
+            r.FlagC = false;
+
+            r.A = result;
+        }
+
+        private void Cp(byte b)
+        {
+            var result = (byte)(r.A - b);
+            FlagSZHSet(result, r.A, b);
+            r.FlagN = true;
+            r.FlagC = result < 0;
+        }
+        #endregion
+        
+
+        //////////////////////////////////////////////////////////////////////////
         #region Bit Operations
         private void Bit(int bit, byte register)
         {
@@ -34,6 +159,8 @@
         }
         #endregion
 
+
+        //////////////////////////////////////////////////////////////////////////
         #region Rotate Operations
         private void RlFlags(byte result)
         {
@@ -107,6 +234,44 @@
             r.FlagS = result < 0;
 
             return result;
+        }
+        #endregion
+
+
+        //////////////////////////////////////////////////////////////////////////
+        #region Call/Ret
+        private void Call(ushort address)
+        {
+            WriteByte(--r.SP, r.SPh);
+            WriteByte(--r.SP, r.SPl);
+            r.PC = address;
+        }
+
+        private void Call()
+        {
+            Call(ReadUShort());
+        }
+
+        private void Ret()
+        {
+            r.PCl = ReadByte(r.SP++);
+            r.PCh = ReadByte(r.SP++);
+        }
+
+        private void RegisterStore()
+        {
+            rsv.AF = r.AF;
+            rsv.BC = r.BC;
+            rsv.DE = r.DE;
+            rsv.HL = r.HL;
+        }
+
+        private void RegisterRecover()
+        {
+            r.AF = rsv.AF;
+            r.BC = rsv.BC;
+            r.DE = rsv.DE;
+            r.HL = rsv.HL;
         }
         #endregion
 

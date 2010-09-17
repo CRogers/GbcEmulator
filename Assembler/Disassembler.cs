@@ -26,7 +26,7 @@ namespace Assembler
                      throw new ApplicationException(string.Format("The opcode at address {0} with value {1} could not be found", i.ToString("X"), data[i].ToString("X")) ,knfe);
                  }
 
-                 string line = addLineNumbers ? ("l_" + i.ToString("X") + ":").PadRight(9) : "";
+                 string line = addLineNumbers ? ("L_" + i.ToString("X") + ":").PadRight(9) : "";
 
                  // Pad right after mnemonic so its like a tab 
                  var split = opcode.Op.Split(' ');
@@ -52,7 +52,7 @@ namespace Assembler
                  Func<int,string> numberFormat = n => n.ToString();
 
                  if (addLineNumbers && opcode.Op.Substring(0,2) == "JP")
-                     numberFormat = n => "l_" + n.ToString("X");
+                     numberFormat = n => "L_" + n.ToString("X");
 
                  if (addLineNumbers && opcode.Op.Substring(0, 2) == "JR")
                      numberFormat = n => ((sbyte) n).ToString();

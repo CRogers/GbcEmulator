@@ -52,42 +52,6 @@ namespace RomTools
             b = t;
         }
 
-        private void Call(ushort address)
-        {
-            WriteByte(r.SP - 1, r.SPh); 
-            WriteByte(r.SP - 2, r.SPl); 
-            r.SP -= 2; 
-            r.PC = address;
-        }
-
-        private void Call()
-        {
-            Call(ReadUShort());
-        }
-
-        private void Ret()
-        {
-            r.PCl = ReadByte(r.SP);
-            r.PCh = ReadByte(r.SP + 1);
-            r.SP += 2;
-        }
-
-        private void RegisterStore()
-        {
-            rsv.AF = r.AF;
-            rsv.BC = r.BC;
-            rsv.DE = r.DE;
-            rsv.HL = r.HL;
-        }
-
-        private void RegisterRecover()
-        {
-            r.AF = rsv.AF;
-            r.BC = rsv.BC;
-            r.DE = rsv.DE;
-            r.HL = rsv.HL;
-        }
-
         private void InitOpcodes()
         {
             // TODO: Remember to add added gbc specific instructions!
@@ -101,8 +65,6 @@ namespace RomTools
             // The following opcodes have been removed from the GameBoy Z80:
             // D3, DB, DD, E3, E4, EB, EC, ED, F2, F4, FC, FD
 
-            // BUG: Missing: CB
-            // BUG: Virtually all flag operations are broken!
             // BUG: Need to add 'm' and 't' timings somehow!
 
             opcodes = new Dictionary<byte, Action>
@@ -127,7 +89,7 @@ namespace RomTools
                               {0xE0, () => WriteByte(ReadByte() + 0xFF00, r.A)},            // LD (byte), A
                               {0xE2, () => WriteByte(r.C + 0xFF00, r.A)},                   // LD (C), A
 
-                              {0xE8, () => r.SP = (ushort) (r.SP + (sbyte) ReadUShort())},  // ADD SP, offset; offset is signed
+                              {0xE8, () => r.SP = (ushort) (r.SP + (sbyte) ReadUShort())},  // ADD SP, offset; offset is signed BUG: Flags?
                               {0xEA, () => WriteByte(ReadUShort(), r.A)},                   // LD (word), A
 
                               {0xF0, () => r.A = ReadByte(0xFF00 + ReadByte())},            // LD A, (byte)
@@ -258,62 +220,62 @@ namespace RomTools
                               // Add Byte Instructions
 
                               // ADD A, X
-                              {0x87, () => r.A += r.A},
-                              {0x80, () => r.A += r.B},
-                              {0x81, () => r.A += r.C},
-                              {0x82, () => r.A += r.D},
-                              {0x83, () => r.A += r.E},
-                              {0x84, () => r.A += r.H},
-                              {0x85, () => r.A += r.L},
-                              {0x86, () => r.A += ReadByte(r.HL)},
-                              {0xC6, () => r.A += ReadByte()},
+                              {0x87, () => Add(r.A)},
+                              {0x80, () => Add(r.B)},
+                              {0x81, () => Add(r.C)},
+                              {0x82, () => Add(r.D)},
+                              {0x83, () => Add(r.E)},
+                              {0x84, () => Add(r.H)},
+                              {0x85, () => Add(r.L)},
+                              {0x86, () => Add(ReadByte(r.HL))},
+                              {0xC6, () => Add(ReadByte())},
 
                               // Add Byte with Carry-In Instructions
 
                               // ADC A, X
-                              {0x8F, () => r.A += (byte) (r.A + r.FlagCInt)},
-                              {0x88, () => r.A += (byte) (r.B + r.FlagCInt)},
-                              {0x89, () => r.A += (byte) (r.C + r.FlagCInt)},
-                              {0x8A, () => r.A += (byte) (r.D + r.FlagCInt)},
-                              {0x8B, () => r.A += (byte) (r.E + r.FlagCInt)},
-                              {0x8C, () => r.A += (byte) (r.H + r.FlagCInt)},
-                              {0x8D, () => r.A += (byte) (r.L + r.FlagCInt)},
-                              {0x8E, () => r.A += (byte) (ReadByte(r.HL) + r.FlagCInt)},
-                              {0xCE, () => r.A += (byte) (ReadByte() + r.FlagCInt)},
+                              {0x8F, () => Adc(r.A)},
+                              {0x88, () => Adc(r.B)},
+                              {0x89, () => Adc(r.C)},
+                              {0x8A, () => Adc(r.D)},
+                              {0x8B, () => Adc(r.E)},
+                              {0x8C, () => Adc(r.H)},
+                              {0x8D, () => Adc(r.L)},
+                              {0x8E, () => Adc(ReadByte(r.HL))},
+                              {0xCE, () => Adc(ReadByte())},
 
                               // Subtract Byte Instructions
 
                               // SUB A, X
-                              {0x97, () => r.A -= r.A},
-                              {0x90, () => r.A -= r.B},
-                              {0x91, () => r.A -= r.C},
-                              {0x92, () => r.A -= r.D},
-                              {0x93, () => r.A -= r.E},
-                              {0x94, () => r.A -= r.H},
-                              {0x95, () => r.A -= r.L},
-                              {0x96, () => r.A -= ReadByte(r.HL)},
-                              {0xD6, () => r.A -= ReadByte()},
+                              {0x97, () => Sub(r.A)},
+                              {0x90, () => Sub(r.B)},
+                              {0x91, () => Sub(r.C)},
+                              {0x92, () => Sub(r.D)},
+                              {0x93, () => Sub(r.E)},
+                              {0x94, () => Sub(r.H)},
+                              {0x95, () => Sub(r.L)},
+                              {0x96, () => Sub(ReadByte(r.HL))},
+                              {0xD6, () => Sub(ReadByte())},
 
                               // Subtract Byte With Borrow-In Instructions
 
                               // SBC A, X
-                              {0x9F, () => r.A -= (byte) (r.A + r.FlagCInt)},
-                              {0x98, () => r.A -= (byte) (r.B + r.FlagCInt)},
-                              {0x99, () => r.A -= (byte) (r.C + r.FlagCInt)},
-                              {0x9A, () => r.A -= (byte) (r.D + r.FlagCInt)},
-                              {0x9B, () => r.A -= (byte) (r.E + r.FlagCInt)},
-                              {0x9C, () => r.A -= (byte) (r.H + r.FlagCInt)},
-                              {0x9D, () => r.A -= (byte) (r.L + r.FlagCInt)},
-                              {0x9E, () => r.A -= (byte) (ReadByte(r.HL) + r.FlagCInt)},
-                              {0xDE, () => r.A -= (byte) (ReadByte() + r.FlagCInt)},
+                              {0x9F, () => Sbc(r.A)},
+                              {0x98, () => Sbc(r.B)},
+                              {0x99, () => Sbc(r.C)},
+                              {0x9A, () => Sbc(r.D)},
+                              {0x9B, () => Sbc(r.E)},
+                              {0x9C, () => Sbc(r.H)},
+                              {0x9D, () => Sbc(r.L)},
+                              {0x9E, () => Sbc(ReadByte(r.HL))},
+                              {0xDE, () => Sbc(ReadByte())},
 
                               // Double Byte Add Instructions
 
                               // ADD HL, X
-                              {0x09, () => r.HL += r.BC},
-                              {0x19, () => r.HL += r.DE},
-                              {0x29, () => r.HL += r.HL},
-                              {0x39, () => r.HL += r.SP},
+                              {0x09, () => Add(r.BC)},
+                              {0x19, () => Add(r.DE)},
+                              {0x29, () => Add(r.HL)},
+                              {0x39, () => Add(r.SP)},
 
                               // Control Instructions
 
@@ -329,26 +291,26 @@ namespace RomTools
                               // Increment Byte Instructions
 
                               // INC X
-                              {0x3C, () => r.A++},
-                              {0x04, () => r.B++},
-                              {0x0C, () => r.C++},
-                              {0x14, () => r.D++},
-                              {0x1C, () => r.E++},
-                              {0x24, () => r.H++},
-                              {0x2C, () => r.L++},
-                              {0x34, () => WriteByte(r.HL, (byte) (ReadByte(r.HL) + 1))},
+                              {0x3C, () => Inc(r.A)},
+                              {0x04, () => Inc(r.B)},
+                              {0x0C, () => Inc(r.C)},
+                              {0x14, () => Inc(r.D)},
+                              {0x1C, () => Inc(r.E)},
+                              {0x24, () => Inc(r.H)},
+                              {0x2C, () => Inc(r.L)},
+                              {0x34, () => WriteByte(r.HL, Inc(ReadByte(r.HL)))},
 
                               // Decrement Byte Instructions
 
                               // DEC X
-                              {0x3D, () => r.A--},
-                              {0x05, () => r.B--},
-                              {0x0D, () => r.C--},
-                              {0x15, () => r.D--},
-                              {0x1D, () => r.E--},
-                              {0x25, () => r.H--},
-                              {0x2D, () => r.L--},
-                              {0x35, () => WriteByte(r.HL, (byte) (ReadByte(r.HL) - 1))},
+                              {0x3D, () => Dec(r.A)},
+                              {0x05, () => Dec(r.B)},
+                              {0x0D, () => Dec(r.C)},
+                              {0x15, () => Dec(r.D)},
+                              {0x1D, () => Dec(r.E)},
+                              {0x25, () => Dec(r.H)},
+                              {0x2D, () => Dec(r.L)},
+                              {0x35, () => WriteByte(r.HL, Dec(ReadByte(r.HL)))},
 
                               // Increment Register Pair Instructions
 
@@ -388,65 +350,65 @@ namespace RomTools
                                       r.A = v;
                                   } },
 
-                              {0x2F, () => r.A = (byte) ~r.A},  // CPL
-                              {0x37, () => r.FlagC = true},     // SCF
-                              {0x3F, () => r.FlagC = !r.FlagC}, // CCF
+                              {0x2F, () => { r.A = (byte) ~r.A; r.FlagH = true; r.FlagN = true; }},             // CPL
+                              {0x37, () => { r.FlagC = true; r.FlagH = false; r.FlagN = false; } },             // SCF
+                              {0x3F, () => { bool p = r.FlagC; r.FlagC = !p; r.FlagH = p; r.FlagN = false; } }, // CCF
 
                               // Rotate Instructions
 
                               // RXCA
-                              {0x07, () => { bool bit7 = r.A.GetBit(7); r.A = (byte)((r.A << 1) + (bit7 ? 1 : 0)); r.FlagC = bit7; } },
-                              {0x0F, () => { bool bit0 = r.A.GetBit(0); r.A = (byte)((r.A >> 1) + (bit0 ? 0x80 : 0)); r.FlagC = bit0; } },
+                              {0x07, () => { bool bit7 = r.A.GetBit(7); r.A = (byte)(r.A << 1).SetBit(0, bit7); r.FlagC = bit7; r.FlagH = false; r.FlagN = false; } },
+                              {0x0F, () => { bool bit0 = r.A.GetBit(0); r.A = (byte)(r.A >> 1).SetBit(7, bit0); r.FlagC = bit0; r.FlagH = false; r.FlagN = false; } },
                               
                               // RXA
-                              {0x17, () => r.A = (byte)((r.A << 1) + r.FlagCInt) }, 
-                              {0x1F, () => r.A = (byte)((r.A << 1) + (r.FlagC ? 0x80 : 0)) }, 
+                              {0x17, () => { bool bit7 = r.A.GetBit(7); r.A = (byte)(r.A << 1).SetBit(0, r.FlagC); r.FlagC = bit7; r.FlagH = false; r.FlagN = false; } }, 
+                              {0x1F, () => { bool bit0 = r.A.GetBit(0); r.A = (byte)(r.A >> 1).SetBit(7, r.FlagC); r.FlagC = bit0; r.FlagH = false; r.FlagN = false; } }, 
 
                               // Logical Byte Instructions
                               
                               // AND X
-                              {0xA7, () => r.A &= r.A},
-                              {0xA0, () => r.A &= r.B},
-                              {0xA1, () => r.A &= r.C},
-                              {0xA2, () => r.A &= r.D},
-                              {0xA3, () => r.A &= r.E},
-                              {0xA4, () => r.A &= r.H},
-                              {0xA5, () => r.A &= r.L},
-                              {0xA6, () => r.A &= ReadByte(r.HL)},
-                              {0xE6, () => r.A &= ReadByte()},
+                              {0xA7, () => And(r.A)},
+                              {0xA0, () => And(r.B)},
+                              {0xA1, () => And(r.C)},
+                              {0xA2, () => And(r.D)},
+                              {0xA3, () => And(r.E)},
+                              {0xA4, () => And(r.H)},
+                              {0xA5, () => And(r.L)},
+                              {0xA6, () => And(ReadByte(r.HL))},
+                              {0xE6, () => And(ReadByte())},
 
                               // XOR X
-                              {0xAF, () => r.A ^= r.A},
-                              {0xA8, () => r.A ^= r.B},
-                              {0xA9, () => r.A ^= r.C},
-                              {0xAA, () => r.A ^= r.D},
-                              {0xAB, () => r.A ^= r.E},
-                              {0xAC, () => r.A ^= r.H},
-                              {0xAD, () => r.A ^= r.L},
-                              {0xAE, () => r.A ^= ReadByte(r.HL)},
-                              {0xEE, () => r.A ^= ReadByte()},
+                              {0xAF, () => Xor(r.A)},
+                              {0xA8, () => Xor(r.B)},
+                              {0xA9, () => Xor(r.C)},
+                              {0xAA, () => Xor(r.D)},
+                              {0xAB, () => Xor(r.E)},
+                              {0xAC, () => Xor(r.H)},
+                              {0xAD, () => Xor(r.L)},
+                              {0xAE, () => Xor(ReadByte(r.HL))},
+                              {0xEE, () => Xor(ReadByte())},
 
                               // OR X
-                              {0xB7, () => r.A |= r.A},
-                              {0xB0, () => r.A |= r.B},
-                              {0xB1, () => r.A |= r.C},
-                              {0xB2, () => r.A |= r.D},
-                              {0xB3, () => r.A |= r.E},
-                              {0xB4, () => r.A |= r.H},
-                              {0xB5, () => r.A |= r.L},
-                              {0xB6, () => r.A |= ReadByte(r.HL)},
-                              {0xF6, () => r.A |= ReadByte()},
+                              {0xB7, () => Or(r.A)},
+                              {0xB0, () => Or(r.B)},
+                              {0xB1, () => Or(r.C)},
+                              {0xB2, () => Or(r.D)},
+                              {0xB3, () => Or(r.E)},
+                              {0xB4, () => Or(r.H)},
+                              {0xB5, () => Or(r.L)},
+                              {0xB6, () => Or(ReadByte(r.HL))},
+                              {0xF6, () => Or(ReadByte())},
 
                               // CP X
-                              {0xBF, () => r.FlagZ = r.A == r.A},
-                              {0xB8, () => r.FlagZ = r.A == r.B},
-                              {0xB9, () => r.FlagZ = r.A == r.C},
-                              {0xBA, () => r.FlagZ = r.A == r.D},
-                              {0xBB, () => r.FlagZ = r.A == r.E},
-                              {0xBC, () => r.FlagZ = r.A == r.H},
-                              {0xBD, () => r.FlagZ = r.A == r.L},
-                              {0xBE, () => r.FlagZ = r.A == ReadByte(r.HL)},
-                              {0xFE, () => r.FlagZ = r.A == ReadByte()},
+                              {0xBF, () => Cp(r.A)},
+                              {0xB8, () => Cp(r.B)},
+                              {0xB9, () => Cp(r.C)},
+                              {0xBA, () => Cp(r.D)},
+                              {0xBB, () => Cp(r.E)},
+                              {0xBC, () => Cp(r.H)},
+                              {0xBD, () => Cp(r.L)},
+                              {0xBE, () => Cp(ReadByte(r.HL))},
+                              {0xFE, () => Cp(ReadByte())},
 
                               // Branch Control/Program Counter Load Instructions
 
@@ -486,7 +448,7 @@ namespace RomTools
                               {0xD0, () => { if(!r.FlagC) Ret(); } },
                               {0xD8, () => { if(r.FlagC) Ret(); } },
                               // 0xE0, 0xE8: RET PO/PE changed in gameboy
-                              // 0xF0: RET P changed ing gameboy
+                              // 0xF0: RET P changed in gameboy
 
                               // RST X
                               {0xC7, () => Call(0) },
@@ -501,16 +463,16 @@ namespace RomTools
                               // Stack Operation Instructions
 
                               // PUSH X
-                              {0xC5, () => { WriteByte(r.SP-2, r.C); WriteByte(r.SP-1, r.B); r.SP -= 2; } },
-                              {0xD5, () => { WriteByte(r.SP-2, r.E); WriteByte(r.SP-1, r.D); r.SP -= 2; } },
-                              {0xE5, () => { WriteByte(r.SP-2, r.L); WriteByte(r.SP-1, r.H); r.SP -= 2; } },
-                              {0xF5, () => { WriteByte(r.SP-2, r.F); WriteByte(r.SP-1, r.A); r.SP -= 2; } },
+                              {0xC5, () => { WriteByte(--r.SP, r.B); WriteByte(--r.SP, r.C); } },
+                              {0xD5, () => { WriteByte(--r.SP, r.D); WriteByte(--r.SP, r.E); } },
+                              {0xE5, () => { WriteByte(--r.SP, r.H); WriteByte(--r.SP, r.L); } },
+                              {0xF5, () => { WriteByte(--r.SP, r.A); WriteByte(--r.SP, r.F); } },
 
                               // POP X
-                              {0xC1, () => { r.B = ReadByte(r.SP+1); r.C = ReadByte(r.SP); r.SP += 2; } },
-                              {0xD1, () => { r.D = ReadByte(r.SP+1); r.E = ReadByte(r.SP); r.SP += 2; } },
-                              {0xE1, () => { r.H = ReadByte(r.SP+1); r.L = ReadByte(r.SP); r.SP += 2; } },
-                              {0xF1, () => { r.A = ReadByte(r.SP+1); r.F = ReadByte(r.SP); r.SP += 2; } },
+                              {0xC1, () => { r.C = ReadByte(r.SP); r.B = ReadByte(++r.SP); } },
+                              {0xD1, () => { r.E = ReadByte(r.SP); r.D = ReadByte(++r.SP); } },
+                              {0xE1, () => { r.L = ReadByte(r.SP); r.H = ReadByte(++r.SP); } },
+                              {0xF1, () => { r.F = ReadByte(r.SP); r.A = ReadByte(++r.SP); } },
 
                               // No IN/OUT instructions for Gameboy
 

@@ -43,8 +43,10 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="OpcodeExtractor.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="TimingsExtractor.cs" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\Assembler\Assembler.csproj">

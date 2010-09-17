@@ -104,29 +104,5 @@ namespace RomTools
             get { return F.GetBit(7); }
             set { F = F.SetBit(7, value); }
         }
-
-
-        public void Add(ref byte b, int value)
-        {
-            byte oldValue = b;
-            b = (byte)(b + value);
-            SetFlags(oldValue, b, value);
-
-            FlagN = false;
-            // http://www.spuify.co.uk/?p=220
-            FlagH = (value ^ oldValue ^ b).GetBit(1);
-
-        }
-
-        public void SetFlags(byte oldValue, byte newValue, int valueAdded)
-        {
-            
-
-            FlagS = newValue < 0;
-            FlagZ = newValue == 0;
-            FlagP = (int)oldValue + valueAdded > 255 || (int)oldValue - valueAdded < 0;
-            // WARN: Should check to see if carry first!
-            //FlagC = 
-        }
     }
 }
