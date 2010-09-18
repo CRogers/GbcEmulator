@@ -1,246 +1,506 @@
 <?xml version="1.0"?>
-<ArrayOfOpcode xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema">
-  <Opcode Op="NOP" OpRegex="NOP[\s;]" Code="0" BytesFollowing="0" Description="No Operation" />
-  <Opcode Op="LD BC,nn" OpRegex="LD\s+BC\s*,\s*([0-9A-F]{1,4}h|(6553[0-5]|655[0-2]\d|65[0-4]\d\d|6[0-4]\d{1,3}|[0-5]?\d{1,4})|(-(3276[0-8]|327[0-5]\d|32[0-6]\d\d|3[01]\d{1,3}|[0-2]?\d{1,4})))[\s;]" Code="1" BytesFollowing="2" Description="Load 16-bit immediate into BC" />
-  <Opcode Op="LD (BC),A" OpRegex="LD\s+\(BC\)\s*,\s*A[\s;]" Code="2" BytesFollowing="0" Description="Save A to address pointed by BC" />
-  <Opcode Op="INC BC" OpRegex="INC\s+BC[\s;]" Code="3" BytesFollowing="0" Description="Increment 16-bit BC" />
-  <Opcode Op="INC B" OpRegex="INC\s+B[\s;]" Code="4" BytesFollowing="0" Description="Increment B" />
-  <Opcode Op="DEC B" OpRegex="DEC\s+B[\s;]" Code="5" BytesFollowing="0" Description="Decrement B" />
-  <Opcode Op="LD B,n" OpRegex="LD\s+B\s*,\s*([0-9A-F]{1,2}h|-(1[0-2][0-8]|1[01]\d|\d?\d)|(2[0-5][0-5]|2[0-4]\d|1?\d?\d))[\s;]" Code="6" BytesFollowing="1" Description="Load 8-bit immediate into B" />
-  <Opcode Op="RLC A" OpRegex="RLC\s+A[\s;]" Code="7" BytesFollowing="0" Description="Rotate A left with carry" />
-  <Opcode Op="LD (nn),SP" OpRegex="LD\s+\(([0-9A-F]{1,4}h|(6553[0-5]|655[0-2]\d|65[0-4]\d\d|6[0-4]\d{1,3}|[0-5]?\d{1,4})|(-(3276[0-8]|327[0-5]\d|32[0-6]\d\d|3[01]\d{1,3}|[0-2]?\d{1,4}))\)\s*,\s*SP)[\s;]" Code="8" BytesFollowing="2" Description="Save SP to given address" />
-  <Opcode Op="ADD HL,BC" OpRegex="ADD\s+HL\s*,\s*BC[\s;]" Code="9" BytesFollowing="0" Description="Add 16-bit BC to HL" />
-  <Opcode Op="LD A,(BC)" OpRegex="LD\s+A\s*,\s*\(BC\)[\s;]" Code="10" BytesFollowing="0" Description="Load A from address pointed to by BC" />
-  <Opcode Op="DEC BC" OpRegex="DEC\s+BC[\s;]" Code="11" BytesFollowing="0" Description="Decrement 16-bit BC" />
-  <Opcode Op="INC C" OpRegex="INC\s+C[\s;]" Code="12" BytesFollowing="0" Description="Increment C" />
-  <Opcode Op="DEC C" OpRegex="DEC\s+C[\s;]" Code="13" BytesFollowing="0" Description="Decrement C" />
-  <Opcode Op="LD C,n" OpRegex="LD\s+C\s*,\s*([0-9A-F]{1,2}h|-(1[0-2][0-8]|1[01]\d|\d?\d)|(2[0-5][0-5]|2[0-4]\d|1?\d?\d))[\s;]" Code="14" BytesFollowing="1" Description="Load 8-bit immediate into C" />
-  <Opcode Op="RRC A" OpRegex="RRC\s+A[\s;]" Code="15" BytesFollowing="0" Description="Rotate A right with carry" />
-  <Opcode Op="STOP" OpRegex="STOP[\s;]" Code="16" BytesFollowing="0" Description="Stop processor" />
-  <Opcode Op="LD DE,nn" OpRegex="LD\s+DE\s*,\s*([0-9A-F]{1,4}h|(6553[0-5]|655[0-2]\d|65[0-4]\d\d|6[0-4]\d{1,3}|[0-5]?\d{1,4})|(-(3276[0-8]|327[0-5]\d|32[0-6]\d\d|3[01]\d{1,3}|[0-2]?\d{1,4})))[\s;]" Code="17" BytesFollowing="2" Description="Load 16-bit immediate into DE" />
-  <Opcode Op="LD (DE),A" OpRegex="LD\s+\(DE\)\s*,\s*A[\s;]" Code="18" BytesFollowing="0" Description="Save A to address pointed by DE" />
-  <Opcode Op="INC DE" OpRegex="INC\s+DE[\s;]" Code="19" BytesFollowing="0" Description="Increment 16-bit DE" />
-  <Opcode Op="INC D" OpRegex="INC\s+D[\s;]" Code="20" BytesFollowing="0" Description="Increment D" />
-  <Opcode Op="DEC D" OpRegex="DEC\s+D[\s;]" Code="21" BytesFollowing="0" Description="Decrement D" />
-  <Opcode Op="LD D,n" OpRegex="LD\s+D\s*,\s*([0-9A-F]{1,2}h|-(1[0-2][0-8]|1[01]\d|\d?\d)|(2[0-5][0-5]|2[0-4]\d|1?\d?\d))[\s;]" Code="22" BytesFollowing="1" Description="Load 8-bit immediate into D" />
-  <Opcode Op="RL A" OpRegex="RL\s+A[\s;]" Code="23" BytesFollowing="0" Description="Rotate A left" />
-  <Opcode Op="JR n" OpRegex="JR\s+([0-9A-F]{1,2}h|-(1[0-2][0-8]|1[01]\d|\d?\d)|(2[0-5][0-5]|2[0-4]\d|1?\d?\d))[\s;]" Code="24" BytesFollowing="1" Description="Relative jump by signed immediate" />
-  <Opcode Op="ADD HL,DE" OpRegex="ADD\s+HL\s*,\s*DE[\s;]" Code="25" BytesFollowing="0" Description="Add 16-bit DE to HL" />
-  <Opcode Op="LD A,(DE)" OpRegex="LD\s+A\s*,\s*\(DE\)[\s;]" Code="26" BytesFollowing="0" Description="Load A from address pointed to by DE" />
-  <Opcode Op="DEC DE" OpRegex="DEC\s+DE[\s;]" Code="27" BytesFollowing="0" Description="Decrement 16-bit DE" />
-  <Opcode Op="INC E" OpRegex="INC\s+E[\s;]" Code="28" BytesFollowing="0" Description="Increment E" />
-  <Opcode Op="DEC E" OpRegex="DEC\s+E[\s;]" Code="29" BytesFollowing="0" Description="Decrement E" />
-  <Opcode Op="LD E,n" OpRegex="LD\s+E\s*,\s*([0-9A-F]{1,2}h|-(1[0-2][0-8]|1[01]\d|\d?\d)|(2[0-5][0-5]|2[0-4]\d|1?\d?\d))[\s;]" Code="30" BytesFollowing="1" Description="Load 8-bit immediate into E" />
-  <Opcode Op="RR A" OpRegex="RR\s+A[\s;]" Code="31" BytesFollowing="0" Description="Rotate A right" />
-  <Opcode Op="JR NZ,n" OpRegex="JR\s+NZ\s*,\s*([0-9A-F]{1,2}h|-(1[0-2][0-8]|1[01]\d|\d?\d)|(2[0-5][0-5]|2[0-4]\d|1?\d?\d))[\s;]" Code="32" BytesFollowing="1" Description="Relative jump by signed immediate if last result was not zero" />
-  <Opcode Op="LD HL,nn" OpRegex="LD\s+HL\s*,\s*([0-9A-F]{1,4}h|(6553[0-5]|655[0-2]\d|65[0-4]\d\d|6[0-4]\d{1,3}|[0-5]?\d{1,4})|(-(3276[0-8]|327[0-5]\d|32[0-6]\d\d|3[01]\d{1,3}|[0-2]?\d{1,4})))[\s;]" Code="33" BytesFollowing="2" Description="Load 16-bit immediate into HL" />
-  <Opcode Op="LDI (HL),A" OpRegex="LDI\s+\(HL\)\s*,\s*A[\s;]" Code="34" BytesFollowing="0" Description="Save A to address pointed by HL, and increment HL" />
-  <Opcode Op="INC HL" OpRegex="INC\s+HL[\s;]" Code="35" BytesFollowing="0" Description="Increment 16-bit HL" />
-  <Opcode Op="INC H" OpRegex="INC\s+H[\s;]" Code="36" BytesFollowing="0" Description="Increment H" />
-  <Opcode Op="DEC H" OpRegex="DEC\s+H[\s;]" Code="37" BytesFollowing="0" Description="Decrement H" />
-  <Opcode Op="LD H,n" OpRegex="LD\s+H\s*,\s*([0-9A-F]{1,2}h|-(1[0-2][0-8]|1[01]\d|\d?\d)|(2[0-5][0-5]|2[0-4]\d|1?\d?\d))[\s;]" Code="38" BytesFollowing="1" Description="Load 8-bit immediate into H" />
-  <Opcode Op="DAA" OpRegex="DAA[\s;]" Code="39" BytesFollowing="0" Description="Adjust A for BCD addition" />
-  <Opcode Op="JR Z,n" OpRegex="JR\s+Z\s*,\s*([0-9A-F]{1,2}h|-(1[0-2][0-8]|1[01]\d|\d?\d)|(2[0-5][0-5]|2[0-4]\d|1?\d?\d))[\s;]" Code="40" BytesFollowing="1" Description="Relative jump by signed immediate if last result was zero" />
-  <Opcode Op="ADD HL,HL" OpRegex="ADD\s+HL\s*,\s*HL[\s;]" Code="41" BytesFollowing="0" Description="Add 16-bit HL to HL" />
-  <Opcode Op="LDI A,(HL)" OpRegex="LDI\s+A\s*,\s*\(HL\)[\s;]" Code="42" BytesFollowing="0" Description="Load A from address pointed to by HL, and increment HL" />
-  <Opcode Op="DEC HL" OpRegex="DEC\s+HL[\s;]" Code="43" BytesFollowing="0" Description="Decrement 16-bit HL" />
-  <Opcode Op="INC L" OpRegex="INC\s+L[\s;]" Code="44" BytesFollowing="0" Description="Increment L" />
-  <Opcode Op="DEC L" OpRegex="DEC\s+L[\s;]" Code="45" BytesFollowing="0" Description="Decrement L" />
-  <Opcode Op="LD L,n" OpRegex="LD\s+L\s*,\s*([0-9A-F]{1,2}h|-(1[0-2][0-8]|1[01]\d|\d?\d)|(2[0-5][0-5]|2[0-4]\d|1?\d?\d))[\s;]" Code="46" BytesFollowing="1" Description="Load 8-bit immediate into L" />
-  <Opcode Op="CPL" OpRegex="CPL[\s;]" Code="47" BytesFollowing="0" Description="Complement (logical NOT) on A" />
-  <Opcode Op="JR NC,n" OpRegex="JR\s+NC\s*,\s*([0-9A-F]{1,2}h|-(1[0-2][0-8]|1[01]\d|\d?\d)|(2[0-5][0-5]|2[0-4]\d|1?\d?\d))[\s;]" Code="48" BytesFollowing="1" Description="Relative jump by signed immediate if last result caused no carry" />
-  <Opcode Op="LD SP,nn" OpRegex="LD\s+SP\s*,\s*([0-9A-F]{1,4}h|(6553[0-5]|655[0-2]\d|65[0-4]\d\d|6[0-4]\d{1,3}|[0-5]?\d{1,4})|(-(3276[0-8]|327[0-5]\d|32[0-6]\d\d|3[01]\d{1,3}|[0-2]?\d{1,4})))[\s;]" Code="49" BytesFollowing="2" Description="Load 16-bit immediate into SP" />
-  <Opcode Op="LDD (HL),A" OpRegex="LDD\s+\(HL\)\s*,\s*A[\s;]" Code="50" BytesFollowing="0" Description="Save A to address pointed by HL, and decrement HL" />
-  <Opcode Op="INC SP" OpRegex="INC\s+SP[\s;]" Code="51" BytesFollowing="0" Description="Increment 16-bit HL" />
-  <Opcode Op="INC (HL)" OpRegex="INC\s+\(HL\)[\s;]" Code="52" BytesFollowing="0" Description="Increment value pointed by HL" />
-  <Opcode Op="DEC (HL)" OpRegex="DEC\s+\(HL\)[\s;]" Code="53" BytesFollowing="0" Description="Decrement value pointed by HL" />
-  <Opcode Op="LD (HL),n" OpRegex="LD\s+\(HL\)\s*,\s*([0-9A-F]{1,2}h|-(1[0-2][0-8]|1[01]\d|\d?\d)|(2[0-5][0-5]|2[0-4]\d|1?\d?\d))[\s;]" Code="54" BytesFollowing="1" Description="Load 8-bit immediate into address pointed by HL" />
-  <Opcode Op="SCF" OpRegex="SCF[\s;]" Code="55" BytesFollowing="0" Description="Set carry flag" />
-  <Opcode Op="JR C,n" OpRegex="JR\s+C\s*,\s*([0-9A-F]{1,2}h|-(1[0-2][0-8]|1[01]\d|\d?\d)|(2[0-5][0-5]|2[0-4]\d|1?\d?\d))[\s;]" Code="56" BytesFollowing="1" Description="Relative jump by signed immediate if last result caused carry" />
-  <Opcode Op="ADD HL,SP" OpRegex="ADD\s+HL\s*,\s*SP[\s;]" Code="57" BytesFollowing="0" Description="Add 16-bit SP to HL" />
-  <Opcode Op="LDD A,(HL)" OpRegex="LDD\s+A\s*,\s*\(HL\)[\s;]" Code="58" BytesFollowing="0" Description="Load A from address pointed to by HL, and decrement HL" />
-  <Opcode Op="DEC SP" OpRegex="DEC\s+SP[\s;]" Code="59" BytesFollowing="0" Description="Decrement 16-bit SP" />
-  <Opcode Op="INC A" OpRegex="INC\s+A[\s;]" Code="60" BytesFollowing="0" Description="Increment A" />
-  <Opcode Op="DEC A" OpRegex="DEC\s+A[\s;]" Code="61" BytesFollowing="0" Description="Decrement A" />
-  <Opcode Op="LD A,n" OpRegex="LD\s+A\s*,\s*([0-9A-F]{1,2}h|-(1[0-2][0-8]|1[01]\d|\d?\d)|(2[0-5][0-5]|2[0-4]\d|1?\d?\d))[\s;]" Code="62" BytesFollowing="1" Description="Load 8-bit immediate into A" />
-  <Opcode Op="CCF" OpRegex="CCF[\s;]" Code="63" BytesFollowing="0" Description="Clear carry flag" />
-  <Opcode Op="LD B,B" OpRegex="LD\s+B\s*,\s*B[\s;]" Code="64" BytesFollowing="0" Description="Copy B to B" />
-  <Opcode Op="LD B,C" OpRegex="LD\s+B\s*,\s*C[\s;]" Code="65" BytesFollowing="0" Description="Copy C to B" />
-  <Opcode Op="LD B,D" OpRegex="LD\s+B\s*,\s*D[\s;]" Code="66" BytesFollowing="0" Description="Copy D to B" />
-  <Opcode Op="LD B,E" OpRegex="LD\s+B\s*,\s*E[\s;]" Code="67" BytesFollowing="0" Description="Copy E to B" />
-  <Opcode Op="LD B,H" OpRegex="LD\s+B\s*,\s*H[\s;]" Code="68" BytesFollowing="0" Description="Copy H to B" />
-  <Opcode Op="LD B,L" OpRegex="LD\s+B\s*,\s*L[\s;]" Code="69" BytesFollowing="0" Description="Copy L to B" />
-  <Opcode Op="LD B,(HL)" OpRegex="LD\s+B\s*,\s*\(HL\)[\s;]" Code="70" BytesFollowing="0" Description="Copy value pointed by HL to B" />
-  <Opcode Op="LD B,A" OpRegex="LD\s+B\s*,\s*A[\s;]" Code="71" BytesFollowing="0" Description="Copy A to B" />
-  <Opcode Op="LD C,B" OpRegex="LD\s+C\s*,\s*B[\s;]" Code="72" BytesFollowing="0" Description="Copy B to C" />
-  <Opcode Op="LD C,C" OpRegex="LD\s+C\s*,\s*C[\s;]" Code="73" BytesFollowing="0" Description="Copy C to C" />
-  <Opcode Op="LD C,D" OpRegex="LD\s+C\s*,\s*D[\s;]" Code="74" BytesFollowing="0" Description="Copy D to C" />
-  <Opcode Op="LD C,E" OpRegex="LD\s+C\s*,\s*E[\s;]" Code="75" BytesFollowing="0" Description="Copy E to C" />
-  <Opcode Op="LD C,H" OpRegex="LD\s+C\s*,\s*H[\s;]" Code="76" BytesFollowing="0" Description="Copy H to C" />
-  <Opcode Op="LD C,L" OpRegex="LD\s+C\s*,\s*L[\s;]" Code="77" BytesFollowing="0" Description="Copy L to C" />
-  <Opcode Op="LD C,(HL)" OpRegex="LD\s+C\s*,\s*\(HL\)[\s;]" Code="78" BytesFollowing="0" Description="Copy value pointed by HL to C" />
-  <Opcode Op="LD C,A" OpRegex="LD\s+C\s*,\s*A[\s;]" Code="79" BytesFollowing="0" Description="Copy A to C" />
-  <Opcode Op="LD D,B" OpRegex="LD\s+D\s*,\s*B[\s;]" Code="80" BytesFollowing="0" Description="Copy B to D" />
-  <Opcode Op="LD D,C" OpRegex="LD\s+D\s*,\s*C[\s;]" Code="81" BytesFollowing="0" Description="Copy C to D" />
-  <Opcode Op="LD D,D" OpRegex="LD\s+D\s*,\s*D[\s;]" Code="82" BytesFollowing="0" Description="Copy D to D" />
-  <Opcode Op="LD D,E" OpRegex="LD\s+D\s*,\s*E[\s;]" Code="83" BytesFollowing="0" Description="Copy E to D" />
-  <Opcode Op="LD D,H" OpRegex="LD\s+D\s*,\s*H[\s;]" Code="84" BytesFollowing="0" Description="Copy H to D" />
-  <Opcode Op="LD D,L" OpRegex="LD\s+D\s*,\s*L[\s;]" Code="85" BytesFollowing="0" Description="Copy L to D" />
-  <Opcode Op="LD D,(HL)" OpRegex="LD\s+D\s*,\s*\(HL\)[\s;]" Code="86" BytesFollowing="0" Description="Copy value pointed by HL to D" />
-  <Opcode Op="LD D,A" OpRegex="LD\s+D\s*,\s*A[\s;]" Code="87" BytesFollowing="0" Description="Copy A to D" />
-  <Opcode Op="LD E,B" OpRegex="LD\s+E\s*,\s*B[\s;]" Code="88" BytesFollowing="0" Description="Copy B to E" />
-  <Opcode Op="LD E,C" OpRegex="LD\s+E\s*,\s*C[\s;]" Code="89" BytesFollowing="0" Description="Copy C to E" />
-  <Opcode Op="LD E,D" OpRegex="LD\s+E\s*,\s*D[\s;]" Code="90" BytesFollowing="0" Description="Copy D to E" />
-  <Opcode Op="LD E,E" OpRegex="LD\s+E\s*,\s*E[\s;]" Code="91" BytesFollowing="0" Description="Copy E to E" />
-  <Opcode Op="LD E,H" OpRegex="LD\s+E\s*,\s*H[\s;]" Code="92" BytesFollowing="0" Description="Copy H to E" />
-  <Opcode Op="LD E,L" OpRegex="LD\s+E\s*,\s*L[\s;]" Code="93" BytesFollowing="0" Description="Copy L to E" />
-  <Opcode Op="LD E,(HL)" OpRegex="LD\s+E\s*,\s*\(HL\)[\s;]" Code="94" BytesFollowing="0" Description="Copy value pointed by HL to E" />
-  <Opcode Op="LD E,A" OpRegex="LD\s+E\s*,\s*A[\s;]" Code="95" BytesFollowing="0" Description="Copy A to E" />
-  <Opcode Op="LD H,B" OpRegex="LD\s+H\s*,\s*B[\s;]" Code="96" BytesFollowing="0" Description="Copy B to H" />
-  <Opcode Op="LD H,C" OpRegex="LD\s+H\s*,\s*C[\s;]" Code="97" BytesFollowing="0" Description="Copy C to H" />
-  <Opcode Op="LD H,D" OpRegex="LD\s+H\s*,\s*D[\s;]" Code="98" BytesFollowing="0" Description="Copy D to H" />
-  <Opcode Op="LD H,E" OpRegex="LD\s+H\s*,\s*E[\s;]" Code="99" BytesFollowing="0" Description="Copy E to H" />
-  <Opcode Op="LD H,H" OpRegex="LD\s+H\s*,\s*H[\s;]" Code="100" BytesFollowing="0" Description="Copy H to H" />
-  <Opcode Op="LD H,L" OpRegex="LD\s+H\s*,\s*L[\s;]" Code="101" BytesFollowing="0" Description="Copy L to H" />
-  <Opcode Op="LD H,(HL)" OpRegex="LD\s+H\s*,\s*\(HL\)[\s;]" Code="102" BytesFollowing="0" Description="Copy value pointed by HL to H" />
-  <Opcode Op="LD H,A" OpRegex="LD\s+H\s*,\s*A[\s;]" Code="103" BytesFollowing="0" Description="Copy A to H" />
-  <Opcode Op="LD L,B" OpRegex="LD\s+L\s*,\s*B[\s;]" Code="104" BytesFollowing="0" Description="Copy B to L" />
-  <Opcode Op="LD L,C" OpRegex="LD\s+L\s*,\s*C[\s;]" Code="105" BytesFollowing="0" Description="Copy C to L" />
-  <Opcode Op="LD L,D" OpRegex="LD\s+L\s*,\s*D[\s;]" Code="106" BytesFollowing="0" Description="Copy D to L" />
-  <Opcode Op="LD L,E" OpRegex="LD\s+L\s*,\s*E[\s;]" Code="107" BytesFollowing="0" Description="Copy E to L" />
-  <Opcode Op="LD L,H" OpRegex="LD\s+L\s*,\s*H[\s;]" Code="108" BytesFollowing="0" Description="Copy H to L" />
-  <Opcode Op="LD L,L" OpRegex="LD\s+L\s*,\s*L[\s;]" Code="109" BytesFollowing="0" Description="Copy L to L" />
-  <Opcode Op="LD L,(HL)" OpRegex="LD\s+L\s*,\s*\(HL\)[\s;]" Code="110" BytesFollowing="0" Description="Copy value pointed by HL to L" />
-  <Opcode Op="LD L,A" OpRegex="LD\s+L\s*,\s*A[\s;]" Code="111" BytesFollowing="0" Description="Copy A to L" />
-  <Opcode Op="LD (HL),B" OpRegex="LD\s+\(HL\)\s*,\s*B[\s;]" Code="112" BytesFollowing="0" Description="Copy B to address pointed by HL" />
-  <Opcode Op="LD (HL),C" OpRegex="LD\s+\(HL\)\s*,\s*C[\s;]" Code="113" BytesFollowing="0" Description="Copy C to address pointed by HL" />
-  <Opcode Op="LD (HL),D" OpRegex="LD\s+\(HL\)\s*,\s*D[\s;]" Code="114" BytesFollowing="0" Description="Copy D to address pointed by HL" />
-  <Opcode Op="LD (HL),E" OpRegex="LD\s+\(HL\)\s*,\s*E[\s;]" Code="115" BytesFollowing="0" Description="Copy E to address pointed by HL" />
-  <Opcode Op="LD (HL),H" OpRegex="LD\s+\(HL\)\s*,\s*H[\s;]" Code="116" BytesFollowing="0" Description="Copy H to address pointed by HL" />
-  <Opcode Op="LD (HL),L" OpRegex="LD\s+\(HL\)\s*,\s*L[\s;]" Code="117" BytesFollowing="0" Description="Copy L to address pointed by HL" />
-  <Opcode Op="HALT" OpRegex="HALT[\s;]" Code="118" BytesFollowing="0" Description="Halt processor" />
-  <Opcode Op="LD (HL),A" OpRegex="LD\s+\(HL\)\s*,\s*A[\s;]" Code="119" BytesFollowing="0" Description="Copy A to address pointed by HL" />
-  <Opcode Op="LD A,B" OpRegex="LD\s+A\s*,\s*B[\s;]" Code="120" BytesFollowing="0" Description="Copy B to A" />
-  <Opcode Op="LD A,C" OpRegex="LD\s+A\s*,\s*C[\s;]" Code="121" BytesFollowing="0" Description="Copy C to A" />
-  <Opcode Op="LD A,D" OpRegex="LD\s+A\s*,\s*D[\s;]" Code="122" BytesFollowing="0" Description="Copy D to A" />
-  <Opcode Op="LD A,E" OpRegex="LD\s+A\s*,\s*E[\s;]" Code="123" BytesFollowing="0" Description="Copy E to A" />
-  <Opcode Op="LD A,H" OpRegex="LD\s+A\s*,\s*H[\s;]" Code="124" BytesFollowing="0" Description="Copy H to A" />
-  <Opcode Op="LD A,L" OpRegex="LD\s+A\s*,\s*L[\s;]" Code="125" BytesFollowing="0" Description="Copy L to A" />
-  <Opcode Op="LD A,(HL)" OpRegex="LD\s+A\s*,\s*\(HL\)[\s;]" Code="126" BytesFollowing="0" Description="Copy value pointed by HL to A" />
-  <Opcode Op="LD A,A" OpRegex="LD\s+A\s*,\s*A[\s;]" Code="127" BytesFollowing="0" Description="Copy A to A" />
-  <Opcode Op="ADD A,B" OpRegex="ADD\s+A\s*,\s*B[\s;]" Code="128" BytesFollowing="0" Description="Add B to A" />
-  <Opcode Op="ADD A,C" OpRegex="ADD\s+A\s*,\s*C[\s;]" Code="129" BytesFollowing="0" Description="Add C to A" />
-  <Opcode Op="ADD A,D" OpRegex="ADD\s+A\s*,\s*D[\s;]" Code="130" BytesFollowing="0" Description="Add D to A" />
-  <Opcode Op="ADD A,E" OpRegex="ADD\s+A\s*,\s*E[\s;]" Code="131" BytesFollowing="0" Description="Add E to A" />
-  <Opcode Op="ADD A,H" OpRegex="ADD\s+A\s*,\s*H[\s;]" Code="132" BytesFollowing="0" Description="Add H to A" />
-  <Opcode Op="ADD A,L" OpRegex="ADD\s+A\s*,\s*L[\s;]" Code="133" BytesFollowing="0" Description="Add L to A" />
-  <Opcode Op="ADD A,(HL)" OpRegex="ADD\s+A\s*,\s*\(HL\)[\s;]" Code="134" BytesFollowing="0" Description="Add value pointed by HL to A" />
-  <Opcode Op="ADD A,A" OpRegex="ADD\s+A\s*,\s*A[\s;]" Code="135" BytesFollowing="0" Description="Add A to A" />
-  <Opcode Op="ADC A,B" OpRegex="ADC\s+A\s*,\s*B[\s;]" Code="136" BytesFollowing="0" Description="Add B and carry flag to A" />
-  <Opcode Op="ADC A,C" OpRegex="ADC\s+A\s*,\s*C[\s;]" Code="137" BytesFollowing="0" Description="Add C and carry flag to A" />
-  <Opcode Op="ADC A,D" OpRegex="ADC\s+A\s*,\s*D[\s;]" Code="138" BytesFollowing="0" Description="Add D and carry flag to A" />
-  <Opcode Op="ADC A,E" OpRegex="ADC\s+A\s*,\s*E[\s;]" Code="139" BytesFollowing="0" Description="Add E and carry flag to A" />
-  <Opcode Op="ADC A,H" OpRegex="ADC\s+A\s*,\s*H[\s;]" Code="140" BytesFollowing="0" Description="Add H and carry flag to A" />
-  <Opcode Op="ADC A,L" OpRegex="ADC\s+A\s*,\s*L[\s;]" Code="141" BytesFollowing="0" Description="Add and carry flag L to A" />
-  <Opcode Op="ADC A,(HL)" OpRegex="ADC\s+A\s*,\s*\(HL\)[\s;]" Code="142" BytesFollowing="0" Description="Add value pointed by HL and carry flag to A" />
-  <Opcode Op="ADC A,A" OpRegex="ADC\s+A\s*,\s*A[\s;]" Code="143" BytesFollowing="0" Description="Add A and carry flag to A" />
-  <Opcode Op="SUB A,B" OpRegex="SUB\s+A\s*,\s*B[\s;]" Code="144" BytesFollowing="0" Description="Subtract B from A" />
-  <Opcode Op="SUB A,C" OpRegex="SUB\s+A\s*,\s*C[\s;]" Code="145" BytesFollowing="0" Description="Subtract C from A" />
-  <Opcode Op="SUB A,D" OpRegex="SUB\s+A\s*,\s*D[\s;]" Code="146" BytesFollowing="0" Description="Subtract D from A" />
-  <Opcode Op="SUB A,E" OpRegex="SUB\s+A\s*,\s*E[\s;]" Code="147" BytesFollowing="0" Description="Subtract E from A" />
-  <Opcode Op="SUB A,H" OpRegex="SUB\s+A\s*,\s*H[\s;]" Code="148" BytesFollowing="0" Description="Subtract H from A" />
-  <Opcode Op="SUB A,L" OpRegex="SUB\s+A\s*,\s*L[\s;]" Code="149" BytesFollowing="0" Description="Subtract L from A" />
-  <Opcode Op="SUB A,(HL)" OpRegex="SUB\s+A\s*,\s*\(HL\)[\s;]" Code="150" BytesFollowing="0" Description="Subtract value pointed by HL from A" />
-  <Opcode Op="SUB A,A" OpRegex="SUB\s+A\s*,\s*A[\s;]" Code="151" BytesFollowing="0" Description="Subtract A from A" />
-  <Opcode Op="SBC A,B" OpRegex="SBC\s+A\s*,\s*B[\s;]" Code="152" BytesFollowing="0" Description="Subtract B and carry flag from A" />
-  <Opcode Op="SBC A,C" OpRegex="SBC\s+A\s*,\s*C[\s;]" Code="153" BytesFollowing="0" Description="Subtract C and carry flag from A" />
-  <Opcode Op="SBC A,D" OpRegex="SBC\s+A\s*,\s*D[\s;]" Code="154" BytesFollowing="0" Description="Subtract D and carry flag from A" />
-  <Opcode Op="SBC A,E" OpRegex="SBC\s+A\s*,\s*E[\s;]" Code="155" BytesFollowing="0" Description="Subtract E and carry flag from A" />
-  <Opcode Op="SBC A,H" OpRegex="SBC\s+A\s*,\s*H[\s;]" Code="156" BytesFollowing="0" Description="Subtract H and carry flag from A" />
-  <Opcode Op="SBC A,L" OpRegex="SBC\s+A\s*,\s*L[\s;]" Code="157" BytesFollowing="0" Description="Subtract and carry flag L from A" />
-  <Opcode Op="SBC A,(HL)" OpRegex="SBC\s+A\s*,\s*\(HL\)[\s;]" Code="158" BytesFollowing="0" Description="Subtract value pointed by HL and carry flag from A" />
-  <Opcode Op="SBC A,A" OpRegex="SBC\s+A\s*,\s*A[\s;]" Code="159" BytesFollowing="0" Description="Subtract A and carry flag from A" />
-  <Opcode Op="AND B" OpRegex="AND\s+B[\s;]" Code="160" BytesFollowing="0" Description="Logical AND B against A" />
-  <Opcode Op="AND C" OpRegex="AND\s+C[\s;]" Code="161" BytesFollowing="0" Description="Logical AND C against A" />
-  <Opcode Op="AND D" OpRegex="AND\s+D[\s;]" Code="162" BytesFollowing="0" Description="Logical AND D against A" />
-  <Opcode Op="AND E" OpRegex="AND\s+E[\s;]" Code="163" BytesFollowing="0" Description="Logical AND E against A" />
-  <Opcode Op="AND H" OpRegex="AND\s+H[\s;]" Code="164" BytesFollowing="0" Description="Logical AND H against A" />
-  <Opcode Op="AND L" OpRegex="AND\s+L[\s;]" Code="165" BytesFollowing="0" Description="Logical AND L against A" />
-  <Opcode Op="AND (HL)" OpRegex="AND\s+\(HL\)[\s;]" Code="166" BytesFollowing="0" Description="Logical AND value pointed by HL against A" />
-  <Opcode Op="AND A" OpRegex="AND\s+A[\s;]" Code="167" BytesFollowing="0" Description="Logical AND A against A" />
-  <Opcode Op="XOR B" OpRegex="XOR\s+B[\s;]" Code="168" BytesFollowing="0" Description="Logical XOR B against A" />
-  <Opcode Op="XOR C" OpRegex="XOR\s+C[\s;]" Code="169" BytesFollowing="0" Description="Logical XOR C against A" />
-  <Opcode Op="XOR D" OpRegex="XOR\s+D[\s;]" Code="170" BytesFollowing="0" Description="Logical XOR D against A" />
-  <Opcode Op="XOR E" OpRegex="XOR\s+E[\s;]" Code="171" BytesFollowing="0" Description="Logical XOR E against A" />
-  <Opcode Op="XOR H" OpRegex="XOR\s+H[\s;]" Code="172" BytesFollowing="0" Description="Logical XOR H against A" />
-  <Opcode Op="XOR L" OpRegex="XOR\s+L[\s;]" Code="173" BytesFollowing="0" Description="Logical XOR L against A" />
-  <Opcode Op="XOR (HL)" OpRegex="XOR\s+\(HL\)[\s;]" Code="174" BytesFollowing="0" Description="Logical XOR value pointed by HL against A" />
-  <Opcode Op="XOR A" OpRegex="XOR\s+A[\s;]" Code="175" BytesFollowing="0" Description="Logical XOR A against A" />
-  <Opcode Op="OR B" OpRegex="OR\s+B[\s;]" Code="176" BytesFollowing="0" Description="Logical OR B against A" />
-  <Opcode Op="OR C" OpRegex="OR\s+C[\s;]" Code="177" BytesFollowing="0" Description="Logical OR C against A" />
-  <Opcode Op="OR D" OpRegex="OR\s+D[\s;]" Code="178" BytesFollowing="0" Description="Logical OR D against A" />
-  <Opcode Op="OR E" OpRegex="OR\s+E[\s;]" Code="179" BytesFollowing="0" Description="Logical OR E against A" />
-  <Opcode Op="OR H" OpRegex="OR\s+H[\s;]" Code="180" BytesFollowing="0" Description="Logical OR H against A" />
-  <Opcode Op="OR L" OpRegex="OR\s+L[\s;]" Code="181" BytesFollowing="0" Description="Logical OR L against A" />
-  <Opcode Op="OR (HL)" OpRegex="OR\s+\(HL\)[\s;]" Code="182" BytesFollowing="0" Description="Logical OR value pointed by HL against A" />
-  <Opcode Op="OR A" OpRegex="OR\s+A[\s;]" Code="183" BytesFollowing="0" Description="Logical OR A against A" />
-  <Opcode Op="CP B" OpRegex="CP\s+B[\s;]" Code="184" BytesFollowing="0" Description="Compare B against A" />
-  <Opcode Op="CP C" OpRegex="CP\s+C[\s;]" Code="185" BytesFollowing="0" Description="Compare C against A" />
-  <Opcode Op="CP D" OpRegex="CP\s+D[\s;]" Code="186" BytesFollowing="0" Description="Compare D against A" />
-  <Opcode Op="CP E" OpRegex="CP\s+E[\s;]" Code="187" BytesFollowing="0" Description="Compare E against A" />
-  <Opcode Op="CP H" OpRegex="CP\s+H[\s;]" Code="188" BytesFollowing="0" Description="Compare H against A" />
-  <Opcode Op="CP L" OpRegex="CP\s+L[\s;]" Code="189" BytesFollowing="0" Description="Compare L against A" />
-  <Opcode Op="CP (HL)" OpRegex="CP\s+\(HL\)[\s;]" Code="190" BytesFollowing="0" Description="Compare value pointed by HL against A" />
-  <Opcode Op="CP A" OpRegex="CP\s+A[\s;]" Code="191" BytesFollowing="0" Description="Compare A against A" />
-  <Opcode Op="RET NZ" OpRegex="RET\s+NZ[\s;]" Code="192" BytesFollowing="0" Description="Return if last result was not zero" />
-  <Opcode Op="POP BC" OpRegex="POP\s+BC[\s;]" Code="193" BytesFollowing="0" Description="Pop 16-bit value from stack into BC" />
-  <Opcode Op="JP NZ,nn" OpRegex="JP\s+NZ\s*,\s*([0-9A-F]{1,4}h|(6553[0-5]|655[0-2]\d|65[0-4]\d\d|6[0-4]\d{1,3}|[0-5]?\d{1,4})|(-(3276[0-8]|327[0-5]\d|32[0-6]\d\d|3[01]\d{1,3}|[0-2]?\d{1,4}))|[_a-zA-Z]\w+)[\s;]" Code="194" BytesFollowing="2" Description="Absolute jump to 16-bit location if last result was not zero" />
-  <Opcode Op="JP nn" OpRegex="JP\s+([0-9A-F]{1,4}h|(6553[0-5]|655[0-2]\d|65[0-4]\d\d|6[0-4]\d{1,3}|[0-5]?\d{1,4})|(-(3276[0-8]|327[0-5]\d|32[0-6]\d\d|3[01]\d{1,3}|[0-2]?\d{1,4}))|[_a-zA-Z]\w+)[\s;]" Code="195" BytesFollowing="2" Description="Absolute jump to 16-bit location" />
-  <Opcode Op="CALL NZ,nn" OpRegex="CALL\s+NZ\s*,\s*([0-9A-F]{1,4}h|(6553[0-5]|655[0-2]\d|65[0-4]\d\d|6[0-4]\d{1,3}|[0-5]?\d{1,4})|(-(3276[0-8]|327[0-5]\d|32[0-6]\d\d|3[01]\d{1,3}|[0-2]?\d{1,4})))[\s;]" Code="196" BytesFollowing="2" Description="Call routine at 16-bit location if last result was not zero" />
-  <Opcode Op="PUSH BC" OpRegex="PUSH\s+BC[\s;]" Code="197" BytesFollowing="0" Description="Push 16-bit BC onto stack" />
-  <Opcode Op="ADD A,n" OpRegex="ADD\s+A\s*,\s*([0-9A-F]{1,2}h|-(1[0-2][0-8]|1[01]\d|\d?\d)|(2[0-5][0-5]|2[0-4]\d|1?\d?\d))[\s;]" Code="198" BytesFollowing="1" Description="Add 8-bit immediate to A" />
-  <Opcode Op="RST 0" OpRegex="RST\s+0[\s;]" Code="199" BytesFollowing="0" Description="Call routine at address 0000h" />
-  <Opcode Op="RET Z" OpRegex="RET\s+Z[\s;]" Code="200" BytesFollowing="0" Description="Return if last result was zero" />
-  <Opcode Op="RET" OpRegex="RET[\s;]" Code="201" BytesFollowing="0" Description="Return to calling routine" />
-  <Opcode Op="JP Z,nn" OpRegex="JP\s+Z\s*,\s*([0-9A-F]{1,4}h|(6553[0-5]|655[0-2]\d|65[0-4]\d\d|6[0-4]\d{1,3}|[0-5]?\d{1,4})|(-(3276[0-8]|327[0-5]\d|32[0-6]\d\d|3[01]\d{1,3}|[0-2]?\d{1,4}))|[_a-zA-Z]\w+)[\s;]" Code="202" BytesFollowing="2" Description="Absolute jump to 16-bit location if last result was zero" />
-  <Opcode Op="CALL Z,nn" OpRegex="CALL\s+Z\s*,\s*([0-9A-F]{1,4}h|(6553[0-5]|655[0-2]\d|65[0-4]\d\d|6[0-4]\d{1,3}|[0-5]?\d{1,4})|(-(3276[0-8]|327[0-5]\d|32[0-6]\d\d|3[01]\d{1,3}|[0-2]?\d{1,4})))[\s;]" Code="204" BytesFollowing="2" Description="Call routine at 16-bit location if last result was zero" />
-  <Opcode Op="CALL nn" OpRegex="CALL\s+([0-9A-F]{1,4}h|(6553[0-5]|655[0-2]\d|65[0-4]\d\d|6[0-4]\d{1,3}|[0-5]?\d{1,4})|(-(3276[0-8]|327[0-5]\d|32[0-6]\d\d|3[01]\d{1,3}|[0-2]?\d{1,4})))[\s;]" Code="205" BytesFollowing="2" Description="Call routine at 16-bit location" />
-  <Opcode Op="ADC A,n" OpRegex="ADC\s+A\s*,\s*([0-9A-F]{1,2}h|-(1[0-2][0-8]|1[01]\d|\d?\d)|(2[0-5][0-5]|2[0-4]\d|1?\d?\d))[\s;]" Code="206" BytesFollowing="1" Description="Add 8-bit immediate and carry to A" />
-  <Opcode Op="RST 8" OpRegex="RST\s+8[\s;]" Code="207" BytesFollowing="0" Description="Call routine at address 0008h" />
-  <Opcode Op="RET NC" OpRegex="RET\s+NC[\s;]" Code="208" BytesFollowing="0" Description="Return if last result caused no carry" />
-  <Opcode Op="POP DE" OpRegex="POP\s+DE[\s;]" Code="209" BytesFollowing="0" Description="Pop 16-bit value from stack into DE" />
-  <Opcode Op="JP NC,nn" OpRegex="JP\s+NC\s*,\s*([0-9A-F]{1,4}h|(6553[0-5]|655[0-2]\d|65[0-4]\d\d|6[0-4]\d{1,3}|[0-5]?\d{1,4})|(-(3276[0-8]|327[0-5]\d|32[0-6]\d\d|3[01]\d{1,3}|[0-2]?\d{1,4}))|[_a-zA-Z]\w+)[\s;]" Code="210" BytesFollowing="2" Description="Absolute jump to 16-bit location if last result caused no carry" />
-  <Opcode Op="CALL NC,nn" OpRegex="CALL\s+NC\s*,\s*([0-9A-F]{1,4}h|(6553[0-5]|655[0-2]\d|65[0-4]\d\d|6[0-4]\d{1,3}|[0-5]?\d{1,4})|(-(3276[0-8]|327[0-5]\d|32[0-6]\d\d|3[01]\d{1,3}|[0-2]?\d{1,4})))[\s;]" Code="212" BytesFollowing="2" Description="Call routine at 16-bit location if last result caused no carry" />
-  <Opcode Op="PUSH DE" OpRegex="PUSH\s+DE[\s;]" Code="213" BytesFollowing="0" Description="Push 16-bit DE onto stack" />
-  <Opcode Op="SUB A,n" OpRegex="SUB\s+A\s*,\s*([0-9A-F]{1,2}h|-(1[0-2][0-8]|1[01]\d|\d?\d)|(2[0-5][0-5]|2[0-4]\d|1?\d?\d))[\s;]" Code="214" BytesFollowing="1" Description="Subtract 8-bit immediate from A" />
-  <Opcode Op="RST 10" OpRegex="RST\s+10[\s;]" Code="215" BytesFollowing="0" Description="Call routine at address 0010h" />
-  <Opcode Op="RET C" OpRegex="RET\s+C[\s;]" Code="216" BytesFollowing="0" Description="Return if last result caused carry" />
-  <Opcode Op="RETI" OpRegex="RETI[\s;]" Code="217" BytesFollowing="0" Description="Enable interrupts and return to calling routine" />
-  <Opcode Op="JP C,nn" OpRegex="JP\s+C\s*,\s*([0-9A-F]{1,4}h|(6553[0-5]|655[0-2]\d|65[0-4]\d\d|6[0-4]\d{1,3}|[0-5]?\d{1,4})|(-(3276[0-8]|327[0-5]\d|32[0-6]\d\d|3[01]\d{1,3}|[0-2]?\d{1,4}))|[_a-zA-Z]\w+)[\s;]" Code="218" BytesFollowing="2" Description="Absolute jump to 16-bit location if last result caused carry" />
-  <Opcode Op="CALL C,nn" OpRegex="CALL\s+C\s*,\s*([0-9A-F]{1,4}h|(6553[0-5]|655[0-2]\d|65[0-4]\d\d|6[0-4]\d{1,3}|[0-5]?\d{1,4})|(-(3276[0-8]|327[0-5]\d|32[0-6]\d\d|3[01]\d{1,3}|[0-2]?\d{1,4})))[\s;]" Code="220" BytesFollowing="2" Description="Call routine at 16-bit location if last result caused carry" />
-  <Opcode Op="SBC A,n" OpRegex="SBC\s+A\s*,\s*([0-9A-F]{1,2}h|-(1[0-2][0-8]|1[01]\d|\d?\d)|(2[0-5][0-5]|2[0-4]\d|1?\d?\d))[\s;]" Code="222" BytesFollowing="1" Description="Subtract 8-bit immediate and carry from A" />
-  <Opcode Op="RST 18" OpRegex="RST\s+18[\s;]" Code="223" BytesFollowing="0" Description="Call routine at address 0018h" />
-  <Opcode Op="LDH (n),A" OpRegex="LDH\s+\(([0-9A-F]{1,2}h|-(1[0-2][0-8]|1[01]\d|\d?\d)|(2[0-5][0-5]|2[0-4]\d|1?\d?\d)\)\s*,\s*A)[\s;]" Code="224" BytesFollowing="1" Description="Save A at address pointed to by (FF00h + 8-bit immediate)" />
-  <Opcode Op="POP HL" OpRegex="POP\s+HL[\s;]" Code="225" BytesFollowing="0" Description="Pop 16-bit value from stack into HL" />
-  <Opcode Op="LDH (C),A" OpRegex="LDH\s+\(C\)\s*,\s*A[\s;]" Code="226" BytesFollowing="0" Description="Save A at address pointed to by (FF00h + C)" />
-  <Opcode Op="PUSH HL" OpRegex="PUSH\s+HL[\s;]" Code="229" BytesFollowing="0" Description="Push 16-bit HL onto stack" />
-  <Opcode Op="AND n" OpRegex="AND\s+([0-9A-F]{1,2}h|-(1[0-2][0-8]|1[01]\d|\d?\d)|(2[0-5][0-5]|2[0-4]\d|1?\d?\d))[\s;]" Code="230" BytesFollowing="1" Description="Logical AND 8-bit immediate against A" />
-  <Opcode Op="RST 20" OpRegex="RST\s+20[\s;]" Code="231" BytesFollowing="0" Description="Call routine at address 0020h" />
-  <Opcode Op="ADD SP,d" OpRegex="ADD\s+SP\s*,\s*d[\s;]" Code="232" BytesFollowing="0" Description="Add signed 8-bit immediate to SP" />
-  <Opcode Op="JP (HL)" OpRegex="JP\s+\(HL\)|[_a-zA-Z]\w+[\s;]" Code="233" BytesFollowing="0" Description="Jump to 16-bit value pointed by HL" />
-  <Opcode Op="LD (nn),A" OpRegex="LD\s+\(([0-9A-F]{1,4}h|(6553[0-5]|655[0-2]\d|65[0-4]\d\d|6[0-4]\d{1,3}|[0-5]?\d{1,4})|(-(3276[0-8]|327[0-5]\d|32[0-6]\d\d|3[01]\d{1,3}|[0-2]?\d{1,4}))\)\s*,\s*A)[\s;]" Code="234" BytesFollowing="2" Description="Save A at given 16-bit address" />
-  <Opcode Op="XOR n" OpRegex="XOR\s+([0-9A-F]{1,2}h|-(1[0-2][0-8]|1[01]\d|\d?\d)|(2[0-5][0-5]|2[0-4]\d|1?\d?\d))[\s;]" Code="238" BytesFollowing="1" Description="Logical XOR 8-bit immediate against A" />
-  <Opcode Op="RST 28" OpRegex="RST\s+28[\s;]" Code="239" BytesFollowing="0" Description="Call routine at address 0028h" />
-  <Opcode Op="LDH A,(n)" OpRegex="LDH\s+A\s*,\s*\(([0-9A-F]{1,2}h|-(1[0-2][0-8]|1[01]\d|\d?\d)|(2[0-5][0-5]|2[0-4]\d|1?\d?\d)\))[\s;]" Code="240" BytesFollowing="1" Description="Load A from address pointed to by (FF00h + 8-bit immediate)" />
-  <Opcode Op="POP AF" OpRegex="POP\s+AF[\s;]" Code="241" BytesFollowing="0" Description="Pop 16-bit value from stack into AF" />
-  <Opcode Op="DI" OpRegex="DI[\s;]" Code="243" BytesFollowing="0" Description="DIsable interrupts" />
-  <Opcode Op="PUSH AF" OpRegex="PUSH\s+AF[\s;]" Code="245" BytesFollowing="0" Description="Push 16-bit AF onto stack" />
-  <Opcode Op="OR n" OpRegex="OR\s+([0-9A-F]{1,2}h|-(1[0-2][0-8]|1[01]\d|\d?\d)|(2[0-5][0-5]|2[0-4]\d|1?\d?\d))[\s;]" Code="246" BytesFollowing="1" Description="Logical OR 8-bit immediate against A" />
-  <Opcode Op="RST 30" OpRegex="RST\s+30[\s;]" Code="247" BytesFollowing="0" Description="Call routine at address 0030h" />
-  <Opcode Op="LDHL SP,d" OpRegex="LDHL\s+SP\s*,\s*d[\s;]" Code="248" BytesFollowing="0" Description="Add signed 8-bit immediate to SP and save result in HL" />
-  <Opcode Op="LD SP,HL" OpRegex="LD\s+SP\s*,\s*HL[\s;]" Code="249" BytesFollowing="0" Description="Copy HL to SP" />
-  <Opcode Op="LD A,(nn)" OpRegex="LD\s+A\s*,\s*\(([0-9A-F]{1,4}h|(6553[0-5]|655[0-2]\d|65[0-4]\d\d|6[0-4]\d{1,3}|[0-5]?\d{1,4})|(-(3276[0-8]|327[0-5]\d|32[0-6]\d\d|3[01]\d{1,3}|[0-2]?\d{1,4}))\))[\s;]" Code="250" BytesFollowing="2" Description="Load A from given 16-bit address" />
-  <Opcode Op="EI" OpRegex="EI[\s;]" Code="251" BytesFollowing="0" Description="Enable interrupts" />
-  <Opcode Op="CP n" OpRegex="CP\s+([0-9A-F]{1,2}h|-(1[0-2][0-8]|1[01]\d|\d?\d)|(2[0-5][0-5]|2[0-4]\d|1?\d?\d))[\s;]" Code="254" BytesFollowing="1" Description="Compare 8-bit immediate against A" />
-  <Opcode Op="RST 38" OpRegex="RST\s+38[\s;]" Code="255" BytesFollowing="0" Description="Call routine at address 0038h" />
-</ArrayOfOpcode>
+<ArrayOfArrayOfOpcode xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema">
+  <ArrayOfOpcode>
+    <Opcode Op="NOP" OpRegex="NOP[\s;]" Code="0" BytesFollowing="0" Description="No Operation" />
+    <Opcode Op="LD BC,##" OpRegex="LD\s+BC\s*,\s*([0-9A-F]{1,4}h|(6553[0-5]|655[0-2]\d|65[0-4]\d\d|6[0-4]\d{1,3}|[0-5]?\d{1,4})|(-(3276[0-8]|327[0-5]\d|32[0-6]\d\d|3[01]\d{1,3}|[0-2]?\d{1,4})))[\s;]" Code="1" BytesFollowing="2" Description="Load 16-bit immediate into BC" />
+    <Opcode Op="LD (BC),A" OpRegex="LD\s+\(BC\)\s*,\s*A[\s;]" Code="2" BytesFollowing="0" Description="Save A to address pointed by BC" />
+    <Opcode Op="INC BC" OpRegex="INC\s+BC[\s;]" Code="3" BytesFollowing="0" Description="Increment 16-bit BC" />
+    <Opcode Op="INC B" OpRegex="INC\s+B[\s;]" Code="4" BytesFollowing="0" Description="Increment B" />
+    <Opcode Op="DEC B" OpRegex="DEC\s+B[\s;]" Code="5" BytesFollowing="0" Description="Decrement B" />
+    <Opcode Op="LD B,#" OpRegex="LD\s+B\s*,\s*([0-9A-F]{1,2}h|-(1[0-2][0-8]|1[01]\d|\d?\d)|(2[0-5][0-5]|2[0-4]\d|1?\d?\d))[\s;]" Code="6" BytesFollowing="1" Description="Load 8-bit immediate into B" />
+    <Opcode Op="RLC A" OpRegex="RLC\s+A[\s;]" Code="7" BytesFollowing="0" Description="Rotate A left with carry" />
+    <Opcode Op="LD (##),SP" OpRegex="LD\s+\(([0-9A-F]{1,4}h|(6553[0-5]|655[0-2]\d|65[0-4]\d\d|6[0-4]\d{1,3}|[0-5]?\d{1,4})|(-(3276[0-8]|327[0-5]\d|32[0-6]\d\d|3[01]\d{1,3}|[0-2]?\d{1,4}))\)\s*,\s*SP)[\s;]" Code="8" BytesFollowing="2" Description="Save SP to given address" />
+    <Opcode Op="ADD HL,BC" OpRegex="ADD\s+HL\s*,\s*BC[\s;]" Code="9" BytesFollowing="0" Description="Add 16-bit BC to HL" />
+    <Opcode Op="LD A,(BC)" OpRegex="LD\s+A\s*,\s*\(BC\)[\s;]" Code="10" BytesFollowing="0" Description="Load A from address pointed to by BC" />
+    <Opcode Op="DEC BC" OpRegex="DEC\s+BC[\s;]" Code="11" BytesFollowing="0" Description="Decrement 16-bit BC" />
+    <Opcode Op="INC C" OpRegex="INC\s+C[\s;]" Code="12" BytesFollowing="0" Description="Increment C" />
+    <Opcode Op="DEC C" OpRegex="DEC\s+C[\s;]" Code="13" BytesFollowing="0" Description="Decrement C" />
+    <Opcode Op="LD C,#" OpRegex="LD\s+C\s*,\s*([0-9A-F]{1,2}h|-(1[0-2][0-8]|1[01]\d|\d?\d)|(2[0-5][0-5]|2[0-4]\d|1?\d?\d))[\s;]" Code="14" BytesFollowing="1" Description="Load 8-bit immediate into C" />
+    <Opcode Op="RRC A" OpRegex="RRC\s+A[\s;]" Code="15" BytesFollowing="0" Description="Rotate A right with carry" />
+    <Opcode Op="STOP" OpRegex="STOP[\s;]" Code="16" BytesFollowing="0" Description="Stop processor" />
+    <Opcode Op="LD DE,##" OpRegex="LD\s+DE\s*,\s*([0-9A-F]{1,4}h|(6553[0-5]|655[0-2]\d|65[0-4]\d\d|6[0-4]\d{1,3}|[0-5]?\d{1,4})|(-(3276[0-8]|327[0-5]\d|32[0-6]\d\d|3[01]\d{1,3}|[0-2]?\d{1,4})))[\s;]" Code="17" BytesFollowing="2" Description="Load 16-bit immediate into DE" />
+    <Opcode Op="LD (DE),A" OpRegex="LD\s+\(DE\)\s*,\s*A[\s;]" Code="18" BytesFollowing="0" Description="Save A to address pointed by DE" />
+    <Opcode Op="INC DE" OpRegex="INC\s+DE[\s;]" Code="19" BytesFollowing="0" Description="Increment 16-bit DE" />
+    <Opcode Op="INC D" OpRegex="INC\s+D[\s;]" Code="20" BytesFollowing="0" Description="Increment D" />
+    <Opcode Op="DEC D" OpRegex="DEC\s+D[\s;]" Code="21" BytesFollowing="0" Description="Decrement D" />
+    <Opcode Op="LD D,#" OpRegex="LD\s+D\s*,\s*([0-9A-F]{1,2}h|-(1[0-2][0-8]|1[01]\d|\d?\d)|(2[0-5][0-5]|2[0-4]\d|1?\d?\d))[\s;]" Code="22" BytesFollowing="1" Description="Load 8-bit immediate into D" />
+    <Opcode Op="RL A" OpRegex="RL\s+A[\s;]" Code="23" BytesFollowing="0" Description="Rotate A left" />
+    <Opcode Op="JR #" OpRegex="JR\s+([0-9A-F]{1,2}h|-(1[0-2][0-8]|1[01]\d|\d?\d)|(2[0-5][0-5]|2[0-4]\d|1?\d?\d))[\s;]" Code="24" BytesFollowing="1" Description="Relative jump by signed immediate" />
+    <Opcode Op="ADD HL,DE" OpRegex="ADD\s+HL\s*,\s*DE[\s;]" Code="25" BytesFollowing="0" Description="Add 16-bit DE to HL" />
+    <Opcode Op="LD A,(DE)" OpRegex="LD\s+A\s*,\s*\(DE\)[\s;]" Code="26" BytesFollowing="0" Description="Load A from address pointed to by DE" />
+    <Opcode Op="DEC DE" OpRegex="DEC\s+DE[\s;]" Code="27" BytesFollowing="0" Description="Decrement 16-bit DE" />
+    <Opcode Op="INC E" OpRegex="INC\s+E[\s;]" Code="28" BytesFollowing="0" Description="Increment E" />
+    <Opcode Op="DEC E" OpRegex="DEC\s+E[\s;]" Code="29" BytesFollowing="0" Description="Decrement E" />
+    <Opcode Op="LD E,#" OpRegex="LD\s+E\s*,\s*([0-9A-F]{1,2}h|-(1[0-2][0-8]|1[01]\d|\d?\d)|(2[0-5][0-5]|2[0-4]\d|1?\d?\d))[\s;]" Code="30" BytesFollowing="1" Description="Load 8-bit immediate into E" />
+    <Opcode Op="RR A" OpRegex="RR\s+A[\s;]" Code="31" BytesFollowing="0" Description="Rotate A right" />
+    <Opcode Op="JR NZ,#" OpRegex="JR\s+NZ\s*,\s*([0-9A-F]{1,2}h|-(1[0-2][0-8]|1[01]\d|\d?\d)|(2[0-5][0-5]|2[0-4]\d|1?\d?\d))[\s;]" Code="32" BytesFollowing="1" Description="Relative jump by signed immediate if last result was not zero" />
+    <Opcode Op="LD HL,##" OpRegex="LD\s+HL\s*,\s*([0-9A-F]{1,4}h|(6553[0-5]|655[0-2]\d|65[0-4]\d\d|6[0-4]\d{1,3}|[0-5]?\d{1,4})|(-(3276[0-8]|327[0-5]\d|32[0-6]\d\d|3[01]\d{1,3}|[0-2]?\d{1,4})))[\s;]" Code="33" BytesFollowing="2" Description="Load 16-bit immediate into HL" />
+    <Opcode Op="LDI (HL),A" OpRegex="LDI\s+\(HL\)\s*,\s*A[\s;]" Code="34" BytesFollowing="0" Description="Save A to address pointed by HL, and increment HL" />
+    <Opcode Op="INC HL" OpRegex="INC\s+HL[\s;]" Code="35" BytesFollowing="0" Description="Increment 16-bit HL" />
+    <Opcode Op="INC H" OpRegex="INC\s+H[\s;]" Code="36" BytesFollowing="0" Description="Increment H" />
+    <Opcode Op="DEC H" OpRegex="DEC\s+H[\s;]" Code="37" BytesFollowing="0" Description="Decrement H" />
+    <Opcode Op="LD H,#" OpRegex="LD\s+H\s*,\s*([0-9A-F]{1,2}h|-(1[0-2][0-8]|1[01]\d|\d?\d)|(2[0-5][0-5]|2[0-4]\d|1?\d?\d))[\s;]" Code="38" BytesFollowing="1" Description="Load 8-bit immediate into H" />
+    <Opcode Op="DAA" OpRegex="DAA[\s;]" Code="39" BytesFollowing="0" Description="Adjust A for BCD addition" />
+    <Opcode Op="JR Z,#" OpRegex="JR\s+Z\s*,\s*([0-9A-F]{1,2}h|-(1[0-2][0-8]|1[01]\d|\d?\d)|(2[0-5][0-5]|2[0-4]\d|1?\d?\d))[\s;]" Code="40" BytesFollowing="1" Description="Relative jump by signed immediate if last result was zero" />
+    <Opcode Op="ADD HL,HL" OpRegex="ADD\s+HL\s*,\s*HL[\s;]" Code="41" BytesFollowing="0" Description="Add 16-bit HL to HL" />
+    <Opcode Op="LDI A,(HL)" OpRegex="LDI\s+A\s*,\s*\(HL\)[\s;]" Code="42" BytesFollowing="0" Description="Load A from address pointed to by HL, and increment HL" />
+    <Opcode Op="DEC HL" OpRegex="DEC\s+HL[\s;]" Code="43" BytesFollowing="0" Description="Decrement 16-bit HL" />
+    <Opcode Op="INC L" OpRegex="INC\s+L[\s;]" Code="44" BytesFollowing="0" Description="Increment L" />
+    <Opcode Op="DEC L" OpRegex="DEC\s+L[\s;]" Code="45" BytesFollowing="0" Description="Decrement L" />
+    <Opcode Op="LD L,#" OpRegex="LD\s+L\s*,\s*([0-9A-F]{1,2}h|-(1[0-2][0-8]|1[01]\d|\d?\d)|(2[0-5][0-5]|2[0-4]\d|1?\d?\d))[\s;]" Code="46" BytesFollowing="1" Description="Load 8-bit immediate into L" />
+    <Opcode Op="CPL" OpRegex="CPL[\s;]" Code="47" BytesFollowing="0" Description="Complement (logical NOT) on A" />
+    <Opcode Op="JR NC,#" OpRegex="JR\s+NC\s*,\s*([0-9A-F]{1,2}h|-(1[0-2][0-8]|1[01]\d|\d?\d)|(2[0-5][0-5]|2[0-4]\d|1?\d?\d))[\s;]" Code="48" BytesFollowing="1" Description="Relative jump by signed immediate if last result caused no carry" />
+    <Opcode Op="LD SP,##" OpRegex="LD\s+SP\s*,\s*([0-9A-F]{1,4}h|(6553[0-5]|655[0-2]\d|65[0-4]\d\d|6[0-4]\d{1,3}|[0-5]?\d{1,4})|(-(3276[0-8]|327[0-5]\d|32[0-6]\d\d|3[01]\d{1,3}|[0-2]?\d{1,4})))[\s;]" Code="49" BytesFollowing="2" Description="Load 16-bit immediate into SP" />
+    <Opcode Op="LDD (HL),A" OpRegex="LDD\s+\(HL\)\s*,\s*A[\s;]" Code="50" BytesFollowing="0" Description="Save A to address pointed by HL, and decrement HL" />
+    <Opcode Op="INC SP" OpRegex="INC\s+SP[\s;]" Code="51" BytesFollowing="0" Description="Increment 16-bit HL" />
+    <Opcode Op="INC (HL)" OpRegex="INC\s+\(HL\)[\s;]" Code="52" BytesFollowing="0" Description="Increment value pointed by HL" />
+    <Opcode Op="DEC (HL)" OpRegex="DEC\s+\(HL\)[\s;]" Code="53" BytesFollowing="0" Description="Decrement value pointed by HL" />
+    <Opcode Op="LD (HL),#" OpRegex="LD\s+\(HL\)\s*,\s*([0-9A-F]{1,2}h|-(1[0-2][0-8]|1[01]\d|\d?\d)|(2[0-5][0-5]|2[0-4]\d|1?\d?\d))[\s;]" Code="54" BytesFollowing="1" Description="Load 8-bit immediate into address pointed by HL" />
+    <Opcode Op="SCF" OpRegex="SCF[\s;]" Code="55" BytesFollowing="0" Description="Set carry flag" />
+    <Opcode Op="JR C,#" OpRegex="JR\s+C\s*,\s*([0-9A-F]{1,2}h|-(1[0-2][0-8]|1[01]\d|\d?\d)|(2[0-5][0-5]|2[0-4]\d|1?\d?\d))[\s;]" Code="56" BytesFollowing="1" Description="Relative jump by signed immediate if last result caused carry" />
+    <Opcode Op="ADD HL,SP" OpRegex="ADD\s+HL\s*,\s*SP[\s;]" Code="57" BytesFollowing="0" Description="Add 16-bit SP to HL" />
+    <Opcode Op="LDD A,(HL)" OpRegex="LDD\s+A\s*,\s*\(HL\)[\s;]" Code="58" BytesFollowing="0" Description="Load A from address pointed to by HL, and decrement HL" />
+    <Opcode Op="DEC SP" OpRegex="DEC\s+SP[\s;]" Code="59" BytesFollowing="0" Description="Decrement 16-bit SP" />
+    <Opcode Op="INC A" OpRegex="INC\s+A[\s;]" Code="60" BytesFollowing="0" Description="Increment A" />
+    <Opcode Op="DEC A" OpRegex="DEC\s+A[\s;]" Code="61" BytesFollowing="0" Description="Decrement A" />
+    <Opcode Op="LD A,#" OpRegex="LD\s+A\s*,\s*([0-9A-F]{1,2}h|-(1[0-2][0-8]|1[01]\d|\d?\d)|(2[0-5][0-5]|2[0-4]\d|1?\d?\d))[\s;]" Code="62" BytesFollowing="1" Description="Load 8-bit immediate into A" />
+    <Opcode Op="CCF" OpRegex="CCF[\s;]" Code="63" BytesFollowing="0" Description="Clear carry flag" />
+    <Opcode Op="LD B,B" OpRegex="LD\s+B\s*,\s*B[\s;]" Code="64" BytesFollowing="0" Description="Copy B to B" />
+    <Opcode Op="LD B,C" OpRegex="LD\s+B\s*,\s*C[\s;]" Code="65" BytesFollowing="0" Description="Copy C to B" />
+    <Opcode Op="LD B,D" OpRegex="LD\s+B\s*,\s*D[\s;]" Code="66" BytesFollowing="0" Description="Copy D to B" />
+    <Opcode Op="LD B,E" OpRegex="LD\s+B\s*,\s*E[\s;]" Code="67" BytesFollowing="0" Description="Copy E to B" />
+    <Opcode Op="LD B,H" OpRegex="LD\s+B\s*,\s*H[\s;]" Code="68" BytesFollowing="0" Description="Copy H to B" />
+    <Opcode Op="LD B,L" OpRegex="LD\s+B\s*,\s*L[\s;]" Code="69" BytesFollowing="0" Description="Copy L to B" />
+    <Opcode Op="LD B,(HL)" OpRegex="LD\s+B\s*,\s*\(HL\)[\s;]" Code="70" BytesFollowing="0" Description="Copy value pointed by HL to B" />
+    <Opcode Op="LD B,A" OpRegex="LD\s+B\s*,\s*A[\s;]" Code="71" BytesFollowing="0" Description="Copy A to B" />
+    <Opcode Op="LD C,B" OpRegex="LD\s+C\s*,\s*B[\s;]" Code="72" BytesFollowing="0" Description="Copy B to C" />
+    <Opcode Op="LD C,C" OpRegex="LD\s+C\s*,\s*C[\s;]" Code="73" BytesFollowing="0" Description="Copy C to C" />
+    <Opcode Op="LD C,D" OpRegex="LD\s+C\s*,\s*D[\s;]" Code="74" BytesFollowing="0" Description="Copy D to C" />
+    <Opcode Op="LD C,E" OpRegex="LD\s+C\s*,\s*E[\s;]" Code="75" BytesFollowing="0" Description="Copy E to C" />
+    <Opcode Op="LD C,H" OpRegex="LD\s+C\s*,\s*H[\s;]" Code="76" BytesFollowing="0" Description="Copy H to C" />
+    <Opcode Op="LD C,L" OpRegex="LD\s+C\s*,\s*L[\s;]" Code="77" BytesFollowing="0" Description="Copy L to C" />
+    <Opcode Op="LD C,(HL)" OpRegex="LD\s+C\s*,\s*\(HL\)[\s;]" Code="78" BytesFollowing="0" Description="Copy value pointed by HL to C" />
+    <Opcode Op="LD C,A" OpRegex="LD\s+C\s*,\s*A[\s;]" Code="79" BytesFollowing="0" Description="Copy A to C" />
+    <Opcode Op="LD D,B" OpRegex="LD\s+D\s*,\s*B[\s;]" Code="80" BytesFollowing="0" Description="Copy B to D" />
+    <Opcode Op="LD D,C" OpRegex="LD\s+D\s*,\s*C[\s;]" Code="81" BytesFollowing="0" Description="Copy C to D" />
+    <Opcode Op="LD D,D" OpRegex="LD\s+D\s*,\s*D[\s;]" Code="82" BytesFollowing="0" Description="Copy D to D" />
+    <Opcode Op="LD D,E" OpRegex="LD\s+D\s*,\s*E[\s;]" Code="83" BytesFollowing="0" Description="Copy E to D" />
+    <Opcode Op="LD D,H" OpRegex="LD\s+D\s*,\s*H[\s;]" Code="84" BytesFollowing="0" Description="Copy H to D" />
+    <Opcode Op="LD D,L" OpRegex="LD\s+D\s*,\s*L[\s;]" Code="85" BytesFollowing="0" Description="Copy L to D" />
+    <Opcode Op="LD D,(HL)" OpRegex="LD\s+D\s*,\s*\(HL\)[\s;]" Code="86" BytesFollowing="0" Description="Copy value pointed by HL to D" />
+    <Opcode Op="LD D,A" OpRegex="LD\s+D\s*,\s*A[\s;]" Code="87" BytesFollowing="0" Description="Copy A to D" />
+    <Opcode Op="LD E,B" OpRegex="LD\s+E\s*,\s*B[\s;]" Code="88" BytesFollowing="0" Description="Copy B to E" />
+    <Opcode Op="LD E,C" OpRegex="LD\s+E\s*,\s*C[\s;]" Code="89" BytesFollowing="0" Description="Copy C to E" />
+    <Opcode Op="LD E,D" OpRegex="LD\s+E\s*,\s*D[\s;]" Code="90" BytesFollowing="0" Description="Copy D to E" />
+    <Opcode Op="LD E,E" OpRegex="LD\s+E\s*,\s*E[\s;]" Code="91" BytesFollowing="0" Description="Copy E to E" />
+    <Opcode Op="LD E,H" OpRegex="LD\s+E\s*,\s*H[\s;]" Code="92" BytesFollowing="0" Description="Copy H to E" />
+    <Opcode Op="LD E,L" OpRegex="LD\s+E\s*,\s*L[\s;]" Code="93" BytesFollowing="0" Description="Copy L to E" />
+    <Opcode Op="LD E,(HL)" OpRegex="LD\s+E\s*,\s*\(HL\)[\s;]" Code="94" BytesFollowing="0" Description="Copy value pointed by HL to E" />
+    <Opcode Op="LD E,A" OpRegex="LD\s+E\s*,\s*A[\s;]" Code="95" BytesFollowing="0" Description="Copy A to E" />
+    <Opcode Op="LD H,B" OpRegex="LD\s+H\s*,\s*B[\s;]" Code="96" BytesFollowing="0" Description="Copy B to H" />
+    <Opcode Op="LD H,C" OpRegex="LD\s+H\s*,\s*C[\s;]" Code="97" BytesFollowing="0" Description="Copy C to H" />
+    <Opcode Op="LD H,D" OpRegex="LD\s+H\s*,\s*D[\s;]" Code="98" BytesFollowing="0" Description="Copy D to H" />
+    <Opcode Op="LD H,E" OpRegex="LD\s+H\s*,\s*E[\s;]" Code="99" BytesFollowing="0" Description="Copy E to H" />
+    <Opcode Op="LD H,H" OpRegex="LD\s+H\s*,\s*H[\s;]" Code="100" BytesFollowing="0" Description="Copy H to H" />
+    <Opcode Op="LD H,L" OpRegex="LD\s+H\s*,\s*L[\s;]" Code="101" BytesFollowing="0" Description="Copy L to H" />
+    <Opcode Op="LD H,(HL)" OpRegex="LD\s+H\s*,\s*\(HL\)[\s;]" Code="102" BytesFollowing="0" Description="Copy value pointed by HL to H" />
+    <Opcode Op="LD H,A" OpRegex="LD\s+H\s*,\s*A[\s;]" Code="103" BytesFollowing="0" Description="Copy A to H" />
+    <Opcode Op="LD L,B" OpRegex="LD\s+L\s*,\s*B[\s;]" Code="104" BytesFollowing="0" Description="Copy B to L" />
+    <Opcode Op="LD L,C" OpRegex="LD\s+L\s*,\s*C[\s;]" Code="105" BytesFollowing="0" Description="Copy C to L" />
+    <Opcode Op="LD L,D" OpRegex="LD\s+L\s*,\s*D[\s;]" Code="106" BytesFollowing="0" Description="Copy D to L" />
+    <Opcode Op="LD L,E" OpRegex="LD\s+L\s*,\s*E[\s;]" Code="107" BytesFollowing="0" Description="Copy E to L" />
+    <Opcode Op="LD L,H" OpRegex="LD\s+L\s*,\s*H[\s;]" Code="108" BytesFollowing="0" Description="Copy H to L" />
+    <Opcode Op="LD L,L" OpRegex="LD\s+L\s*,\s*L[\s;]" Code="109" BytesFollowing="0" Description="Copy L to L" />
+    <Opcode Op="LD L,(HL)" OpRegex="LD\s+L\s*,\s*\(HL\)[\s;]" Code="110" BytesFollowing="0" Description="Copy value pointed by HL to L" />
+    <Opcode Op="LD L,A" OpRegex="LD\s+L\s*,\s*A[\s;]" Code="111" BytesFollowing="0" Description="Copy A to L" />
+    <Opcode Op="LD (HL),B" OpRegex="LD\s+\(HL\)\s*,\s*B[\s;]" Code="112" BytesFollowing="0" Description="Copy B to address pointed by HL" />
+    <Opcode Op="LD (HL),C" OpRegex="LD\s+\(HL\)\s*,\s*C[\s;]" Code="113" BytesFollowing="0" Description="Copy C to address pointed by HL" />
+    <Opcode Op="LD (HL),D" OpRegex="LD\s+\(HL\)\s*,\s*D[\s;]" Code="114" BytesFollowing="0" Description="Copy D to address pointed by HL" />
+    <Opcode Op="LD (HL),E" OpRegex="LD\s+\(HL\)\s*,\s*E[\s;]" Code="115" BytesFollowing="0" Description="Copy E to address pointed by HL" />
+    <Opcode Op="LD (HL),H" OpRegex="LD\s+\(HL\)\s*,\s*H[\s;]" Code="116" BytesFollowing="0" Description="Copy H to address pointed by HL" />
+    <Opcode Op="LD (HL),L" OpRegex="LD\s+\(HL\)\s*,\s*L[\s;]" Code="117" BytesFollowing="0" Description="Copy L to address pointed by HL" />
+    <Opcode Op="HALT" OpRegex="HALT[\s;]" Code="118" BytesFollowing="0" Description="Halt processor" />
+    <Opcode Op="LD (HL),A" OpRegex="LD\s+\(HL\)\s*,\s*A[\s;]" Code="119" BytesFollowing="0" Description="Copy A to address pointed by HL" />
+    <Opcode Op="LD A,B" OpRegex="LD\s+A\s*,\s*B[\s;]" Code="120" BytesFollowing="0" Description="Copy B to A" />
+    <Opcode Op="LD A,C" OpRegex="LD\s+A\s*,\s*C[\s;]" Code="121" BytesFollowing="0" Description="Copy C to A" />
+    <Opcode Op="LD A,D" OpRegex="LD\s+A\s*,\s*D[\s;]" Code="122" BytesFollowing="0" Description="Copy D to A" />
+    <Opcode Op="LD A,E" OpRegex="LD\s+A\s*,\s*E[\s;]" Code="123" BytesFollowing="0" Description="Copy E to A" />
+    <Opcode Op="LD A,H" OpRegex="LD\s+A\s*,\s*H[\s;]" Code="124" BytesFollowing="0" Description="Copy H to A" />
+    <Opcode Op="LD A,L" OpRegex="LD\s+A\s*,\s*L[\s;]" Code="125" BytesFollowing="0" Description="Copy L to A" />
+    <Opcode Op="LD A,(HL)" OpRegex="LD\s+A\s*,\s*\(HL\)[\s;]" Code="126" BytesFollowing="0" Description="Copy value pointed by HL to A" />
+    <Opcode Op="LD A,A" OpRegex="LD\s+A\s*,\s*A[\s;]" Code="127" BytesFollowing="0" Description="Copy A to A" />
+    <Opcode Op="ADD A,B" OpRegex="ADD\s+A\s*,\s*B[\s;]" Code="128" BytesFollowing="0" Description="Add B to A" />
+    <Opcode Op="ADD A,C" OpRegex="ADD\s+A\s*,\s*C[\s;]" Code="129" BytesFollowing="0" Description="Add C to A" />
+    <Opcode Op="ADD A,D" OpRegex="ADD\s+A\s*,\s*D[\s;]" Code="130" BytesFollowing="0" Description="Add D to A" />
+    <Opcode Op="ADD A,E" OpRegex="ADD\s+A\s*,\s*E[\s;]" Code="131" BytesFollowing="0" Description="Add E to A" />
+    <Opcode Op="ADD A,H" OpRegex="ADD\s+A\s*,\s*H[\s;]" Code="132" BytesFollowing="0" Description="Add H to A" />
+    <Opcode Op="ADD A,L" OpRegex="ADD\s+A\s*,\s*L[\s;]" Code="133" BytesFollowing="0" Description="Add L to A" />
+    <Opcode Op="ADD A,(HL)" OpRegex="ADD\s+A\s*,\s*\(HL\)[\s;]" Code="134" BytesFollowing="0" Description="Add value pointed by HL to A" />
+    <Opcode Op="ADD A,A" OpRegex="ADD\s+A\s*,\s*A[\s;]" Code="135" BytesFollowing="0" Description="Add A to A" />
+    <Opcode Op="ADC A,B" OpRegex="ADC\s+A\s*,\s*B[\s;]" Code="136" BytesFollowing="0" Description="Add B and carry flag to A" />
+    <Opcode Op="ADC A,C" OpRegex="ADC\s+A\s*,\s*C[\s;]" Code="137" BytesFollowing="0" Description="Add C and carry flag to A" />
+    <Opcode Op="ADC A,D" OpRegex="ADC\s+A\s*,\s*D[\s;]" Code="138" BytesFollowing="0" Description="Add D and carry flag to A" />
+    <Opcode Op="ADC A,E" OpRegex="ADC\s+A\s*,\s*E[\s;]" Code="139" BytesFollowing="0" Description="Add E and carry flag to A" />
+    <Opcode Op="ADC A,H" OpRegex="ADC\s+A\s*,\s*H[\s;]" Code="140" BytesFollowing="0" Description="Add H and carry flag to A" />
+    <Opcode Op="ADC A,L" OpRegex="ADC\s+A\s*,\s*L[\s;]" Code="141" BytesFollowing="0" Description="Add and carry flag L to A" />
+    <Opcode Op="ADC A,(HL)" OpRegex="ADC\s+A\s*,\s*\(HL\)[\s;]" Code="142" BytesFollowing="0" Description="Add value pointed by HL and carry flag to A" />
+    <Opcode Op="ADC A,A" OpRegex="ADC\s+A\s*,\s*A[\s;]" Code="143" BytesFollowing="0" Description="Add A and carry flag to A" />
+    <Opcode Op="SUB A,B" OpRegex="SUB\s+A\s*,\s*B[\s;]" Code="144" BytesFollowing="0" Description="Subtract B from A" />
+    <Opcode Op="SUB A,C" OpRegex="SUB\s+A\s*,\s*C[\s;]" Code="145" BytesFollowing="0" Description="Subtract C from A" />
+    <Opcode Op="SUB A,D" OpRegex="SUB\s+A\s*,\s*D[\s;]" Code="146" BytesFollowing="0" Description="Subtract D from A" />
+    <Opcode Op="SUB A,E" OpRegex="SUB\s+A\s*,\s*E[\s;]" Code="147" BytesFollowing="0" Description="Subtract E from A" />
+    <Opcode Op="SUB A,H" OpRegex="SUB\s+A\s*,\s*H[\s;]" Code="148" BytesFollowing="0" Description="Subtract H from A" />
+    <Opcode Op="SUB A,L" OpRegex="SUB\s+A\s*,\s*L[\s;]" Code="149" BytesFollowing="0" Description="Subtract L from A" />
+    <Opcode Op="SUB A,(HL)" OpRegex="SUB\s+A\s*,\s*\(HL\)[\s;]" Code="150" BytesFollowing="0" Description="Subtract value pointed by HL from A" />
+    <Opcode Op="SUB A,A" OpRegex="SUB\s+A\s*,\s*A[\s;]" Code="151" BytesFollowing="0" Description="Subtract A from A" />
+    <Opcode Op="SBC A,B" OpRegex="SBC\s+A\s*,\s*B[\s;]" Code="152" BytesFollowing="0" Description="Subtract B and carry flag from A" />
+    <Opcode Op="SBC A,C" OpRegex="SBC\s+A\s*,\s*C[\s;]" Code="153" BytesFollowing="0" Description="Subtract C and carry flag from A" />
+    <Opcode Op="SBC A,D" OpRegex="SBC\s+A\s*,\s*D[\s;]" Code="154" BytesFollowing="0" Description="Subtract D and carry flag from A" />
+    <Opcode Op="SBC A,E" OpRegex="SBC\s+A\s*,\s*E[\s;]" Code="155" BytesFollowing="0" Description="Subtract E and carry flag from A" />
+    <Opcode Op="SBC A,H" OpRegex="SBC\s+A\s*,\s*H[\s;]" Code="156" BytesFollowing="0" Description="Subtract H and carry flag from A" />
+    <Opcode Op="SBC A,L" OpRegex="SBC\s+A\s*,\s*L[\s;]" Code="157" BytesFollowing="0" Description="Subtract and carry flag L from A" />
+    <Opcode Op="SBC A,(HL)" OpRegex="SBC\s+A\s*,\s*\(HL\)[\s;]" Code="158" BytesFollowing="0" Description="Subtract value pointed by HL and carry flag from A" />
+    <Opcode Op="SBC A,A" OpRegex="SBC\s+A\s*,\s*A[\s;]" Code="159" BytesFollowing="0" Description="Subtract A and carry flag from A" />
+    <Opcode Op="AND B" OpRegex="AND\s+B[\s;]" Code="160" BytesFollowing="0" Description="Logical AND B against A" />
+    <Opcode Op="AND C" OpRegex="AND\s+C[\s;]" Code="161" BytesFollowing="0" Description="Logical AND C against A" />
+    <Opcode Op="AND D" OpRegex="AND\s+D[\s;]" Code="162" BytesFollowing="0" Description="Logical AND D against A" />
+    <Opcode Op="AND E" OpRegex="AND\s+E[\s;]" Code="163" BytesFollowing="0" Description="Logical AND E against A" />
+    <Opcode Op="AND H" OpRegex="AND\s+H[\s;]" Code="164" BytesFollowing="0" Description="Logical AND H against A" />
+    <Opcode Op="AND L" OpRegex="AND\s+L[\s;]" Code="165" BytesFollowing="0" Description="Logical AND L against A" />
+    <Opcode Op="AND (HL)" OpRegex="AND\s+\(HL\)[\s;]" Code="166" BytesFollowing="0" Description="Logical AND value pointed by HL against A" />
+    <Opcode Op="AND A" OpRegex="AND\s+A[\s;]" Code="167" BytesFollowing="0" Description="Logical AND A against A" />
+    <Opcode Op="XOR B" OpRegex="XOR\s+B[\s;]" Code="168" BytesFollowing="0" Description="Logical XOR B against A" />
+    <Opcode Op="XOR C" OpRegex="XOR\s+C[\s;]" Code="169" BytesFollowing="0" Description="Logical XOR C against A" />
+    <Opcode Op="XOR D" OpRegex="XOR\s+D[\s;]" Code="170" BytesFollowing="0" Description="Logical XOR D against A" />
+    <Opcode Op="XOR E" OpRegex="XOR\s+E[\s;]" Code="171" BytesFollowing="0" Description="Logical XOR E against A" />
+    <Opcode Op="XOR H" OpRegex="XOR\s+H[\s;]" Code="172" BytesFollowing="0" Description="Logical XOR H against A" />
+    <Opcode Op="XOR L" OpRegex="XOR\s+L[\s;]" Code="173" BytesFollowing="0" Description="Logical XOR L against A" />
+    <Opcode Op="XOR (HL)" OpRegex="XOR\s+\(HL\)[\s;]" Code="174" BytesFollowing="0" Description="Logical XOR value pointed by HL against A" />
+    <Opcode Op="XOR A" OpRegex="XOR\s+A[\s;]" Code="175" BytesFollowing="0" Description="Logical XOR A against A" />
+    <Opcode Op="OR B" OpRegex="OR\s+B[\s;]" Code="176" BytesFollowing="0" Description="Logical OR B against A" />
+    <Opcode Op="OR C" OpRegex="OR\s+C[\s;]" Code="177" BytesFollowing="0" Description="Logical OR C against A" />
+    <Opcode Op="OR D" OpRegex="OR\s+D[\s;]" Code="178" BytesFollowing="0" Description="Logical OR D against A" />
+    <Opcode Op="OR E" OpRegex="OR\s+E[\s;]" Code="179" BytesFollowing="0" Description="Logical OR E against A" />
+    <Opcode Op="OR H" OpRegex="OR\s+H[\s;]" Code="180" BytesFollowing="0" Description="Logical OR H against A" />
+    <Opcode Op="OR L" OpRegex="OR\s+L[\s;]" Code="181" BytesFollowing="0" Description="Logical OR L against A" />
+    <Opcode Op="OR (HL)" OpRegex="OR\s+\(HL\)[\s;]" Code="182" BytesFollowing="0" Description="Logical OR value pointed by HL against A" />
+    <Opcode Op="OR A" OpRegex="OR\s+A[\s;]" Code="183" BytesFollowing="0" Description="Logical OR A against A" />
+    <Opcode Op="CP B" OpRegex="CP\s+B[\s;]" Code="184" BytesFollowing="0" Description="Compare B against A" />
+    <Opcode Op="CP C" OpRegex="CP\s+C[\s;]" Code="185" BytesFollowing="0" Description="Compare C against A" />
+    <Opcode Op="CP D" OpRegex="CP\s+D[\s;]" Code="186" BytesFollowing="0" Description="Compare D against A" />
+    <Opcode Op="CP E" OpRegex="CP\s+E[\s;]" Code="187" BytesFollowing="0" Description="Compare E against A" />
+    <Opcode Op="CP H" OpRegex="CP\s+H[\s;]" Code="188" BytesFollowing="0" Description="Compare H against A" />
+    <Opcode Op="CP L" OpRegex="CP\s+L[\s;]" Code="189" BytesFollowing="0" Description="Compare L against A" />
+    <Opcode Op="CP (HL)" OpRegex="CP\s+\(HL\)[\s;]" Code="190" BytesFollowing="0" Description="Compare value pointed by HL against A" />
+    <Opcode Op="CP A" OpRegex="CP\s+A[\s;]" Code="191" BytesFollowing="0" Description="Compare A against A" />
+    <Opcode Op="RET NZ" OpRegex="RET\s+NZ[\s;]" Code="192" BytesFollowing="0" Description="Return if last result was not zero" />
+    <Opcode Op="POP BC" OpRegex="POP\s+BC[\s;]" Code="193" BytesFollowing="0" Description="Pop 16-bit value from stack into BC" />
+    <Opcode Op="JP NZ,##" OpRegex="JP\s+NZ\s*,\s*([0-9A-F]{1,4}h|(6553[0-5]|655[0-2]\d|65[0-4]\d\d|6[0-4]\d{1,3}|[0-5]?\d{1,4})|(-(3276[0-8]|327[0-5]\d|32[0-6]\d\d|3[01]\d{1,3}|[0-2]?\d{1,4}))|[_a-zA-Z]\w+)[\s;]" Code="194" BytesFollowing="2" Description="Absolute jump to 16-bit location if last result was not zero" />
+    <Opcode Op="JP ##" OpRegex="JP\s+([0-9A-F]{1,4}h|(6553[0-5]|655[0-2]\d|65[0-4]\d\d|6[0-4]\d{1,3}|[0-5]?\d{1,4})|(-(3276[0-8]|327[0-5]\d|32[0-6]\d\d|3[01]\d{1,3}|[0-2]?\d{1,4}))|[_a-zA-Z]\w+)[\s;]" Code="195" BytesFollowing="2" Description="Absolute jump to 16-bit location" />
+    <Opcode Op="CALL NZ,##" OpRegex="CALL\s+NZ\s*,\s*([0-9A-F]{1,4}h|(6553[0-5]|655[0-2]\d|65[0-4]\d\d|6[0-4]\d{1,3}|[0-5]?\d{1,4})|(-(3276[0-8]|327[0-5]\d|32[0-6]\d\d|3[01]\d{1,3}|[0-2]?\d{1,4})))[\s;]" Code="196" BytesFollowing="2" Description="Call routine at 16-bit location if last result was not zero" />
+    <Opcode Op="PUSH BC" OpRegex="PUSH\s+BC[\s;]" Code="197" BytesFollowing="0" Description="Push 16-bit BC onto stack" />
+    <Opcode Op="ADD A,#" OpRegex="ADD\s+A\s*,\s*([0-9A-F]{1,2}h|-(1[0-2][0-8]|1[01]\d|\d?\d)|(2[0-5][0-5]|2[0-4]\d|1?\d?\d))[\s;]" Code="198" BytesFollowing="1" Description="Add 8-bit immediate to A" />
+    <Opcode Op="RST 0" OpRegex="RST\s+0[\s;]" Code="199" BytesFollowing="0" Description="Call routine at address 0000h" />
+    <Opcode Op="RET Z" OpRegex="RET\s+Z[\s;]" Code="200" BytesFollowing="0" Description="Return if last result was zero" />
+    <Opcode Op="RET" OpRegex="RET[\s;]" Code="201" BytesFollowing="0" Description="Return to calling routine" />
+    <Opcode Op="JP Z,##" OpRegex="JP\s+Z\s*,\s*([0-9A-F]{1,4}h|(6553[0-5]|655[0-2]\d|65[0-4]\d\d|6[0-4]\d{1,3}|[0-5]?\d{1,4})|(-(3276[0-8]|327[0-5]\d|32[0-6]\d\d|3[01]\d{1,3}|[0-2]?\d{1,4}))|[_a-zA-Z]\w+)[\s;]" Code="202" BytesFollowing="2" Description="Absolute jump to 16-bit location if last result was zero" />
+    <Opcode Op="CALL Z,##" OpRegex="CALL\s+Z\s*,\s*([0-9A-F]{1,4}h|(6553[0-5]|655[0-2]\d|65[0-4]\d\d|6[0-4]\d{1,3}|[0-5]?\d{1,4})|(-(3276[0-8]|327[0-5]\d|32[0-6]\d\d|3[01]\d{1,3}|[0-2]?\d{1,4})))[\s;]" Code="204" BytesFollowing="2" Description="Call routine at 16-bit location if last result was zero" />
+    <Opcode Op="CALL ##" OpRegex="CALL\s+([0-9A-F]{1,4}h|(6553[0-5]|655[0-2]\d|65[0-4]\d\d|6[0-4]\d{1,3}|[0-5]?\d{1,4})|(-(3276[0-8]|327[0-5]\d|32[0-6]\d\d|3[01]\d{1,3}|[0-2]?\d{1,4})))[\s;]" Code="205" BytesFollowing="2" Description="Call routine at 16-bit location" />
+    <Opcode Op="ADC A,#" OpRegex="ADC\s+A\s*,\s*([0-9A-F]{1,2}h|-(1[0-2][0-8]|1[01]\d|\d?\d)|(2[0-5][0-5]|2[0-4]\d|1?\d?\d))[\s;]" Code="206" BytesFollowing="1" Description="Add 8-bit immediate and carry to A" />
+    <Opcode Op="RST 8" OpRegex="RST\s+8[\s;]" Code="207" BytesFollowing="0" Description="Call routine at address 0008h" />
+    <Opcode Op="RET NC" OpRegex="RET\s+NC[\s;]" Code="208" BytesFollowing="0" Description="Return if last result caused no carry" />
+    <Opcode Op="POP DE" OpRegex="POP\s+DE[\s;]" Code="209" BytesFollowing="0" Description="Pop 16-bit value from stack into DE" />
+    <Opcode Op="JP NC,##" OpRegex="JP\s+NC\s*,\s*([0-9A-F]{1,4}h|(6553[0-5]|655[0-2]\d|65[0-4]\d\d|6[0-4]\d{1,3}|[0-5]?\d{1,4})|(-(3276[0-8]|327[0-5]\d|32[0-6]\d\d|3[01]\d{1,3}|[0-2]?\d{1,4}))|[_a-zA-Z]\w+)[\s;]" Code="210" BytesFollowing="2" Description="Absolute jump to 16-bit location if last result caused no carry" />
+    <Opcode Op="CALL NC,##" OpRegex="CALL\s+NC\s*,\s*([0-9A-F]{1,4}h|(6553[0-5]|655[0-2]\d|65[0-4]\d\d|6[0-4]\d{1,3}|[0-5]?\d{1,4})|(-(3276[0-8]|327[0-5]\d|32[0-6]\d\d|3[01]\d{1,3}|[0-2]?\d{1,4})))[\s;]" Code="212" BytesFollowing="2" Description="Call routine at 16-bit location if last result caused no carry" />
+    <Opcode Op="PUSH DE" OpRegex="PUSH\s+DE[\s;]" Code="213" BytesFollowing="0" Description="Push 16-bit DE onto stack" />
+    <Opcode Op="SUB A,#" OpRegex="SUB\s+A\s*,\s*([0-9A-F]{1,2}h|-(1[0-2][0-8]|1[01]\d|\d?\d)|(2[0-5][0-5]|2[0-4]\d|1?\d?\d))[\s;]" Code="214" BytesFollowing="1" Description="Subtract 8-bit immediate from A" />
+    <Opcode Op="RST 10" OpRegex="RST\s+10[\s;]" Code="215" BytesFollowing="0" Description="Call routine at address 0010h" />
+    <Opcode Op="RET C" OpRegex="RET\s+C[\s;]" Code="216" BytesFollowing="0" Description="Return if last result caused carry" />
+    <Opcode Op="RETI" OpRegex="RETI[\s;]" Code="217" BytesFollowing="0" Description="Enable interrupts and return to calling routine" />
+    <Opcode Op="JP C,##" OpRegex="JP\s+C\s*,\s*([0-9A-F]{1,4}h|(6553[0-5]|655[0-2]\d|65[0-4]\d\d|6[0-4]\d{1,3}|[0-5]?\d{1,4})|(-(3276[0-8]|327[0-5]\d|32[0-6]\d\d|3[01]\d{1,3}|[0-2]?\d{1,4}))|[_a-zA-Z]\w+)[\s;]" Code="218" BytesFollowing="2" Description="Absolute jump to 16-bit location if last result caused carry" />
+    <Opcode Op="CALL C,##" OpRegex="CALL\s+C\s*,\s*([0-9A-F]{1,4}h|(6553[0-5]|655[0-2]\d|65[0-4]\d\d|6[0-4]\d{1,3}|[0-5]?\d{1,4})|(-(3276[0-8]|327[0-5]\d|32[0-6]\d\d|3[01]\d{1,3}|[0-2]?\d{1,4})))[\s;]" Code="220" BytesFollowing="2" Description="Call routine at 16-bit location if last result caused carry" />
+    <Opcode Op="SBC A,#" OpRegex="SBC\s+A\s*,\s*([0-9A-F]{1,2}h|-(1[0-2][0-8]|1[01]\d|\d?\d)|(2[0-5][0-5]|2[0-4]\d|1?\d?\d))[\s;]" Code="222" BytesFollowing="1" Description="Subtract 8-bit immediate and carry from A" />
+    <Opcode Op="RST 18" OpRegex="RST\s+18[\s;]" Code="223" BytesFollowing="0" Description="Call routine at address 0018h" />
+    <Opcode Op="LDH (#),A" OpRegex="LDH\s+\(([0-9A-F]{1,2}h|-(1[0-2][0-8]|1[01]\d|\d?\d)|(2[0-5][0-5]|2[0-4]\d|1?\d?\d)\)\s*,\s*A)[\s;]" Code="224" BytesFollowing="1" Description="Save A at address pointed to by (FF00h + 8-bit immediate)" />
+    <Opcode Op="POP HL" OpRegex="POP\s+HL[\s;]" Code="225" BytesFollowing="0" Description="Pop 16-bit value from stack into HL" />
+    <Opcode Op="LDH (C),A" OpRegex="LDH\s+\(C\)\s*,\s*A[\s;]" Code="226" BytesFollowing="0" Description="Save A at address pointed to by (FF00h + C)" />
+    <Opcode Op="PUSH HL" OpRegex="PUSH\s+HL[\s;]" Code="229" BytesFollowing="0" Description="Push 16-bit HL onto stack" />
+    <Opcode Op="AND #" OpRegex="AND\s+([0-9A-F]{1,2}h|-(1[0-2][0-8]|1[01]\d|\d?\d)|(2[0-5][0-5]|2[0-4]\d|1?\d?\d))[\s;]" Code="230" BytesFollowing="1" Description="Logical AND 8-bit immediate against A" />
+    <Opcode Op="RST 20" OpRegex="RST\s+20[\s;]" Code="231" BytesFollowing="0" Description="Call routine at address 0020h" />
+    <Opcode Op="ADD SP,d" OpRegex="ADD\s+SP\s*,\s*d[\s;]" Code="232" BytesFollowing="0" Description="Add signed 8-bit immediate to SP" />
+    <Opcode Op="JP (HL)" OpRegex="JP\s+\(HL\)[\s;]" Code="233" BytesFollowing="0" Description="Jump to 16-bit value pointed by HL" />
+    <Opcode Op="LD (##),A" OpRegex="LD\s+\(([0-9A-F]{1,4}h|(6553[0-5]|655[0-2]\d|65[0-4]\d\d|6[0-4]\d{1,3}|[0-5]?\d{1,4})|(-(3276[0-8]|327[0-5]\d|32[0-6]\d\d|3[01]\d{1,3}|[0-2]?\d{1,4}))\)\s*,\s*A)[\s;]" Code="234" BytesFollowing="2" Description="Save A at given 16-bit address" />
+    <Opcode Op="XOR #" OpRegex="XOR\s+([0-9A-F]{1,2}h|-(1[0-2][0-8]|1[01]\d|\d?\d)|(2[0-5][0-5]|2[0-4]\d|1?\d?\d))[\s;]" Code="238" BytesFollowing="1" Description="Logical XOR 8-bit immediate against A" />
+    <Opcode Op="RST 28" OpRegex="RST\s+28[\s;]" Code="239" BytesFollowing="0" Description="Call routine at address 0028h" />
+    <Opcode Op="LDH A,(#)" OpRegex="LDH\s+A\s*,\s*\(([0-9A-F]{1,2}h|-(1[0-2][0-8]|1[01]\d|\d?\d)|(2[0-5][0-5]|2[0-4]\d|1?\d?\d)\))[\s;]" Code="240" BytesFollowing="1" Description="Load A from address pointed to by (FF00h + 8-bit immediate)" />
+    <Opcode Op="POP AF" OpRegex="POP\s+AF[\s;]" Code="241" BytesFollowing="0" Description="Pop 16-bit value from stack into AF" />
+    <Opcode Op="DI" OpRegex="DI[\s;]" Code="243" BytesFollowing="0" Description="DIsable interrupts" />
+    <Opcode Op="PUSH AF" OpRegex="PUSH\s+AF[\s;]" Code="245" BytesFollowing="0" Description="Push 16-bit AF onto stack" />
+    <Opcode Op="OR #" OpRegex="OR\s+([0-9A-F]{1,2}h|-(1[0-2][0-8]|1[01]\d|\d?\d)|(2[0-5][0-5]|2[0-4]\d|1?\d?\d))[\s;]" Code="246" BytesFollowing="1" Description="Logical OR 8-bit immediate against A" />
+    <Opcode Op="RST 30" OpRegex="RST\s+30[\s;]" Code="247" BytesFollowing="0" Description="Call routine at address 0030h" />
+    <Opcode Op="LDHL SP,d" OpRegex="LDHL\s+SP\s*,\s*d[\s;]" Code="248" BytesFollowing="0" Description="Add signed 8-bit immediate to SP and save result in HL" />
+    <Opcode Op="LD SP,HL" OpRegex="LD\s+SP\s*,\s*HL[\s;]" Code="249" BytesFollowing="0" Description="Copy HL to SP" />
+    <Opcode Op="LD A,(##)" OpRegex="LD\s+A\s*,\s*\(([0-9A-F]{1,4}h|(6553[0-5]|655[0-2]\d|65[0-4]\d\d|6[0-4]\d{1,3}|[0-5]?\d{1,4})|(-(3276[0-8]|327[0-5]\d|32[0-6]\d\d|3[01]\d{1,3}|[0-2]?\d{1,4}))\))[\s;]" Code="250" BytesFollowing="2" Description="Load A from given 16-bit address" />
+    <Opcode Op="EI" OpRegex="EI[\s;]" Code="251" BytesFollowing="0" Description="Enable interrupts" />
+    <Opcode Op="CP #" OpRegex="CP\s+([0-9A-F]{1,2}h|-(1[0-2][0-8]|1[01]\d|\d?\d)|(2[0-5][0-5]|2[0-4]\d|1?\d?\d))[\s;]" Code="254" BytesFollowing="1" Description="Compare 8-bit immediate against A" />
+    <Opcode Op="RST 38" OpRegex="RST\s+38[\s;]" Code="255" BytesFollowing="0" Description="Call routine at address 0038h" />
+  </ArrayOfOpcode>
+  <ArrayOfOpcode>
+    <Opcode Op="RLC B" OpRegex="RLC\s+B[\s;]" Code="0" BytesFollowing="0" Description="Rotate B left with carry" />
+    <Opcode Op="RLC C" OpRegex="RLC\s+C[\s;]" Code="1" BytesFollowing="0" Description="Rotate C left with carry" />
+    <Opcode Op="RLC D" OpRegex="RLC\s+D[\s;]" Code="2" BytesFollowing="0" Description="Rotate D left with carry" />
+    <Opcode Op="RLC E" OpRegex="RLC\s+E[\s;]" Code="3" BytesFollowing="0" Description="Rotate E left with carry" />
+    <Opcode Op="RLC H" OpRegex="RLC\s+H[\s;]" Code="4" BytesFollowing="0" Description="Rotate H left with carry" />
+    <Opcode Op="RLC L" OpRegex="RLC\s+L[\s;]" Code="5" BytesFollowing="0" Description="Rotate L left with carry" />
+    <Opcode Op="RLC (HL)" OpRegex="RLC\s+\(HL\)[\s;]" Code="6" BytesFollowing="0" Description="Rotate value pointed by HL left with carry" />
+    <Opcode Op="RLC A" OpRegex="RLC\s+A[\s;]" Code="7" BytesFollowing="0" Description="Rotate A left with carry" />
+    <Opcode Op="RRC B" OpRegex="RRC\s+B[\s;]" Code="8" BytesFollowing="0" Description="Rotate B right with carry" />
+    <Opcode Op="RRC C" OpRegex="RRC\s+C[\s;]" Code="9" BytesFollowing="0" Description="Rotate C right with carry" />
+    <Opcode Op="RRC D" OpRegex="RRC\s+D[\s;]" Code="10" BytesFollowing="0" Description="Rotate D right with carry" />
+    <Opcode Op="RRC E" OpRegex="RRC\s+E[\s;]" Code="11" BytesFollowing="0" Description="Rotate E right with carry" />
+    <Opcode Op="RRC H" OpRegex="RRC\s+H[\s;]" Code="12" BytesFollowing="0" Description="Rotate H right with carry" />
+    <Opcode Op="RRC L" OpRegex="RRC\s+L[\s;]" Code="13" BytesFollowing="0" Description="Rotate L right with carry" />
+    <Opcode Op="RRC (HL)" OpRegex="RRC\s+\(HL\)[\s;]" Code="14" BytesFollowing="0" Description="Rotate value pointed by HL right with carry" />
+    <Opcode Op="RRC A" OpRegex="RRC\s+A[\s;]" Code="15" BytesFollowing="0" Description="Rotate A right with carry" />
+    <Opcode Op="RL B" OpRegex="RL\s+B[\s;]" Code="16" BytesFollowing="0" Description="Rotate B left" />
+    <Opcode Op="RL C" OpRegex="RL\s+C[\s;]" Code="17" BytesFollowing="0" Description="Rotate C left" />
+    <Opcode Op="RL D" OpRegex="RL\s+D[\s;]" Code="18" BytesFollowing="0" Description="Rotate D left" />
+    <Opcode Op="RL E" OpRegex="RL\s+E[\s;]" Code="19" BytesFollowing="0" Description="Rotate E left" />
+    <Opcode Op="RL H" OpRegex="RL\s+H[\s;]" Code="20" BytesFollowing="0" Description="Rotate H left" />
+    <Opcode Op="RL L" OpRegex="RL\s+L[\s;]" Code="21" BytesFollowing="0" Description="Rotate L left" />
+    <Opcode Op="RL (HL)" OpRegex="RL\s+\(HL\)[\s;]" Code="22" BytesFollowing="0" Description="Rotate value pointed by HL left" />
+    <Opcode Op="RL A" OpRegex="RL\s+A[\s;]" Code="23" BytesFollowing="0" Description="Rotate A left" />
+    <Opcode Op="RR B" OpRegex="RR\s+B[\s;]" Code="24" BytesFollowing="0" Description="Rotate B right" />
+    <Opcode Op="RR C" OpRegex="RR\s+C[\s;]" Code="25" BytesFollowing="0" Description="Rotate C right" />
+    <Opcode Op="RR D" OpRegex="RR\s+D[\s;]" Code="26" BytesFollowing="0" Description="Rotate D right" />
+    <Opcode Op="RR E" OpRegex="RR\s+E[\s;]" Code="27" BytesFollowing="0" Description="Rotate E right" />
+    <Opcode Op="RR H" OpRegex="RR\s+H[\s;]" Code="28" BytesFollowing="0" Description="Rotate H right" />
+    <Opcode Op="RR L" OpRegex="RR\s+L[\s;]" Code="29" BytesFollowing="0" Description="Rotate L right" />
+    <Opcode Op="RR (HL)" OpRegex="RR\s+\(HL\)[\s;]" Code="30" BytesFollowing="0" Description="Rotate value pointed by HL right" />
+    <Opcode Op="RR A" OpRegex="RR\s+A[\s;]" Code="31" BytesFollowing="0" Description="Rotate A right" />
+    <Opcode Op="SLA B" OpRegex="SLA\s+B[\s;]" Code="32" BytesFollowing="0" Description="Shift B left preserving sign" />
+    <Opcode Op="SLA C" OpRegex="SLA\s+C[\s;]" Code="33" BytesFollowing="0" Description="Shift C left preserving sign" />
+    <Opcode Op="SLA D" OpRegex="SLA\s+D[\s;]" Code="34" BytesFollowing="0" Description="Shift D left preserving sign" />
+    <Opcode Op="SLA E" OpRegex="SLA\s+E[\s;]" Code="35" BytesFollowing="0" Description="Shift E left preserving sign" />
+    <Opcode Op="SLA H" OpRegex="SLA\s+H[\s;]" Code="36" BytesFollowing="0" Description="Shift H left preserving sign" />
+    <Opcode Op="SLA L" OpRegex="SLA\s+L[\s;]" Code="37" BytesFollowing="0" Description="Shift L left preserving sign" />
+    <Opcode Op="SLA (HL)" OpRegex="SLA\s+\(HL\)[\s;]" Code="38" BytesFollowing="0" Description="Shift value pointed by HL left preserving sign" />
+    <Opcode Op="SLA A" OpRegex="SLA\s+A[\s;]" Code="39" BytesFollowing="0" Description="Shift A left preserving sign" />
+    <Opcode Op="SRA B" OpRegex="SRA\s+B[\s;]" Code="40" BytesFollowing="0" Description="Shift B right preserving sign" />
+    <Opcode Op="SRA C" OpRegex="SRA\s+C[\s;]" Code="41" BytesFollowing="0" Description="Shift C right preserving sign" />
+    <Opcode Op="SRA D" OpRegex="SRA\s+D[\s;]" Code="42" BytesFollowing="0" Description="Shift D right preserving sign" />
+    <Opcode Op="SRA E" OpRegex="SRA\s+E[\s;]" Code="43" BytesFollowing="0" Description="Shift E right preserving sign" />
+    <Opcode Op="SRA H" OpRegex="SRA\s+H[\s;]" Code="44" BytesFollowing="0" Description="Shift H right preserving sign" />
+    <Opcode Op="SRA L" OpRegex="SRA\s+L[\s;]" Code="45" BytesFollowing="0" Description="Shift L right preserving sign" />
+    <Opcode Op="SRA (HL)" OpRegex="SRA\s+\(HL\)[\s;]" Code="46" BytesFollowing="0" Description="Shift value pointed by HL right preserving sign" />
+    <Opcode Op="SRA A" OpRegex="SRA\s+A[\s;]" Code="47" BytesFollowing="0" Description="Shift A right preserving sign" />
+    <Opcode Op="SWAP B" OpRegex="SWAP\s+B[\s;]" Code="48" BytesFollowing="0" Description="Swap nybbles in B" />
+    <Opcode Op="SWAP C" OpRegex="SWAP\s+C[\s;]" Code="49" BytesFollowing="0" Description="Swap nybbles in C" />
+    <Opcode Op="SWAP D" OpRegex="SWAP\s+D[\s;]" Code="50" BytesFollowing="0" Description="Swap nybbles in D" />
+    <Opcode Op="SWAP E" OpRegex="SWAP\s+E[\s;]" Code="51" BytesFollowing="0" Description="Swap nybbles in E" />
+    <Opcode Op="SWAP H" OpRegex="SWAP\s+H[\s;]" Code="52" BytesFollowing="0" Description="Swap nybbles in H" />
+    <Opcode Op="SWAP L" OpRegex="SWAP\s+L[\s;]" Code="53" BytesFollowing="0" Description="Swap nybbles in L" />
+    <Opcode Op="SWAP (HL)" OpRegex="SWAP\s+\(HL\)[\s;]" Code="54" BytesFollowing="0" Description="Swap nybbles in value pointed by HL" />
+    <Opcode Op="SWAP A" OpRegex="SWAP\s+A[\s;]" Code="55" BytesFollowing="0" Description="Swap nybbles in A" />
+    <Opcode Op="SRL B" OpRegex="SRL\s+B[\s;]" Code="56" BytesFollowing="0" Description="Shift B right" />
+    <Opcode Op="SRL C" OpRegex="SRL\s+C[\s;]" Code="57" BytesFollowing="0" Description="Shift C right" />
+    <Opcode Op="SRL D" OpRegex="SRL\s+D[\s;]" Code="58" BytesFollowing="0" Description="Shift D right" />
+    <Opcode Op="SRL E" OpRegex="SRL\s+E[\s;]" Code="59" BytesFollowing="0" Description="Shift E right" />
+    <Opcode Op="SRL H" OpRegex="SRL\s+H[\s;]" Code="60" BytesFollowing="0" Description="Shift H right" />
+    <Opcode Op="SRL L" OpRegex="SRL\s+L[\s;]" Code="61" BytesFollowing="0" Description="Shift L right" />
+    <Opcode Op="SRL (HL)" OpRegex="SRL\s+\(HL\)[\s;]" Code="62" BytesFollowing="0" Description="Shift value pointed by HL right" />
+    <Opcode Op="SRL A" OpRegex="SRL\s+A[\s;]" Code="63" BytesFollowing="0" Description="Shift A right" />
+    <Opcode Op="BIT 0,B" OpRegex="BIT\s+0\s*,\s*B[\s;]" Code="64" BytesFollowing="0" Description="Test bit 0 of B" />
+    <Opcode Op="BIT 0,C" OpRegex="BIT\s+0\s*,\s*C[\s;]" Code="65" BytesFollowing="0" Description="Test bit 0 of C" />
+    <Opcode Op="BIT 0,D" OpRegex="BIT\s+0\s*,\s*D[\s;]" Code="66" BytesFollowing="0" Description="Test bit 0 of D" />
+    <Opcode Op="BIT 0,E" OpRegex="BIT\s+0\s*,\s*E[\s;]" Code="67" BytesFollowing="0" Description="Test bit 0 of E" />
+    <Opcode Op="BIT 0,H" OpRegex="BIT\s+0\s*,\s*H[\s;]" Code="68" BytesFollowing="0" Description="Test bit 0 of H" />
+    <Opcode Op="BIT 0,L" OpRegex="BIT\s+0\s*,\s*L[\s;]" Code="69" BytesFollowing="0" Description="Test bit 0 of L" />
+    <Opcode Op="BIT 0,(HL)" OpRegex="BIT\s+0\s*,\s*\(HL\)[\s;]" Code="70" BytesFollowing="0" Description="Test bit 0 of value pointed by HL" />
+    <Opcode Op="BIT 0,A" OpRegex="BIT\s+0\s*,\s*A[\s;]" Code="71" BytesFollowing="0" Description="Test bit 0 of A" />
+    <Opcode Op="BIT 1,B" OpRegex="BIT\s+1\s*,\s*B[\s;]" Code="72" BytesFollowing="0" Description="Test bit 1 of B" />
+    <Opcode Op="BIT 1,C" OpRegex="BIT\s+1\s*,\s*C[\s;]" Code="73" BytesFollowing="0" Description="Test bit 1 of C" />
+    <Opcode Op="BIT 1,D" OpRegex="BIT\s+1\s*,\s*D[\s;]" Code="74" BytesFollowing="0" Description="Test bit 1 of D" />
+    <Opcode Op="BIT 1,E" OpRegex="BIT\s+1\s*,\s*E[\s;]" Code="75" BytesFollowing="0" Description="Test bit 1 of E" />
+    <Opcode Op="BIT 1,H" OpRegex="BIT\s+1\s*,\s*H[\s;]" Code="76" BytesFollowing="0" Description="Test bit 1 of H" />
+    <Opcode Op="BIT 1,L" OpRegex="BIT\s+1\s*,\s*L[\s;]" Code="77" BytesFollowing="0" Description="Test bit 1 of L" />
+    <Opcode Op="BIT 1,(HL)" OpRegex="BIT\s+1\s*,\s*\(HL\)[\s;]" Code="78" BytesFollowing="0" Description="Test bit 1 of value pointed by HL" />
+    <Opcode Op="BIT 1,A" OpRegex="BIT\s+1\s*,\s*A[\s;]" Code="79" BytesFollowing="0" Description="Test bit 1 of A" />
+    <Opcode Op="BIT 2,B" OpRegex="BIT\s+2\s*,\s*B[\s;]" Code="80" BytesFollowing="0" Description="Test bit 2 of B" />
+    <Opcode Op="BIT 2,C" OpRegex="BIT\s+2\s*,\s*C[\s;]" Code="81" BytesFollowing="0" Description="Test bit 2 of C" />
+    <Opcode Op="BIT 2,D" OpRegex="BIT\s+2\s*,\s*D[\s;]" Code="82" BytesFollowing="0" Description="Test bit 2 of D" />
+    <Opcode Op="BIT 2,E" OpRegex="BIT\s+2\s*,\s*E[\s;]" Code="83" BytesFollowing="0" Description="Test bit 2 of E" />
+    <Opcode Op="BIT 2,H" OpRegex="BIT\s+2\s*,\s*H[\s;]" Code="84" BytesFollowing="0" Description="Test bit 2 of H" />
+    <Opcode Op="BIT 2,L" OpRegex="BIT\s+2\s*,\s*L[\s;]" Code="85" BytesFollowing="0" Description="Test bit 2 of L" />
+    <Opcode Op="BIT 2,(HL)" OpRegex="BIT\s+2\s*,\s*\(HL\)[\s;]" Code="86" BytesFollowing="0" Description="Test bit 2 of value pointed by HL" />
+    <Opcode Op="BIT 2,A" OpRegex="BIT\s+2\s*,\s*A[\s;]" Code="87" BytesFollowing="0" Description="Test bit 2 of A" />
+    <Opcode Op="BIT 3,B" OpRegex="BIT\s+3\s*,\s*B[\s;]" Code="88" BytesFollowing="0" Description="Test bit 3 of B" />
+    <Opcode Op="BIT 3,C" OpRegex="BIT\s+3\s*,\s*C[\s;]" Code="89" BytesFollowing="0" Description="Test bit 3 of C" />
+    <Opcode Op="BIT 3,D" OpRegex="BIT\s+3\s*,\s*D[\s;]" Code="90" BytesFollowing="0" Description="Test bit 3 of D" />
+    <Opcode Op="BIT 3,E" OpRegex="BIT\s+3\s*,\s*E[\s;]" Code="91" BytesFollowing="0" Description="Test bit 3 of E" />
+    <Opcode Op="BIT 3,H" OpRegex="BIT\s+3\s*,\s*H[\s;]" Code="92" BytesFollowing="0" Description="Test bit 3 of H" />
+    <Opcode Op="BIT 3,L" OpRegex="BIT\s+3\s*,\s*L[\s;]" Code="93" BytesFollowing="0" Description="Test bit 3 of L" />
+    <Opcode Op="BIT 3,(HL)" OpRegex="BIT\s+3\s*,\s*\(HL\)[\s;]" Code="94" BytesFollowing="0" Description="Test bit 3 of value pointed by HL" />
+    <Opcode Op="BIT 3,A" OpRegex="BIT\s+3\s*,\s*A[\s;]" Code="95" BytesFollowing="0" Description="Test bit 3 of A" />
+    <Opcode Op="BIT 4,B" OpRegex="BIT\s+4\s*,\s*B[\s;]" Code="96" BytesFollowing="0" Description="Test bit 4 of B" />
+    <Opcode Op="BIT 4,C" OpRegex="BIT\s+4\s*,\s*C[\s;]" Code="97" BytesFollowing="0" Description="Test bit 4 of C" />
+    <Opcode Op="BIT 4,D" OpRegex="BIT\s+4\s*,\s*D[\s;]" Code="98" BytesFollowing="0" Description="Test bit 4 of D" />
+    <Opcode Op="BIT 4,E" OpRegex="BIT\s+4\s*,\s*E[\s;]" Code="99" BytesFollowing="0" Description="Test bit 4 of E" />
+    <Opcode Op="BIT 4,H" OpRegex="BIT\s+4\s*,\s*H[\s;]" Code="100" BytesFollowing="0" Description="Test bit 4 of H" />
+    <Opcode Op="BIT 4,L" OpRegex="BIT\s+4\s*,\s*L[\s;]" Code="101" BytesFollowing="0" Description="Test bit 4 of L" />
+    <Opcode Op="BIT 4,(HL)" OpRegex="BIT\s+4\s*,\s*\(HL\)[\s;]" Code="102" BytesFollowing="0" Description="Test bit 4 of value pointed by HL" />
+    <Opcode Op="BIT 4,A" OpRegex="BIT\s+4\s*,\s*A[\s;]" Code="103" BytesFollowing="0" Description="Test bit 4 of A" />
+    <Opcode Op="BIT 5,B" OpRegex="BIT\s+5\s*,\s*B[\s;]" Code="104" BytesFollowing="0" Description="Test bit 5 of B" />
+    <Opcode Op="BIT 5,C" OpRegex="BIT\s+5\s*,\s*C[\s;]" Code="105" BytesFollowing="0" Description="Test bit 5 of C" />
+    <Opcode Op="BIT 5,D" OpRegex="BIT\s+5\s*,\s*D[\s;]" Code="106" BytesFollowing="0" Description="Test bit 5 of D" />
+    <Opcode Op="BIT 5,E" OpRegex="BIT\s+5\s*,\s*E[\s;]" Code="107" BytesFollowing="0" Description="Test bit 5 of E" />
+    <Opcode Op="BIT 5,H" OpRegex="BIT\s+5\s*,\s*H[\s;]" Code="108" BytesFollowing="0" Description="Test bit 5 of H" />
+    <Opcode Op="BIT 5,L" OpRegex="BIT\s+5\s*,\s*L[\s;]" Code="109" BytesFollowing="0" Description="Test bit 5 of L" />
+    <Opcode Op="BIT 5,(HL)" OpRegex="BIT\s+5\s*,\s*\(HL\)[\s;]" Code="110" BytesFollowing="0" Description="Test bit 5 of value pointed by HL" />
+    <Opcode Op="BIT 5,A" OpRegex="BIT\s+5\s*,\s*A[\s;]" Code="111" BytesFollowing="0" Description="Test bit 5 of A" />
+    <Opcode Op="BIT 6,B" OpRegex="BIT\s+6\s*,\s*B[\s;]" Code="112" BytesFollowing="0" Description="Test bit 6 of B" />
+    <Opcode Op="BIT 6,C" OpRegex="BIT\s+6\s*,\s*C[\s;]" Code="113" BytesFollowing="0" Description="Test bit 6 of C" />
+    <Opcode Op="BIT 6,D" OpRegex="BIT\s+6\s*,\s*D[\s;]" Code="114" BytesFollowing="0" Description="Test bit 6 of D" />
+    <Opcode Op="BIT 6,E" OpRegex="BIT\s+6\s*,\s*E[\s;]" Code="115" BytesFollowing="0" Description="Test bit 6 of E" />
+    <Opcode Op="BIT 6,H" OpRegex="BIT\s+6\s*,\s*H[\s;]" Code="116" BytesFollowing="0" Description="Test bit 6 of H" />
+    <Opcode Op="BIT 6,L" OpRegex="BIT\s+6\s*,\s*L[\s;]" Code="117" BytesFollowing="0" Description="Test bit 6 of L" />
+    <Opcode Op="BIT 6,(HL)" OpRegex="BIT\s+6\s*,\s*\(HL\)[\s;]" Code="118" BytesFollowing="0" Description="Test bit 6 of value pointed by HL" />
+    <Opcode Op="BIT 6,A" OpRegex="BIT\s+6\s*,\s*A[\s;]" Code="119" BytesFollowing="0" Description="Test bit 6 of A" />
+    <Opcode Op="BIT 7,B" OpRegex="BIT\s+7\s*,\s*B[\s;]" Code="120" BytesFollowing="0" Description="Test bit 7 of B" />
+    <Opcode Op="BIT 7,C" OpRegex="BIT\s+7\s*,\s*C[\s;]" Code="121" BytesFollowing="0" Description="Test bit 7 of C" />
+    <Opcode Op="BIT 7,D" OpRegex="BIT\s+7\s*,\s*D[\s;]" Code="122" BytesFollowing="0" Description="Test bit 7 of D" />
+    <Opcode Op="BIT 7,E" OpRegex="BIT\s+7\s*,\s*E[\s;]" Code="123" BytesFollowing="0" Description="Test bit 7 of E" />
+    <Opcode Op="BIT 7,H" OpRegex="BIT\s+7\s*,\s*H[\s;]" Code="124" BytesFollowing="0" Description="Test bit 7 of H" />
+    <Opcode Op="BIT 7,L" OpRegex="BIT\s+7\s*,\s*L[\s;]" Code="125" BytesFollowing="0" Description="Test bit 7 of L" />
+    <Opcode Op="BIT 7,(HL)" OpRegex="BIT\s+7\s*,\s*\(HL\)[\s;]" Code="126" BytesFollowing="0" Description="Test bit 7 of value pointed by HL" />
+    <Opcode Op="BIT 7,A" OpRegex="BIT\s+7\s*,\s*A[\s;]" Code="127" BytesFollowing="0" Description="Test bit 7 of A" />
+    <Opcode Op="RES 0,B" OpRegex="RES\s+0\s*,\s*B[\s;]" Code="128" BytesFollowing="0" Description="Clear (reset) bit 0 of B" />
+    <Opcode Op="RES 0,C" OpRegex="RES\s+0\s*,\s*C[\s;]" Code="129" BytesFollowing="0" Description="Clear (reset) bit 0 of C" />
+    <Opcode Op="RES 0,D" OpRegex="RES\s+0\s*,\s*D[\s;]" Code="130" BytesFollowing="0" Description="Clear (reset) bit 0 of D" />
+    <Opcode Op="RES 0,E" OpRegex="RES\s+0\s*,\s*E[\s;]" Code="131" BytesFollowing="0" Description="Clear (reset) bit 0 of E" />
+    <Opcode Op="RES 0,H" OpRegex="RES\s+0\s*,\s*H[\s;]" Code="132" BytesFollowing="0" Description="Clear (reset) bit 0 of H" />
+    <Opcode Op="RES 0,L" OpRegex="RES\s+0\s*,\s*L[\s;]" Code="133" BytesFollowing="0" Description="Clear (reset) bit 0 of L" />
+    <Opcode Op="RES 0,(HL)" OpRegex="RES\s+0\s*,\s*\(HL\)[\s;]" Code="134" BytesFollowing="0" Description="Clear (reset) bit 0 of value pointed by HL" />
+    <Opcode Op="RES 0,A" OpRegex="RES\s+0\s*,\s*A[\s;]" Code="135" BytesFollowing="0" Description="Clear (reset) bit 0 of A" />
+    <Opcode Op="RES 1,B" OpRegex="RES\s+1\s*,\s*B[\s;]" Code="136" BytesFollowing="0" Description="Clear (reset) bit 1 of B" />
+    <Opcode Op="RES 1,C" OpRegex="RES\s+1\s*,\s*C[\s;]" Code="137" BytesFollowing="0" Description="Clear (reset) bit 1 of C" />
+    <Opcode Op="RES 1,D" OpRegex="RES\s+1\s*,\s*D[\s;]" Code="138" BytesFollowing="0" Description="Clear (reset) bit 1 of D" />
+    <Opcode Op="RES 1,E" OpRegex="RES\s+1\s*,\s*E[\s;]" Code="139" BytesFollowing="0" Description="Clear (reset) bit 1 of E" />
+    <Opcode Op="RES 1,H" OpRegex="RES\s+1\s*,\s*H[\s;]" Code="140" BytesFollowing="0" Description="Clear (reset) bit 1 of H" />
+    <Opcode Op="RES 1,L" OpRegex="RES\s+1\s*,\s*L[\s;]" Code="141" BytesFollowing="0" Description="Clear (reset) bit 1 of L" />
+    <Opcode Op="RES 1,(HL)" OpRegex="RES\s+1\s*,\s*\(HL\)[\s;]" Code="142" BytesFollowing="0" Description="Clear (reset) bit 1 of value pointed by HL" />
+    <Opcode Op="RES 1,A" OpRegex="RES\s+1\s*,\s*A[\s;]" Code="143" BytesFollowing="0" Description="Clear (reset) bit 1 of A" />
+    <Opcode Op="RES 2,B" OpRegex="RES\s+2\s*,\s*B[\s;]" Code="144" BytesFollowing="0" Description="Clear (reset) bit 2 of B" />
+    <Opcode Op="RES 2,C" OpRegex="RES\s+2\s*,\s*C[\s;]" Code="145" BytesFollowing="0" Description="Clear (reset) bit 2 of C" />
+    <Opcode Op="RES 2,D" OpRegex="RES\s+2\s*,\s*D[\s;]" Code="146" BytesFollowing="0" Description="Clear (reset) bit 2 of D" />
+    <Opcode Op="RES 2,E" OpRegex="RES\s+2\s*,\s*E[\s;]" Code="147" BytesFollowing="0" Description="Clear (reset) bit 2 of E" />
+    <Opcode Op="RES 2,H" OpRegex="RES\s+2\s*,\s*H[\s;]" Code="148" BytesFollowing="0" Description="Clear (reset) bit 2 of H" />
+    <Opcode Op="RES 2,L" OpRegex="RES\s+2\s*,\s*L[\s;]" Code="149" BytesFollowing="0" Description="Clear (reset) bit 2 of L" />
+    <Opcode Op="RES 2,(HL)" OpRegex="RES\s+2\s*,\s*\(HL\)[\s;]" Code="150" BytesFollowing="0" Description="Clear (reset) bit 2 of value pointed by HL" />
+    <Opcode Op="RES 2,A" OpRegex="RES\s+2\s*,\s*A[\s;]" Code="151" BytesFollowing="0" Description="Clear (reset) bit 2 of A" />
+    <Opcode Op="RES 3,B" OpRegex="RES\s+3\s*,\s*B[\s;]" Code="152" BytesFollowing="0" Description="Clear (reset) bit 3 of B" />
+    <Opcode Op="RES 3,C" OpRegex="RES\s+3\s*,\s*C[\s;]" Code="153" BytesFollowing="0" Description="Clear (reset) bit 3 of C" />
+    <Opcode Op="RES 3,D" OpRegex="RES\s+3\s*,\s*D[\s;]" Code="154" BytesFollowing="0" Description="Clear (reset) bit 3 of D" />
+    <Opcode Op="RES 3,E" OpRegex="RES\s+3\s*,\s*E[\s;]" Code="155" BytesFollowing="0" Description="Clear (reset) bit 3 of E" />
+    <Opcode Op="RES 3,H" OpRegex="RES\s+3\s*,\s*H[\s;]" Code="156" BytesFollowing="0" Description="Clear (reset) bit 3 of H" />
+    <Opcode Op="RES 3,L" OpRegex="RES\s+3\s*,\s*L[\s;]" Code="157" BytesFollowing="0" Description="Clear (reset) bit 3 of L" />
+    <Opcode Op="RES 3,(HL)" OpRegex="RES\s+3\s*,\s*\(HL\)[\s;]" Code="158" BytesFollowing="0" Description="Clear (reset) bit 3 of value pointed by HL" />
+    <Opcode Op="RES 3,A" OpRegex="RES\s+3\s*,\s*A[\s;]" Code="159" BytesFollowing="0" Description="Clear (reset) bit 3 of A" />
+    <Opcode Op="RES 4,B" OpRegex="RES\s+4\s*,\s*B[\s;]" Code="160" BytesFollowing="0" Description="Clear (reset) bit 4 of B" />
+    <Opcode Op="RES 4,C" OpRegex="RES\s+4\s*,\s*C[\s;]" Code="161" BytesFollowing="0" Description="Clear (reset) bit 4 of C" />
+    <Opcode Op="RES 4,D" OpRegex="RES\s+4\s*,\s*D[\s;]" Code="162" BytesFollowing="0" Description="Clear (reset) bit 4 of D" />
+    <Opcode Op="RES 4,E" OpRegex="RES\s+4\s*,\s*E[\s;]" Code="163" BytesFollowing="0" Description="Clear (reset) bit 4 of E" />
+    <Opcode Op="RES 4,H" OpRegex="RES\s+4\s*,\s*H[\s;]" Code="164" BytesFollowing="0" Description="Clear (reset) bit 4 of H" />
+    <Opcode Op="RES 4,L" OpRegex="RES\s+4\s*,\s*L[\s;]" Code="165" BytesFollowing="0" Description="Clear (reset) bit 4 of L" />
+    <Opcode Op="RES 4,(HL)" OpRegex="RES\s+4\s*,\s*\(HL\)[\s;]" Code="166" BytesFollowing="0" Description="Clear (reset) bit 4 of value pointed by HL" />
+    <Opcode Op="RES 4,A" OpRegex="RES\s+4\s*,\s*A[\s;]" Code="167" BytesFollowing="0" Description="Clear (reset) bit 4 of A" />
+    <Opcode Op="RES 5,B" OpRegex="RES\s+5\s*,\s*B[\s;]" Code="168" BytesFollowing="0" Description="Clear (reset) bit 5 of B" />
+    <Opcode Op="RES 5,C" OpRegex="RES\s+5\s*,\s*C[\s;]" Code="169" BytesFollowing="0" Description="Clear (reset) bit 5 of C" />
+    <Opcode Op="RES 5,D" OpRegex="RES\s+5\s*,\s*D[\s;]" Code="170" BytesFollowing="0" Description="Clear (reset) bit 5 of D" />
+    <Opcode Op="RES 5,E" OpRegex="RES\s+5\s*,\s*E[\s;]" Code="171" BytesFollowing="0" Description="Clear (reset) bit 5 of E" />
+    <Opcode Op="RES 5,H" OpRegex="RES\s+5\s*,\s*H[\s;]" Code="172" BytesFollowing="0" Description="Clear (reset) bit 5 of H" />
+    <Opcode Op="RES 5,L" OpRegex="RES\s+5\s*,\s*L[\s;]" Code="173" BytesFollowing="0" Description="Clear (reset) bit 5 of L" />
+    <Opcode Op="RES 5,(HL)" OpRegex="RES\s+5\s*,\s*\(HL\)[\s;]" Code="174" BytesFollowing="0" Description="Clear (reset) bit 5 of value pointed by HL" />
+    <Opcode Op="RES 5,A" OpRegex="RES\s+5\s*,\s*A[\s;]" Code="175" BytesFollowing="0" Description="Clear (reset) bit 5 of A" />
+    <Opcode Op="RES 6,B" OpRegex="RES\s+6\s*,\s*B[\s;]" Code="176" BytesFollowing="0" Description="Clear (reset) bit 6 of B" />
+    <Opcode Op="RES 6,C" OpRegex="RES\s+6\s*,\s*C[\s;]" Code="177" BytesFollowing="0" Description="Clear (reset) bit 6 of C" />
+    <Opcode Op="RES 6,D" OpRegex="RES\s+6\s*,\s*D[\s;]" Code="178" BytesFollowing="0" Description="Clear (reset) bit 6 of D" />
+    <Opcode Op="RES 6,E" OpRegex="RES\s+6\s*,\s*E[\s;]" Code="179" BytesFollowing="0" Description="Clear (reset) bit 6 of E" />
+    <Opcode Op="RES 6,H" OpRegex="RES\s+6\s*,\s*H[\s;]" Code="180" BytesFollowing="0" Description="Clear (reset) bit 6 of H" />
+    <Opcode Op="RES 6,L" OpRegex="RES\s+6\s*,\s*L[\s;]" Code="181" BytesFollowing="0" Description="Clear (reset) bit 6 of L" />
+    <Opcode Op="RES 6,(HL)" OpRegex="RES\s+6\s*,\s*\(HL\)[\s;]" Code="182" BytesFollowing="0" Description="Clear (reset) bit 6 of value pointed by HL" />
+    <Opcode Op="RES 6,A" OpRegex="RES\s+6\s*,\s*A[\s;]" Code="183" BytesFollowing="0" Description="Clear (reset) bit 6 of A" />
+    <Opcode Op="RES 7,B" OpRegex="RES\s+7\s*,\s*B[\s;]" Code="184" BytesFollowing="0" Description="Clear (reset) bit 7 of B" />
+    <Opcode Op="RES 7,C" OpRegex="RES\s+7\s*,\s*C[\s;]" Code="185" BytesFollowing="0" Description="Clear (reset) bit 7 of C" />
+    <Opcode Op="RES 7,D" OpRegex="RES\s+7\s*,\s*D[\s;]" Code="186" BytesFollowing="0" Description="Clear (reset) bit 7 of D" />
+    <Opcode Op="RES 7,E" OpRegex="RES\s+7\s*,\s*E[\s;]" Code="187" BytesFollowing="0" Description="Clear (reset) bit 7 of E" />
+    <Opcode Op="RES 7,H" OpRegex="RES\s+7\s*,\s*H[\s;]" Code="188" BytesFollowing="0" Description="Clear (reset) bit 7 of H" />
+    <Opcode Op="RES 7,L" OpRegex="RES\s+7\s*,\s*L[\s;]" Code="189" BytesFollowing="0" Description="Clear (reset) bit 7 of L" />
+    <Opcode Op="RES 7,(HL)" OpRegex="RES\s+7\s*,\s*\(HL\)[\s;]" Code="190" BytesFollowing="0" Description="Clear (reset) bit 7 of value pointed by HL" />
+    <Opcode Op="RES 7,A" OpRegex="RES\s+7\s*,\s*A[\s;]" Code="191" BytesFollowing="0" Description="Clear (reset) bit 7 of A" />
+    <Opcode Op="SET 0,B" OpRegex="SET\s+0\s*,\s*B[\s;]" Code="192" BytesFollowing="0" Description="Set bit 0 of B" />
+    <Opcode Op="SET 0,C" OpRegex="SET\s+0\s*,\s*C[\s;]" Code="193" BytesFollowing="0" Description="Set bit 0 of C" />
+    <Opcode Op="SET 0,D" OpRegex="SET\s+0\s*,\s*D[\s;]" Code="194" BytesFollowing="0" Description="Set bit 0 of D" />
+    <Opcode Op="SET 0,E" OpRegex="SET\s+0\s*,\s*E[\s;]" Code="195" BytesFollowing="0" Description="Set bit 0 of E" />
+    <Opcode Op="SET 0,H" OpRegex="SET\s+0\s*,\s*H[\s;]" Code="196" BytesFollowing="0" Description="Set bit 0 of H" />
+    <Opcode Op="SET 0,L" OpRegex="SET\s+0\s*,\s*L[\s;]" Code="197" BytesFollowing="0" Description="Set bit 0 of L" />
+    <Opcode Op="SET 0,(HL)" OpRegex="SET\s+0\s*,\s*\(HL\)[\s;]" Code="198" BytesFollowing="0" Description="Set bit 0 of value pointed by HL" />
+    <Opcode Op="SET 0,A" OpRegex="SET\s+0\s*,\s*A[\s;]" Code="199" BytesFollowing="0" Description="Set bit 0 of A" />
+    <Opcode Op="SET 1,B" OpRegex="SET\s+1\s*,\s*B[\s;]" Code="200" BytesFollowing="0" Description="Set bit 1 of B" />
+    <Opcode Op="SET 1,C" OpRegex="SET\s+1\s*,\s*C[\s;]" Code="201" BytesFollowing="0" Description="Set bit 1 of C" />
+    <Opcode Op="SET 1,D" OpRegex="SET\s+1\s*,\s*D[\s;]" Code="202" BytesFollowing="0" Description="Set bit 1 of D" />
+    <Opcode Op="SET 1,E" OpRegex="SET\s+1\s*,\s*E[\s;]" Code="203" BytesFollowing="0" Description="Set bit 1 of E" />
+    <Opcode Op="SET 1,H" OpRegex="SET\s+1\s*,\s*H[\s;]" Code="204" BytesFollowing="0" Description="Set bit 1 of H" />
+    <Opcode Op="SET 1,L" OpRegex="SET\s+1\s*,\s*L[\s;]" Code="205" BytesFollowing="0" Description="Set bit 1 of L" />
+    <Opcode Op="SET 1,(HL)" OpRegex="SET\s+1\s*,\s*\(HL\)[\s;]" Code="206" BytesFollowing="0" Description="Set bit 1 of value pointed by HL" />
+    <Opcode Op="SET 1,A" OpRegex="SET\s+1\s*,\s*A[\s;]" Code="207" BytesFollowing="0" Description="Set bit 1 of A" />
+    <Opcode Op="SET 2,B" OpRegex="SET\s+2\s*,\s*B[\s;]" Code="208" BytesFollowing="0" Description="Set bit 2 of B" />
+    <Opcode Op="SET 2,C" OpRegex="SET\s+2\s*,\s*C[\s;]" Code="209" BytesFollowing="0" Description="Set bit 2 of C" />
+    <Opcode Op="SET 2,D" OpRegex="SET\s+2\s*,\s*D[\s;]" Code="210" BytesFollowing="0" Description="Set bit 2 of D" />
+    <Opcode Op="SET 2,E" OpRegex="SET\s+2\s*,\s*E[\s;]" Code="211" BytesFollowing="0" Description="Set bit 2 of E" />
+    <Opcode Op="SET 2,H" OpRegex="SET\s+2\s*,\s*H[\s;]" Code="212" BytesFollowing="0" Description="Set bit 2 of H" />
+    <Opcode Op="SET 2,L" OpRegex="SET\s+2\s*,\s*L[\s;]" Code="213" BytesFollowing="0" Description="Set bit 2 of L" />
+    <Opcode Op="SET 2,(HL)" OpRegex="SET\s+2\s*,\s*\(HL\)[\s;]" Code="214" BytesFollowing="0" Description="Set bit 2 of value pointed by HL" />
+    <Opcode Op="SET 2,A" OpRegex="SET\s+2\s*,\s*A[\s;]" Code="215" BytesFollowing="0" Description="Set bit 2 of A" />
+    <Opcode Op="SET 3,B" OpRegex="SET\s+3\s*,\s*B[\s;]" Code="216" BytesFollowing="0" Description="Set bit 3 of B" />
+    <Opcode Op="SET 3,C" OpRegex="SET\s+3\s*,\s*C[\s;]" Code="217" BytesFollowing="0" Description="Set bit 3 of C" />
+    <Opcode Op="SET 3,D" OpRegex="SET\s+3\s*,\s*D[\s;]" Code="218" BytesFollowing="0" Description="Set bit 3 of D" />
+    <Opcode Op="SET 3,E" OpRegex="SET\s+3\s*,\s*E[\s;]" Code="219" BytesFollowing="0" Description="Set bit 3 of E" />
+    <Opcode Op="SET 3,H" OpRegex="SET\s+3\s*,\s*H[\s;]" Code="220" BytesFollowing="0" Description="Set bit 3 of H" />
+    <Opcode Op="SET 3,L" OpRegex="SET\s+3\s*,\s*L[\s;]" Code="221" BytesFollowing="0" Description="Set bit 3 of L" />
+    <Opcode Op="SET 3,(HL)" OpRegex="SET\s+3\s*,\s*\(HL\)[\s;]" Code="222" BytesFollowing="0" Description="Set bit 3 of value pointed by HL" />
+    <Opcode Op="SET 3,A" OpRegex="SET\s+3\s*,\s*A[\s;]" Code="223" BytesFollowing="0" Description="Set bit 3 of A" />
+    <Opcode Op="SET 4,B" OpRegex="SET\s+4\s*,\s*B[\s;]" Code="224" BytesFollowing="0" Description="Set bit 4 of B" />
+    <Opcode Op="SET 4,C" OpRegex="SET\s+4\s*,\s*C[\s;]" Code="225" BytesFollowing="0" Description="Set bit 4 of C" />
+    <Opcode Op="SET 4,D" OpRegex="SET\s+4\s*,\s*D[\s;]" Code="226" BytesFollowing="0" Description="Set bit 4 of D" />
+    <Opcode Op="SET 4,E" OpRegex="SET\s+4\s*,\s*E[\s;]" Code="227" BytesFollowing="0" Description="Set bit 4 of E" />
+    <Opcode Op="SET 4,H" OpRegex="SET\s+4\s*,\s*H[\s;]" Code="228" BytesFollowing="0" Description="Set bit 4 of H" />
+    <Opcode Op="SET 4,L" OpRegex="SET\s+4\s*,\s*L[\s;]" Code="229" BytesFollowing="0" Description="Set bit 4 of L" />
+    <Opcode Op="SET 4,(HL)" OpRegex="SET\s+4\s*,\s*\(HL\)[\s;]" Code="230" BytesFollowing="0" Description="Set bit 4 of value pointed by HL" />
+    <Opcode Op="SET 4,A" OpRegex="SET\s+4\s*,\s*A[\s;]" Code="231" BytesFollowing="0" Description="Set bit 4 of A" />
+    <Opcode Op="SET 5,B" OpRegex="SET\s+5\s*,\s*B[\s;]" Code="232" BytesFollowing="0" Description="Set bit 5 of B" />
+    <Opcode Op="SET 5,C" OpRegex="SET\s+5\s*,\s*C[\s;]" Code="233" BytesFollowing="0" Description="Set bit 5 of C" />
+    <Opcode Op="SET 5,D" OpRegex="SET\s+5\s*,\s*D[\s;]" Code="234" BytesFollowing="0" Description="Set bit 5 of D" />
+    <Opcode Op="SET 5,E" OpRegex="SET\s+5\s*,\s*E[\s;]" Code="235" BytesFollowing="0" Description="Set bit 5 of E" />
+    <Opcode Op="SET 5,H" OpRegex="SET\s+5\s*,\s*H[\s;]" Code="236" BytesFollowing="0" Description="Set bit 5 of H" />
+    <Opcode Op="SET 5,L" OpRegex="SET\s+5\s*,\s*L[\s;]" Code="237" BytesFollowing="0" Description="Set bit 5 of L" />
+    <Opcode Op="SET 5,(HL)" OpRegex="SET\s+5\s*,\s*\(HL\)[\s;]" Code="238" BytesFollowing="0" Description="Set bit 5 of value pointed by HL" />
+    <Opcode Op="SET 5,A" OpRegex="SET\s+5\s*,\s*A[\s;]" Code="239" BytesFollowing="0" Description="Set bit 5 of A" />
+    <Opcode Op="SET 6,B" OpRegex="SET\s+6\s*,\s*B[\s;]" Code="240" BytesFollowing="0" Description="Set bit 6 of B" />
+    <Opcode Op="SET 6,C" OpRegex="SET\s+6\s*,\s*C[\s;]" Code="241" BytesFollowing="0" Description="Set bit 6 of C" />
+    <Opcode Op="SET 6,D" OpRegex="SET\s+6\s*,\s*D[\s;]" Code="242" BytesFollowing="0" Description="Set bit 6 of D" />
+    <Opcode Op="SET 6,E" OpRegex="SET\s+6\s*,\s*E[\s;]" Code="243" BytesFollowing="0" Description="Set bit 6 of E" />
+    <Opcode Op="SET 6,H" OpRegex="SET\s+6\s*,\s*H[\s;]" Code="244" BytesFollowing="0" Description="Set bit 6 of H" />
+    <Opcode Op="SET 6,L" OpRegex="SET\s+6\s*,\s*L[\s;]" Code="245" BytesFollowing="0" Description="Set bit 6 of L" />
+    <Opcode Op="SET 6,(HL)" OpRegex="SET\s+6\s*,\s*\(HL\)[\s;]" Code="246" BytesFollowing="0" Description="Set bit 6 of value pointed by HL" />
+    <Opcode Op="SET 6,A" OpRegex="SET\s+6\s*,\s*A[\s;]" Code="247" BytesFollowing="0" Description="Set bit 6 of A" />
+    <Opcode Op="SET 7,B" OpRegex="SET\s+7\s*,\s*B[\s;]" Code="248" BytesFollowing="0" Description="Set bit 7 of B" />
+    <Opcode Op="SET 7,C" OpRegex="SET\s+7\s*,\s*C[\s;]" Code="249" BytesFollowing="0" Description="Set bit 7 of C" />
+    <Opcode Op="SET 7,D" OpRegex="SET\s+7\s*,\s*D[\s;]" Code="250" BytesFollowing="0" Description="Set bit 7 of D" />
+    <Opcode Op="SET 7,E" OpRegex="SET\s+7\s*,\s*E[\s;]" Code="251" BytesFollowing="0" Description="Set bit 7 of E" />
+    <Opcode Op="SET 7,H" OpRegex="SET\s+7\s*,\s*H[\s;]" Code="252" BytesFollowing="0" Description="Set bit 7 of H" />
+    <Opcode Op="SET 7,L" OpRegex="SET\s+7\s*,\s*L[\s;]" Code="253" BytesFollowing="0" Description="Set bit 7 of L" />
+    <Opcode Op="SET 7,(HL)" OpRegex="SET\s+7\s*,\s*\(HL\)[\s;]" Code="254" BytesFollowing="0" Description="Set bit 7 of value pointed by HL" />
+    <Opcode Op="SET 7,A" OpRegex="SET\s+7\s*,\s*A[\s;]" Code="255" BytesFollowing="0" Description="Set bit 7 of A" />
+  </ArrayOfOpcode>
+</ArrayOfArrayOfOpcode>

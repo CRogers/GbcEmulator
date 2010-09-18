@@ -26,7 +26,11 @@ namespace Assembler
             {
                 RegexOpcode op = regexOpcodes[i];
 
+                if(op.Prefix != null)
+                    output.Add((byte)op.Prefix);
+
                 output.Add(op.Code);
+
                 if (op.BytesFollowing > 0)
                 {
                     Match m = op.Regex.Match(code[i]);

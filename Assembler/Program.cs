@@ -1,4 +1,5 @@
-﻿using System.Diagnostics;
+﻿using System;
+using System.Diagnostics;
 using System.IO;
 using System.Linq;
 using System.Text;
@@ -13,14 +14,17 @@ namespace Assembler
 
         static void Main(string[] args)
         {
-            XmlSerializer xmls = new XmlSerializer(typeof(Opcode[]));
+            XmlSerializer xmls = new XmlSerializer(typeof(Opcode[][]));
 
             using (var ms = new MemoryStream(Encoding.ASCII.GetBytes(Properties.Resources.opcode_dict)))
-                Opcodes = ((Opcode[])xmls.Deserialize(ms)).Select(o => new RegexOpcode(o)).ToArray();
+            {
+                var temp = ((Opcode[][]) xmls.Deserialize(ms));
+                Opcodes = temp[0].Select(o => new RegexOpcode(o, null)).Concat(temp[1].Select(o => new RegexOpcode(o, 0xCB))).ToArray();
+            }
 
             if (Debugger.IsAttached)
-                args = new[] { "test.asm", "test.bin" };
-                //args = new[] { "-d", "test.bin", "test_d.asm" };
+                //args = new[] { "test.asm", "test.bin" };
+                args = new[] { "-d", "test.bin", "test_d.asm" };
 
             if(args[0] == "-d")
             {

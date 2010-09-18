@@ -2,7 +2,6 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
-using System.Text.RegularExpressions;
 
 namespace Assembler
 {
@@ -10,16 +9,18 @@ namespace Assembler
     {
          public static string Disassemble(byte[] data, bool lowerCaseMnemonics, bool lowerCaseRegisters, bool addLineNumbers, bool addComments)
          {
-             var codeDict = Program.Opcodes.ToDictionary(o => o.Code);
+             var codeDict = Program.Opcodes.ToDictionary(o => (ushort)(o.Code | (o.Prefix == null ? 0 : o.Prefix << 8)));
              StringBuilder output = new StringBuilder();
-             Regex whitespaceAdder = new Regex(@"");
 
              for (int i = 0; i < data.Length; i++)
              {
                  Opcode opcode;
                  try
                  {
-                     opcode = codeDict[data[i]];
+                     ushort d = data[i];
+                     if (d == 0xCB)
+                         d = (ushort)((0xCB << 8) | data[++i]);
+                     opcode = codeDict[d];
                  }
                  catch (KeyNotFoundException knfe)
                  {
@@ -58,10 +59,10 @@ namespace Assembler
                      numberFormat = n => ((sbyte) n).ToString();
 
                  if (opcode.BytesFollowing == 1)
-                     line = line.Replace("n", numberFormat(data[++i]));
+                     line = line.Replace("#", numberFormat(data[++i]));
 
                  else if (opcode.BytesFollowing == 2)
-                     line = line.Replace("nn", numberFormat(data[++i] | data[++i] << 8));
+                     line = line.Replace("##", numberFormat(data[++i] | data[++i] << 8));
 
                  if (addComments)
                      line = line.PadRight(30) + "; " + opcode.Description;

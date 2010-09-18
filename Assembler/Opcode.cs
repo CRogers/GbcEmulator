@@ -33,15 +33,17 @@ namespace Assembler
     public class RegexOpcode : Opcode
     {
         public Regex Regex { get; set; }
+        public byte? Prefix { get; set; }
 
-        public RegexOpcode(Opcode opcode)
+        public RegexOpcode(Opcode opcode, byte? prefix)
         {
             Op = opcode.Op;
             Code = opcode.Code;
             BytesFollowing = opcode.BytesFollowing;
             Description = opcode.Description;
-
+            
             Regex = new Regex(opcode.OpRegex, RegexOptions.IgnoreCase);
+            Prefix = prefix;
         }
     }
 }
