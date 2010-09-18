@@ -42,7 +42,7 @@
 
         private void Sub(byte b)
         {
-            var result = (byte)(r.A + b);
+            var result = (byte)(r.A - b);
             r.FlagN = false;
             r.FlagC = result < byte.MinValue;
             FlagSZHSet(result, r.A, b);
@@ -52,7 +52,7 @@
 
         private void Sbc(byte b)
         {
-            var result = (byte)(r.A + b + r.FlagCInt);
+            var result = (byte)(r.A - b - r.FlagCInt);
             r.FlagN = false;
             r.FlagC = result < byte.MinValue;
             FlagSZHSet(result, r.A, b);
@@ -240,22 +240,20 @@
 
         //////////////////////////////////////////////////////////////////////////
         #region Call/Ret
+
+        // BUG: Stack operations are broken until a proper memory management class is implemented
         private void Call(ushort address)
         {
             WriteByte(--r.SP, r.SPh);
             WriteByte(--r.SP, r.SPl);
-            r.PC = address;
-        }
-
-        private void Call()
-        {
-            Call(ReadUShort());
+            r.Address = address;
         }
 
         private void Ret()
         {
             r.PCl = ReadByte(r.SP++);
             r.PCh = ReadByte(r.SP++);
+            r.PC--;
         }
 
         private void RegisterStore()

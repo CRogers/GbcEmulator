@@ -50,6 +50,14 @@ namespace RomTools
         // Register R for Memomry Refresh Register?
 
         /// <summary>
+        /// A way to set PC that will auto-decrement the PC after to take account of the for loop increment
+        /// </summary>
+        public ushort Address
+        {
+            set { PC = value; PC--; }
+        }
+
+        /// <summary>
         /// Carry flag
         /// </summary>
         public bool FlagC

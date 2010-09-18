@@ -31,7 +31,14 @@ namespace RomTools
             r.PC = address;
 
             for (; r.PC < rom.Length; r.PC++)
-                opcodes[rom[r.PC]]();
+            {
+                byte op = rom[r.PC];
+                Action lambda = op == 0xCB ? cbopcodes[rom[++r.PC]] : opcodes[op];
+                lambda();
+
+                if (stopped)
+                    break;
+            }
         }
     }
 }

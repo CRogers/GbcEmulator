@@ -13,9 +13,7 @@ namespace OpcodeInfoExtractor
             // This code extracts information from this webpage describing opcodes written by Imran Nazar.
             // All credit goes to him for this fantastic resource, as well as his project to write a Z80 emulator in javascript.
             // http://imrannazar.com/Gameboy-Z80-Opcode-Map
-
-            // BUG: Need to sort out extended table as well (for 0xCB codes)
-
+            
             string data = File.ReadAllText(dataFile);
             string cbdata = File.ReadAllText(cbdataFile);
 
@@ -70,7 +68,8 @@ namespace OpcodeInfoExtractor
                                        .Replace("##", shortregex).Replace("#", byteregex);
 
                     // Add on an option to match labels in jump commands
-                    if (op.Substring(0, 2) == "JP" && bytesFollowing > 0)
+                    var first2Chars = op.Substring(0, 2);
+                    if ((first2Chars == "JP" || first2Chars == "CA") && bytesFollowing > 0)
                         opregex += @"|[_a-zA-Z]\w+";
 
                     // Close the right paren of the first capturing group

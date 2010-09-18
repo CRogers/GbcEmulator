@@ -35,12 +35,13 @@ namespace Assembler
                 {
                     Match m = op.Regex.Match(code[i]);
 
-                    // Group 1 is the number, either n, -n, nn or -nn, or a label
+                    // Group 1 is the number, either n, -n, nn, -nn, h or hh or a label
                     int n;
                     if (!int.TryParse(m.Groups[1].Value, out n))
                     {
                         // Special case for JP opcode, as it can have a label to jump to
-                        if (op.Op.Substring(0, 2) == "JP")
+                        var first2Chars = op.Op.Substring(0, 2);
+                        if (first2Chars == "JP" || first2Chars == "CA")
                             n = labelDict[m.Groups[1].Value];
                         else
                             throw new ApplicationException(string.Format("The value {0} cannot be parsed", m.Groups[1].Value));

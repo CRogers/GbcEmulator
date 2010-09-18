@@ -84,7 +84,7 @@ namespace RomTools
                               {0x3A, () => r.A = ReadByte(r.HL--)}, // LD A, (HLD)
 
                               // RETI
-                              {0xD9, () => { r.IFF2 = r.IFF1; r.IFF1 = true; RegisterStore(); r.PC = ReadUShort(r.SP); r.SP += 2; } },
+                              {0xD9, () => { r.IFF2 = r.IFF1; r.IFF1 = true; RegisterStore(); r.Address = ReadUShort(r.SP); r.SP += 2; } },
                               
                               {0xE0, () => WriteByte(ReadByte() + 0xFF00, r.A)},            // LD (byte), A
                               {0xE2, () => WriteByte(r.C + 0xFF00, r.A)},                   // LD (C), A
@@ -413,31 +413,31 @@ namespace RomTools
                               // Branch Control/Program Counter Load Instructions
 
                               // JP X, Address
-                              {0xC3, () => { r.PC = ReadUShort(); }},
-                              {0xC2, () => { if (!r.FlagZ) r.PC = ReadUShort(); }},
-                              {0xCA, () => { if (r.FlagZ) r.PC = ReadUShort(); }},
-                              {0xD2, () => { if (!r.FlagC) r.PC = ReadUShort(); }},
-                              {0xDA, () => { if (r.FlagC) r.PC = ReadUShort(); }},
+                              {0xC3, () => { r.Address = ReadUShort(); }},
+                              {0xC2, () => { var us = ReadUShort(); if (!r.FlagZ) r.Address = us; }},
+                              {0xCA, () => { var us = ReadUShort(); if (r.FlagZ) r.Address = us; }},
+                              {0xD2, () => { var us = ReadUShort(); if (!r.FlagC) r.Address = us; }},
+                              {0xDA, () => { var us = ReadUShort(); if (r.FlagC) r.Address = us; }},
                               // 0xE2, 0xEA: JP PO/PE changed in gameboy
                               // 0xF2: JP P removed in gameboy
                               // 0xFA: JP M changed in gameboy
 
                               // JP (HL)
-                              {0xE9, () => r.PC = r.HL },
+                              {0xE9, () => r.Address = r.HL },
 
                               // JR X
-                              {0x18, () => { r.PC = (ushort)(r.PC + (sbyte)ReadByte()); } }, 
-                              {0x20, () => { if(!r.FlagZ) r.PC = (ushort)(r.PC + (sbyte)ReadByte()); } }, 
-                              {0x28, () => { if(r.FlagZ) r.PC = (ushort)(r.PC + (sbyte)ReadByte()); } }, 
-                              {0x30, () => { if(!r.FlagC) r.PC = (ushort)(r.PC + (sbyte)ReadByte()); } }, 
-                              {0x38, () => { if(r.FlagC) r.PC = (ushort)(r.PC + (sbyte)ReadByte()); } }, 
+                              {0x18, () => r.Address = (ushort)(r.PC + (sbyte)ReadByte()) }, 
+                              {0x20, () => { var sb = (sbyte)ReadByte(); if(!r.FlagZ) r.Address = (ushort)(r.PC + sb); } }, 
+                              {0x28, () => { var sb = (sbyte)ReadByte(); if(r.FlagZ) r.Address = (ushort)(r.PC + sb); } }, 
+                              {0x30, () => { var sb = (sbyte)ReadByte(); if(!r.FlagC) r.Address = (ushort)(r.PC + sb); } }, 
+                              {0x38, () => { var sb = (sbyte)ReadByte(); if(r.FlagC) r.Address = (ushort)(r.PC + sb); } }, 
 
                               // CALL X
-                              {0xCD, Call },
-                              {0xC4, () => { if(!r.FlagZ) Call(); } },
-                              {0xCC, () => { if(r.FlagZ) Call(); } },
-                              {0xD4, () => { if(!r.FlagC) Call(); } },
-                              {0xDC, () => { if(r.FlagC) Call(); } },
+                              {0xCD, () => Call(ReadUShort()) },
+                              {0xC4, () => { var us = ReadUShort(); if(!r.FlagZ) Call(us); } },
+                              {0xCC, () => { var us = ReadUShort(); if(r.FlagZ) Call(us); } },
+                              {0xD4, () => { var us = ReadUShort(); if(!r.FlagC) Call(us); } },
+                              {0xDC, () => { var us = ReadUShort(); if(r.FlagC) Call(us); } },
                               // 0xE4, 0xEC: CALL PO/PE removed in gameboy
                               // 0xF4, 0xFC: CALL P/M removed in gameboy
 

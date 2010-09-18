@@ -52,7 +52,8 @@ namespace Assembler
 
                  Func<int,string> numberFormat = n => n.ToString();
 
-                 if (addLineNumbers && opcode.Op.Substring(0,2) == "JP")
+                 var first2Chars = opcode.Op.Substring(0, 2);
+                 if (addLineNumbers && (first2Chars == "JP" || first2Chars == "CA"))
                      numberFormat = n => "L_" + n.ToString("X");
 
                  if (addLineNumbers && opcode.Op.Substring(0, 2) == "JR")
