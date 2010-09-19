@@ -1,4 +1,4 @@
-﻿namespace RomTools
+﻿namespace RomTools.Emulator
 {
     public partial class GameBoy
     {

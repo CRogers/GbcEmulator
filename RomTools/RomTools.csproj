@@ -40,14 +40,14 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="CartridgeType.cs" />
+    <Compile Include="Metadata\CartridgeType.cs" />
     <Compile Include="ExtensionMethods.cs" />
-    <Compile Include="GameBoy.cs" />
-    <Compile Include="GameBoy.Helpers.cs" />
-    <Compile Include="GameBoy.Opcodes.cs" />
-    <Compile Include="MemorySize.cs" />
-    <Compile Include="Registers.cs" />
-    <Compile Include="RomInfo.cs" />
+    <Compile Include="Emulator\GameBoy.cs" />
+    <Compile Include="Emulator\GameBoy.Helpers.cs" />
+    <Compile Include="Emulator\GameBoy.Opcodes.cs" />
+    <Compile Include="Metadata\MemorySize.cs" />
+    <Compile Include="Emulator\Registers.cs" />
+    <Compile Include="Metadata\RomInfo.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

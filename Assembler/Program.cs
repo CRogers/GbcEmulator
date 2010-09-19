@@ -1,10 +1,9 @@
-﻿using System;
-using System.Diagnostics;
+﻿using System.Diagnostics;
 using System.IO;
 using System.Linq;
 using System.Text;
 using System.Xml.Serialization;
-using RomTools;
+using RomTools.Emulator;
 
 namespace Assembler
 {
@@ -23,8 +22,8 @@ namespace Assembler
             }
 
             if (Debugger.IsAttached)
-                //args = new[] { "test.asm", "test.bin" };
-                args = new[] { "-d", "test.bin", "test_d.asm" };
+                args = new[] { "test.asm", "test.bin" };
+                //args = new[] { "-d", "test.bin", "test_d.asm" };
 
             if(args[0] == "-d")
             {

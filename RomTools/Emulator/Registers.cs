@@ -1,6 +1,6 @@
 ﻿using System.Runtime.InteropServices;
 
-namespace RomTools
+namespace RomTools.Emulator
 {
     [StructLayout(LayoutKind.Explicit, Size=15)]
     public class Registers

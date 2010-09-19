@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace RomTools
+namespace RomTools.Metadata
 {
     public class CartridgeInfo
     {

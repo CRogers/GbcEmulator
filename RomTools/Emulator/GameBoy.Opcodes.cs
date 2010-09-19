@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 
-namespace RomTools
+namespace RomTools.Emulator
 {
     public partial class GameBoy
     {

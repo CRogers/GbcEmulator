@@ -1,9 +1,6 @@
-﻿using System;
-using System.Collections.Generic;
-using System.IO;
-using System.Linq;
-using System.Text;
-using RomTools;
+﻿using System.IO;
+using RomTools.Emulator;
+using RomTools.Metadata;
 
 namespace TestProject
 {
