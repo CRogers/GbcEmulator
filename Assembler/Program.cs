@@ -38,8 +38,11 @@ namespace Assembler
 
                 File.WriteAllBytes(args[1], assembled);
 
-                var gb = new GameBoy(assembled);
-                gb.RunCode(0);
+                if (Debugger.IsAttached)
+                {
+                    var gb = new GameBoy(assembled);
+                    gb.RunCode(0);
+                }
             }
         }
     }

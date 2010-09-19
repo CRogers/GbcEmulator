@@ -2,6 +2,13 @@
 
 namespace RomTools.Metadata
 {
+    // Taken from PAN document at: http://www.devrs.com/gb/files/gbspec.txt
+
+    public enum MbcType
+    {
+        Mbc1 = 1, Mbc2 = 2, Mbc3 = 3, Mbc5 = 5
+    }
+
     public class CartridgeInfo
     {
         public bool Rom { get; private set; }
@@ -20,6 +27,8 @@ namespace RomTools.Metadata
         public bool HudsonHuC3 { get; private set; }
         public bool HudsonHuC1 { get; private set; }
 
+        public MbcType MbcType { get; private set; }
+
         public CartridgeInfo(byte b0147)
         {
             int b = b0147;
@@ -31,7 +40,10 @@ namespace RomTools.Metadata
                 Rom = true;
 
             if (b >= 1 && b <= 3)
+            {
                 Mbc1 = true;
+                MbcType = MbcType.Mbc1;
+            }
 
             if (b.EqualsAny(2, 3, 8, 9, 0x12, 0x13, 0x1A, 0x1B))
                 Ram = true;
@@ -40,7 +52,10 @@ namespace RomTools.Metadata
                 Battery = true;
 
             if (b == 5 || b == 6)
+            {
                 Mbc2 = true;
+                MbcType = MbcType.Mbc2;
+            }
 
             if (b >= 0xB && b <= 0xD)
                 Mmm01 = true;
@@ -49,13 +64,19 @@ namespace RomTools.Metadata
                 Sram = true;
 
             if (b >= 0xF && b <= 0x13)
+            {
                 Mbc3 = true;
+                MbcType = MbcType.Mbc3;
+            }
 
             if (b == 0xF || b == 0x10)
                 Timer = true;
 
             if(b >= 0x1A && b <= 0x1E)
+            {
                 Mbc5 = true;
+                MbcType = MbcType.Mbc5;
+            }
 
             if (b >= 0xC && b <= 0x1E)
                 Rumble = true;

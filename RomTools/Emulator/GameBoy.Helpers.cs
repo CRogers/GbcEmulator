@@ -244,32 +244,16 @@
         // BUG: Stack operations are broken until a proper memory management class is implemented
         private void Call(ushort address)
         {
-            WriteByte(--r.SP, r.SPh);
-            WriteByte(--r.SP, r.SPl);
+            mmu.WriteByte(--r.SP, r.SPh);
+            mmu.WriteByte(--r.SP, r.SPl);
             r.Address = address;
         }
 
         private void Ret()
         {
-            r.PCl = ReadByte(r.SP++);
-            r.PCh = ReadByte(r.SP++);
+            r.PCl = mmu.ReadByte(r.SP++);
+            r.PCh = mmu.ReadByte(r.SP++);
             r.PC--;
-        }
-
-        private void RegisterStore()
-        {
-            rsv.AF = r.AF;
-            rsv.BC = r.BC;
-            rsv.DE = r.DE;
-            rsv.HL = r.HL;
-        }
-
-        private void RegisterRecover()
-        {
-            r.AF = rsv.AF;
-            r.BC = rsv.BC;
-            r.DE = rsv.DE;
-            r.HL = rsv.HL;
         }
         #endregion
 

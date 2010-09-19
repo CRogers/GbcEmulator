@@ -8,23 +8,27 @@ Current Jobs/Roadmap:
 		- Virtually complete, reads metadata from ROM
 		
 	* Assembler
-		- Supports all opcodes not starting with 0xCB
+		- Supports all opcodes
+		- Supports hexadecimal and labels
 		- Outputs flat binary files
+		- Fancy features like setting/reserving data, macros, pointer arithmetic etc possibly tbi
 		
 	* Disassembler
 		- Supports all opcodes that the Assembler supports
 		- Outputs files in a pretty way
 
 	* Opcodes
-		- Adding opcodes
+		- All opcodes added
 		- Checking opcodes are correct
 		- Correcting buggy opcodes indentified by // BUG: notifications once correct implementations are found
-		- Sorting out flags and setting them in opcodes
+		- Flags mostly sorted out
+			- Half-carry and DAA flags may be wrong
 		- Sorting out timings for each operation
-		- Refactoring/Ordering
 		
 	* Memory Controller
-		- Research/Needs to be implemented
+		- Is mostly implemented
+		- Does not support GPU VRAM or input or I/O
+		- Needs another good checking against the spec(s)  
 		
 	* GPU
 		- Research/Needs to be implemented

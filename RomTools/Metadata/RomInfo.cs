@@ -7,6 +7,8 @@ namespace RomTools.Metadata
 
     public class RomInfo
     {
+        public byte[] Rom { get; private set; }
+
         public byte[] NintendoGraphic { get; private set; }
         public string RomName { get; private set; }
         public bool IsColor { get; private set; }
@@ -23,6 +25,8 @@ namespace RomTools.Metadata
 
         public RomInfo(byte[] rom)
         {
+            Rom = rom;
+
             NintendoGraphic = new byte[48];
             Array.Copy(rom, 0x0104, NintendoGraphic, 0, 48);
 

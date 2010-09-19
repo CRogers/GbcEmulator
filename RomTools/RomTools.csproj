@@ -40,6 +40,8 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Emulator\MemoryManagementUnit.cs" />
+    <Compile Include="Emulator\MemoryBankController.cs" />
     <Compile Include="Metadata\CartridgeType.cs" />
     <Compile Include="ExtensionMethods.cs" />
     <Compile Include="Emulator\GameBoy.cs" />

@@ -1,6 +1,5 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Linq;
 
 namespace RomTools.Emulator
 {
@@ -9,47 +8,16 @@ namespace RomTools.Emulator
         private Dictionary<byte, Action> opcodes;
         private Dictionary<byte, Action> cbopcodes;
 
-        private static ushort BytesToUShortLE(byte a, byte b)
-        {
-            return (ushort)(a | (b << 8));
-        }
-
         private ushort ReadUShort()
         {
-            return BytesToUShortLE(rom[++r.PC], rom[++r.PC]);
-        }
-
-        private ushort ReadUShort(ushort address)
-        {
-            return BytesToUShortLE(rom[address], rom[address + 1]);
+            ushort addr = r.PC;
+            r.PC += 2;
+            return mmu.ReadUShort(addr);
         }
 
         private byte ReadByte()
         {
-            return rom[++r.PC];
-        }
-
-        private byte ReadByte(int address)
-        {
-            return rom[address];
-        }
-
-        private void WriteUShort(int address, ushort value)
-        {
-            rom[address] = (byte)(value & 0xFF);
-            rom[address + 1] = (byte)(value >> 8);
-        }
-
-        private void WriteByte(int address, byte value)
-        {
-            rom[address] = value;
-        }
-
-        private void Swap<T>(ref T a, ref T b)
-        {
-            T t = a;
-            a = b;
-            b = t;
+            return mmu.ReadByte(++r.PC);
         }
 
         private void InitOpcodes()
@@ -73,29 +41,29 @@ namespace RomTools.Emulator
                               // http://www.z80.info/z80gboy.txt
 
                               // LD (word), SP
-                              {0x08, () => WriteUShort(ReadUShort(), r.SP)},
+                              {0x08, () => mmu.WriteUShort(ReadUShort(), r.SP)},
 
                               // STOP: Stop the processor. BUG: Implementation guessed, possibly wrong
                               {0x10, () => stopped = true }, 
 
-                              {0x22, () => WriteByte(r.HL++, r.A)}, // LD (HLI), A                              
-                              {0x2A, () => r.A = ReadByte(r.HL++)}, // LD A, (HLI)
-                              {0x32, () => WriteByte(r.HL--, r.A)}, // LD (HLD), A                              
-                              {0x3A, () => r.A = ReadByte(r.HL--)}, // LD A, (HLD)
+                              {0x22, () => mmu.WriteByte(r.HL++, r.A)}, // LD (HLI), A                              
+                              {0x2A, () => r.A = mmu.ReadByte(r.HL++)}, // LD A, (HLI)
+                              {0x32, () => mmu.WriteByte(r.HL--, r.A)}, // LD (HLD), A                              
+                              {0x3A, () => r.A = mmu.ReadByte(r.HL--)}, // LD A, (HLD)
 
                               // RETI
-                              {0xD9, () => { r.IFF2 = r.IFF1; r.IFF1 = true; RegisterStore(); r.Address = ReadUShort(r.SP); r.SP += 2; } },
+                              {0xD9, () => { r.IFF2 = r.IFF1; r.IFF1 = true; r.Address = mmu.ReadUShort(r.SP); r.SP += 2; } },
                               
-                              {0xE0, () => WriteByte(ReadByte() + 0xFF00, r.A)},            // LD (byte), A
-                              {0xE2, () => WriteByte(r.C + 0xFF00, r.A)},                   // LD (C), A
+                              {0xE0, () => mmu.WriteByte(ReadByte() + 0xFF00, r.A)},            // LD (byte), A
+                              {0xE2, () => mmu.WriteByte(r.C + 0xFF00, r.A)},                   // LD (C), A
 
-                              {0xE8, () => r.SP = (ushort) (r.SP + (sbyte) ReadUShort())},  // ADD SP, offset; offset is signed BUG: Flags?
-                              {0xEA, () => WriteByte(ReadUShort(), r.A)},                   // LD (word), A
+                              {0xE8, () => r.SP = (ushort) (r.SP + (sbyte) ReadUShort())},      // ADD SP, offset; offset is signed BUG: Flags?
+                              {0xEA, () => mmu.WriteByte(ReadUShort(), r.A)},                   // LD (word), A
 
-                              {0xF0, () => r.A = ReadByte(0xFF00 + ReadByte())},            // LD A, (byte)
-                              {0xF8, () => r.HL = (ushort) (r.SP + (sbyte) ReadUShort())},  // LD HL, offset; offset is signed
+                              {0xF0, () => r.A = mmu.ReadByte(0xFF00 + ReadByte())},            // LD A, (byte)
+                              {0xF8, () => r.HL = (ushort) (r.SP + (sbyte) ReadUShort())},      // LD HL, offset; offset is signed
 
-                              {0xFA, () => r.A = ReadByte(ReadUShort())},                   // LD A, (word)
+                              {0xFA, () => r.A = mmu.ReadByte(ReadUShort())},                   // LD A, (word)
 
 
 
@@ -114,9 +82,9 @@ namespace RomTools.Emulator
                               {0x7D, () => r.A = r.L},
 
                               // LD A, (X)
-                              {0x7E, () => r.A = ReadByte(r.HL)},
-                              {0x0A, () => r.A = ReadByte(r.BC)},
-                              {0x1A, () => r.A = ReadByte(r.DE)},
+                              {0x7E, () => r.A = mmu.ReadByte(r.HL)},
+                              {0x0A, () => r.A = mmu.ReadByte(r.BC)},
+                              {0x1A, () => r.A = mmu.ReadByte(r.DE)},
 
                               // LD B, X
                               {0x47, () => r.B = r.A},
@@ -126,7 +94,7 @@ namespace RomTools.Emulator
                               {0x43, () => r.B = r.E},
                               {0x44, () => r.B = r.H},
                               {0x45, () => r.B = r.L},
-                              {0x46, () => r.B = ReadByte(r.HL)},
+                              {0x46, () => r.B = mmu.ReadByte(r.HL)},
 
                               // LD C, X
                               {0x4F, () => r.C = r.A},
@@ -136,7 +104,7 @@ namespace RomTools.Emulator
                               {0x4B, () => r.C = r.E},
                               {0x4C, () => r.C = r.H},
                               {0x4D, () => r.C = r.L},
-                              {0x4E, () => r.C = ReadByte(r.HL)},
+                              {0x4E, () => r.C = mmu.ReadByte(r.HL)},
 
                               // LD D, X
                               {0x57, () => r.D = r.A},
@@ -146,7 +114,7 @@ namespace RomTools.Emulator
                               {0x53, () => r.D = r.E},
                               {0x54, () => r.D = r.H},
                               {0x55, () => r.D = r.L},
-                              {0x56, () => r.D = ReadByte(r.HL)},
+                              {0x56, () => r.D = mmu.ReadByte(r.HL)},
 
                               // LD E, X
                               {0x5F, () => r.E = r.A},
@@ -156,7 +124,7 @@ namespace RomTools.Emulator
                               {0x5B, () => r.E = r.E},
                               {0x5C, () => r.E = r.H},
                               {0x5D, () => r.E = r.L},
-                              {0x5E, () => r.E = ReadByte(r.HL)},
+                              {0x5E, () => r.E = mmu.ReadByte(r.HL)},
 
                               // LD H, X
                               {0x67, () => r.H = r.A},
@@ -166,7 +134,7 @@ namespace RomTools.Emulator
                               {0x63, () => r.H = r.E},
                               {0x64, () => r.H = r.H},
                               {0x65, () => r.H = r.L},
-                              {0x66, () => r.H = ReadByte(r.HL)},
+                              {0x66, () => r.H = mmu.ReadByte(r.HL)},
 
                               // LD L, X
                               {0x6F, () => r.L = r.A},
@@ -176,16 +144,16 @@ namespace RomTools.Emulator
                               {0x6B, () => r.L = r.E},
                               {0x6C, () => r.L = r.H},
                               {0x6D, () => r.L = r.L},
-                              {0x6E, () => r.L = ReadByte(r.HL)},
+                              {0x6E, () => r.L = mmu.ReadByte(r.HL)},
 
                               // LD (HL), X
-                              {0x77, () => WriteByte(r.HL, r.A)},
-                              {0x70, () => WriteByte(r.HL, r.B)},
-                              {0x71, () => WriteByte(r.HL, r.C)},
-                              {0x72, () => WriteByte(r.HL, r.D)},
-                              {0x73, () => WriteByte(r.HL, r.E)},
-                              {0x74, () => WriteByte(r.HL, r.H)},
-                              {0x75, () => WriteByte(r.HL, r.L)},
+                              {0x77, () => mmu.WriteByte(r.HL, r.A)},
+                              {0x70, () => mmu.WriteByte(r.HL, r.B)},
+                              {0x71, () => mmu.WriteByte(r.HL, r.C)},
+                              {0x72, () => mmu.WriteByte(r.HL, r.D)},
+                              {0x73, () => mmu.WriteByte(r.HL, r.E)},
+                              {0x74, () => mmu.WriteByte(r.HL, r.H)},
+                              {0x75, () => mmu.WriteByte(r.HL, r.L)},
 
                               // LD X, byte
                               {0x3E, () => r.A = ReadByte()},
@@ -195,11 +163,11 @@ namespace RomTools.Emulator
                               {0x1E, () => r.E = ReadByte()},
                               {0x26, () => r.H = ReadByte()},
                               {0x2E, () => r.L = ReadByte()},
-                              {0x36, () => WriteByte(r.HL, ReadByte())},
+                              {0x36, () => mmu.WriteByte(r.HL, ReadByte())},
 
                               // LD (X), A
-                              {0x02, () => WriteByte(r.BC, r.A)},
-                              {0x12, () => WriteByte(r.DE, r.A)},
+                              {0x02, () => mmu.WriteByte(r.BC, r.A)},
+                              {0x12, () => mmu.WriteByte(r.DE, r.A)},
 
                               // 16 Bit Transfer Instructions
 
@@ -227,7 +195,7 @@ namespace RomTools.Emulator
                               {0x83, () => Add(r.E)},
                               {0x84, () => Add(r.H)},
                               {0x85, () => Add(r.L)},
-                              {0x86, () => Add(ReadByte(r.HL))},
+                              {0x86, () => Add(mmu.ReadByte(r.HL))},
                               {0xC6, () => Add(ReadByte())},
 
                               // Add Byte with Carry-In Instructions
@@ -240,7 +208,7 @@ namespace RomTools.Emulator
                               {0x8B, () => Adc(r.E)},
                               {0x8C, () => Adc(r.H)},
                               {0x8D, () => Adc(r.L)},
-                              {0x8E, () => Adc(ReadByte(r.HL))},
+                              {0x8E, () => Adc(mmu.ReadByte(r.HL))},
                               {0xCE, () => Adc(ReadByte())},
 
                               // Subtract Byte Instructions
@@ -253,7 +221,7 @@ namespace RomTools.Emulator
                               {0x93, () => Sub(r.E)},
                               {0x94, () => Sub(r.H)},
                               {0x95, () => Sub(r.L)},
-                              {0x96, () => Sub(ReadByte(r.HL))},
+                              {0x96, () => Sub(mmu.ReadByte(r.HL))},
                               {0xD6, () => Sub(ReadByte())},
 
                               // Subtract Byte With Borrow-In Instructions
@@ -266,7 +234,7 @@ namespace RomTools.Emulator
                               {0x9B, () => Sbc(r.E)},
                               {0x9C, () => Sbc(r.H)},
                               {0x9D, () => Sbc(r.L)},
-                              {0x9E, () => Sbc(ReadByte(r.HL))},
+                              {0x9E, () => Sbc(mmu.ReadByte(r.HL))},
                               {0xDE, () => Sbc(ReadByte())},
 
                               // Double Byte Add Instructions
@@ -298,7 +266,7 @@ namespace RomTools.Emulator
                               {0x1C, () => Inc(r.E)},
                               {0x24, () => Inc(r.H)},
                               {0x2C, () => Inc(r.L)},
-                              {0x34, () => WriteByte(r.HL, Inc(ReadByte(r.HL)))},
+                              {0x34, () => mmu.WriteByte(r.HL, Inc(mmu.ReadByte(r.HL)))},
 
                               // Decrement Byte Instructions
 
@@ -310,7 +278,7 @@ namespace RomTools.Emulator
                               {0x1D, () => Dec(r.E)},
                               {0x25, () => Dec(r.H)},
                               {0x2D, () => Dec(r.L)},
-                              {0x35, () => WriteByte(r.HL, Dec(ReadByte(r.HL)))},
+                              {0x35, () => mmu.WriteByte(r.HL, Dec(mmu.ReadByte(r.HL)))},
 
                               // Increment Register Pair Instructions
 
@@ -374,7 +342,7 @@ namespace RomTools.Emulator
                               {0xA3, () => And(r.E)},
                               {0xA4, () => And(r.H)},
                               {0xA5, () => And(r.L)},
-                              {0xA6, () => And(ReadByte(r.HL))},
+                              {0xA6, () => And(mmu.ReadByte(r.HL))},
                               {0xE6, () => And(ReadByte())},
 
                               // XOR X
@@ -385,7 +353,7 @@ namespace RomTools.Emulator
                               {0xAB, () => Xor(r.E)},
                               {0xAC, () => Xor(r.H)},
                               {0xAD, () => Xor(r.L)},
-                              {0xAE, () => Xor(ReadByte(r.HL))},
+                              {0xAE, () => Xor(mmu.ReadByte(r.HL))},
                               {0xEE, () => Xor(ReadByte())},
 
                               // OR X
@@ -396,7 +364,7 @@ namespace RomTools.Emulator
                               {0xB3, () => Or(r.E)},
                               {0xB4, () => Or(r.H)},
                               {0xB5, () => Or(r.L)},
-                              {0xB6, () => Or(ReadByte(r.HL))},
+                              {0xB6, () => Or(mmu.ReadByte(r.HL))},
                               {0xF6, () => Or(ReadByte())},
 
                               // CP X
@@ -407,7 +375,7 @@ namespace RomTools.Emulator
                               {0xBB, () => Cp(r.E)},
                               {0xBC, () => Cp(r.H)},
                               {0xBD, () => Cp(r.L)},
-                              {0xBE, () => Cp(ReadByte(r.HL))},
+                              {0xBE, () => Cp(mmu.ReadByte(r.HL))},
                               {0xFE, () => Cp(ReadByte())},
 
                               // Branch Control/Program Counter Load Instructions
@@ -463,16 +431,16 @@ namespace RomTools.Emulator
                               // Stack Operation Instructions
 
                               // PUSH X
-                              {0xC5, () => { WriteByte(--r.SP, r.B); WriteByte(--r.SP, r.C); } },
-                              {0xD5, () => { WriteByte(--r.SP, r.D); WriteByte(--r.SP, r.E); } },
-                              {0xE5, () => { WriteByte(--r.SP, r.H); WriteByte(--r.SP, r.L); } },
-                              {0xF5, () => { WriteByte(--r.SP, r.A); WriteByte(--r.SP, r.F); } },
+                              {0xC5, () => { mmu.WriteByte(--r.SP, r.B); mmu.WriteByte(--r.SP, r.C); } },
+                              {0xD5, () => { mmu.WriteByte(--r.SP, r.D); mmu.WriteByte(--r.SP, r.E); } },
+                              {0xE5, () => { mmu.WriteByte(--r.SP, r.H); mmu.WriteByte(--r.SP, r.L); } },
+                              {0xF5, () => { mmu.WriteByte(--r.SP, r.A); mmu.WriteByte(--r.SP, r.F); } },
 
                               // POP X
-                              {0xC1, () => { r.C = ReadByte(r.SP); r.B = ReadByte(++r.SP); } },
-                              {0xD1, () => { r.E = ReadByte(r.SP); r.D = ReadByte(++r.SP); } },
-                              {0xE1, () => { r.L = ReadByte(r.SP); r.H = ReadByte(++r.SP); } },
-                              {0xF1, () => { r.F = ReadByte(r.SP); r.A = ReadByte(++r.SP); } },
+                              {0xC1, () => { r.C = mmu.ReadByte(r.SP); r.B = mmu.ReadByte(++r.SP); } },
+                              {0xD1, () => { r.E = mmu.ReadByte(r.SP); r.D = mmu.ReadByte(++r.SP); } },
+                              {0xE1, () => { r.L = mmu.ReadByte(r.SP); r.H = mmu.ReadByte(++r.SP); } },
+                              {0xF1, () => { r.F = mmu.ReadByte(r.SP); r.A = mmu.ReadByte(++r.SP); } },
 
                               // No IN/OUT instructions for Gameboy
 
@@ -493,7 +461,7 @@ namespace RomTools.Emulator
                                 {0x03, () => r.E = Rlc(r.E) },
                                 {0x04, () => r.H = Rlc(r.H) },
                                 {0x05, () => r.L = Rlc(r.L) },
-                                {0x06, () => WriteByte(r.HL, Rlc(ReadByte(r.HL))) },
+                                {0x06, () => mmu.WriteByte(r.HL, Rlc(mmu.ReadByte(r.HL))) },
 
                                 // RRC X
                                 {0x0F, () => r.A = Rrc(r.A) },
@@ -503,7 +471,7 @@ namespace RomTools.Emulator
                                 {0x0B, () => r.E = Rrc(r.E) },
                                 {0x0C, () => r.H = Rrc(r.H) },
                                 {0x0D, () => r.L = Rrc(r.L) },
-                                {0x0E, () => WriteByte(r.HL, Rrc(ReadByte(r.HL))) },
+                                {0x0E, () => mmu.WriteByte(r.HL, Rrc(mmu.ReadByte(r.HL))) },
 
                                 // RL X
                                 {0x17, () => r.A = Rl(r.A) },
@@ -513,7 +481,7 @@ namespace RomTools.Emulator
                                 {0x13, () => r.E = Rl(r.E) },
                                 {0x14, () => r.H = Rl(r.H) },
                                 {0x15, () => r.L = Rl(r.L) },
-                                {0x16, () => WriteByte(r.HL, Rl(ReadByte(r.HL))) },
+                                {0x16, () => mmu.WriteByte(r.HL, Rl(mmu.ReadByte(r.HL))) },
 
                                 // RR X
                                 {0x1F, () => r.A = Rr(r.A) },
@@ -523,7 +491,7 @@ namespace RomTools.Emulator
                                 {0x1B, () => r.E = Rr(r.E) },
                                 {0x1C, () => r.H = Rr(r.H) },
                                 {0x1D, () => r.L = Rr(r.L) },
-                                {0x1E, () => WriteByte(r.HL, Rr(ReadByte(r.HL))) },
+                                {0x1E, () => mmu.WriteByte(r.HL, Rr(mmu.ReadByte(r.HL))) },
 
                                 // SLA X
                                 {0x27, () => r.A = Sla(r.A) },
@@ -533,7 +501,7 @@ namespace RomTools.Emulator
                                 {0x23, () => r.E = Sla(r.E) },
                                 {0x24, () => r.H = Sla(r.H) },
                                 {0x25, () => r.L = Sla(r.L) },
-                                {0x26, () => WriteByte(r.HL, Sla(ReadByte(r.HL))) },
+                                {0x26, () => mmu.WriteByte(r.HL, Sla(mmu.ReadByte(r.HL))) },
 
                                 // SRA X
                                 {0x2F, () => r.A = Sra(r.A) },
@@ -543,7 +511,7 @@ namespace RomTools.Emulator
                                 {0x2B, () => r.E = Sra(r.E) },
                                 {0x2C, () => r.H = Sra(r.H) },
                                 {0x2D, () => r.L = Sra(r.L) },
-                                {0x2E, () => WriteByte(r.HL, Sra(ReadByte(r.HL))) },
+                                {0x2E, () => mmu.WriteByte(r.HL, Sra(mmu.ReadByte(r.HL))) },
 
                                 // SWAP X
                                 {0x37, () => r.A = Swap(r.A) },
@@ -553,7 +521,7 @@ namespace RomTools.Emulator
                                 {0x33, () => r.E = Swap(r.E) },
                                 {0x34, () => r.H = Swap(r.H) },
                                 {0x35, () => r.L = Swap(r.L) },
-                                {0x36, () => WriteByte(r.HL, Swap(ReadByte(r.HL))) },
+                                {0x36, () => mmu.WriteByte(r.HL, Swap(mmu.ReadByte(r.HL))) },
 
                                 // SRL X
                                 {0x3F, () => r.A = Srl(r.A) },
@@ -563,7 +531,7 @@ namespace RomTools.Emulator
                                 {0x3B, () => r.E = Srl(r.E) },
                                 {0x3C, () => r.H = Srl(r.H) },
                                 {0x3D, () => r.L = Srl(r.L) },
-                                {0x3E, () => WriteByte(r.HL, Srl(ReadByte(r.HL))) },
+                                {0x3E, () => mmu.WriteByte(r.HL, Srl(mmu.ReadByte(r.HL))) },
 
                                 // BIT
 
@@ -575,7 +543,7 @@ namespace RomTools.Emulator
                                 {0x43, () => Bit(0, r.E) },
                                 {0x44, () => Bit(0, r.H) },
                                 {0x45, () => Bit(0, r.L) },
-                                {0x46, () => Bit(0, ReadByte(r.HL)) },
+                                {0x46, () => Bit(0, mmu.ReadByte(r.HL)) },
 
                                 // BIT 1, X
                                 {0x4F, () => Bit(1, r.A) },
@@ -585,7 +553,7 @@ namespace RomTools.Emulator
                                 {0x4B, () => Bit(1, r.E) },
                                 {0x4C, () => Bit(1, r.H) },
                                 {0x4D, () => Bit(1, r.L) },
-                                {0x4E, () => Bit(1, ReadByte(r.HL)) },
+                                {0x4E, () => Bit(1, mmu.ReadByte(r.HL)) },
 
                                 // BIT 2, X
                                 {0x57, () => Bit(2, r.A) },
@@ -595,7 +563,7 @@ namespace RomTools.Emulator
                                 {0x53, () => Bit(2, r.E) },
                                 {0x54, () => Bit(2, r.H) },
                                 {0x55, () => Bit(2, r.L) },
-                                {0x56, () => Bit(2, ReadByte(r.HL)) },
+                                {0x56, () => Bit(2, mmu.ReadByte(r.HL)) },
 
                                 // BIT 3, X
                                 {0x5F, () => Bit(3, r.A) },
@@ -605,7 +573,7 @@ namespace RomTools.Emulator
                                 {0x5B, () => Bit(3, r.E) },
                                 {0x5C, () => Bit(3, r.H) },
                                 {0x5D, () => Bit(3, r.L) },
-                                {0x5E, () => Bit(3, ReadByte(r.HL)) },
+                                {0x5E, () => Bit(3, mmu.ReadByte(r.HL)) },
 
                                 // BIT 4, X
                                 {0x67, () => Bit(4, r.A) },
@@ -615,7 +583,7 @@ namespace RomTools.Emulator
                                 {0x63, () => Bit(4, r.E) },
                                 {0x64, () => Bit(4, r.H) },
                                 {0x65, () => Bit(4, r.L) },
-                                {0x66, () => Bit(4, ReadByte(r.HL)) },
+                                {0x66, () => Bit(4, mmu.ReadByte(r.HL)) },
 
                                 // BIT 5, X
                                 {0x6F, () => Bit(5, r.A) },
@@ -625,7 +593,7 @@ namespace RomTools.Emulator
                                 {0x6B, () => Bit(5, r.E) },
                                 {0x6C, () => Bit(5, r.H) },
                                 {0x6D, () => Bit(5, r.L) },
-                                {0x6E, () => Bit(5, ReadByte(r.HL)) },
+                                {0x6E, () => Bit(5, mmu.ReadByte(r.HL)) },
 
                                 // BIT 6, X
                                 {0x77, () => Bit(6, r.A) },
@@ -635,7 +603,7 @@ namespace RomTools.Emulator
                                 {0x73, () => Bit(6, r.E) },
                                 {0x74, () => Bit(6, r.H) },
                                 {0x75, () => Bit(6, r.L) },
-                                {0x76, () => Bit(6, ReadByte(r.HL)) },
+                                {0x76, () => Bit(6, mmu.ReadByte(r.HL)) },
 
                                 // BIT 7, X
                                 {0x7F, () => Bit(7, r.A) },
@@ -645,7 +613,7 @@ namespace RomTools.Emulator
                                 {0x7B, () => Bit(7, r.E) },
                                 {0x7C, () => Bit(7, r.H) },
                                 {0x7D, () => Bit(7, r.L) },
-                                {0x7E, () => Bit(7, ReadByte(r.HL)) },
+                                {0x7E, () => Bit(7, mmu.ReadByte(r.HL)) },
 
                                 // RES
 
@@ -657,7 +625,7 @@ namespace RomTools.Emulator
                                 {0x83, () => r.E = Res(0, r.E) },
                                 {0x84, () => r.H = Res(0, r.H) },
                                 {0x85, () => r.L = Res(0, r.L) },
-                                {0x86, () => WriteByte(r.HL, Res(0, ReadByte(r.HL))) },
+                                {0x86, () => mmu.WriteByte(r.HL, Res(0, mmu.ReadByte(r.HL))) },
 
                                 // RES 1, X
                                 {0x8F, () => r.A = Res(1, r.A) },
@@ -667,7 +635,7 @@ namespace RomTools.Emulator
                                 {0x8B, () => r.E = Res(1, r.E) },
                                 {0x8C, () => r.H = Res(1, r.H) },
                                 {0x8D, () => r.L = Res(1, r.L) },
-                                {0x8E, () => WriteByte(r.HL, Res(1, ReadByte(r.HL))) },
+                                {0x8E, () => mmu.WriteByte(r.HL, Res(1, mmu.ReadByte(r.HL))) },
 
                                 // RES 2, X
                                 {0x97, () => r.A = Res(2, r.A) },
@@ -677,7 +645,7 @@ namespace RomTools.Emulator
                                 {0x93, () => r.E = Res(2, r.E) },
                                 {0x94, () => r.H = Res(2, r.H) },
                                 {0x95, () => r.L = Res(2, r.L) },
-                                {0x96, () => WriteByte(r.HL, Res(2, ReadByte(r.HL))) },
+                                {0x96, () => mmu.WriteByte(r.HL, Res(2, mmu.ReadByte(r.HL))) },
 
                                 // RES 3, X
                                 {0x9F, () => r.A = Res(3, r.A) },
@@ -687,7 +655,7 @@ namespace RomTools.Emulator
                                 {0x9B, () => r.E = Res(3, r.E) },
                                 {0x9C, () => r.H = Res(3, r.H) },
                                 {0x9D, () => r.L = Res(3, r.L) },
-                                {0x9E, () => WriteByte(r.HL, Res(3, ReadByte(r.HL))) },
+                                {0x9E, () => mmu.WriteByte(r.HL, Res(3, mmu.ReadByte(r.HL))) },
 
                                 // RES 4, X
                                 {0xA7, () => r.A = Res(4, r.A) },
@@ -697,7 +665,7 @@ namespace RomTools.Emulator
                                 {0xA3, () => r.E = Res(4, r.E) },
                                 {0xA4, () => r.H = Res(4, r.H) },
                                 {0xA5, () => r.L = Res(4, r.L) },
-                                {0xA6, () => WriteByte(r.HL, Res(4, ReadByte(r.HL))) },
+                                {0xA6, () => mmu.WriteByte(r.HL, Res(4, mmu.ReadByte(r.HL))) },
 
                                 // RES 5, X
                                 {0xAF, () => r.A = Res(5, r.A) },
@@ -707,7 +675,7 @@ namespace RomTools.Emulator
                                 {0xAB, () => r.E = Res(5, r.E) },
                                 {0xAC, () => r.H = Res(5, r.H) },
                                 {0xAD, () => r.L = Res(5, r.L) },
-                                {0xAE, () => WriteByte(r.HL, Res(5, ReadByte(r.HL))) },
+                                {0xAE, () => mmu.WriteByte(r.HL, Res(5, mmu.ReadByte(r.HL))) },
 
                                 // RES 6, X
                                 {0xB7, () => r.A = Res(6, r.A) },
@@ -717,7 +685,7 @@ namespace RomTools.Emulator
                                 {0xB3, () => r.E = Res(6, r.E) },
                                 {0xB4, () => r.H = Res(6, r.H) },
                                 {0xB5, () => r.L = Res(6, r.L) },
-                                {0xB6, () => WriteByte(r.HL, Res(6, ReadByte(r.HL))) },
+                                {0xB6, () => mmu.WriteByte(r.HL, Res(6, mmu.ReadByte(r.HL))) },
 
                                 // RES 7, X
                                 {0xBF, () => r.A = Res(7, r.A) },
@@ -727,7 +695,7 @@ namespace RomTools.Emulator
                                 {0xBB, () => r.E = Res(7, r.E) },
                                 {0xBC, () => r.H = Res(7, r.H) },
                                 {0xBD, () => r.L = Res(7, r.L) },
-                                {0xBE, () => WriteByte(r.HL, Res(7, ReadByte(r.HL))) },
+                                {0xBE, () => mmu.WriteByte(r.HL, Res(7, mmu.ReadByte(r.HL))) },
 
                                 // SET
 
@@ -739,7 +707,7 @@ namespace RomTools.Emulator
                                 {0xC3, () => r.E = Set(0, r.E) },
                                 {0xC4, () => r.H = Set(0, r.H) },
                                 {0xC5, () => r.L = Set(0, r.L) },
-                                {0xC6, () => WriteByte(r.HL, Set(0, ReadByte(r.HL))) },
+                                {0xC6, () => mmu.WriteByte(r.HL, Set(0, mmu.ReadByte(r.HL))) },
 
                                 // SET 1, X
                                 {0xCF, () => r.A = Set(1, r.A) },
@@ -749,7 +717,7 @@ namespace RomTools.Emulator
                                 {0xCB, () => r.E = Set(1, r.E) },
                                 {0xCC, () => r.H = Set(1, r.H) },
                                 {0xCD, () => r.L = Set(1, r.L) },
-                                {0xCE, () => WriteByte(r.HL, Set(1, ReadByte(r.HL))) },
+                                {0xCE, () => mmu.WriteByte(r.HL, Set(1, mmu.ReadByte(r.HL))) },
 
                                 // SET 2, X
                                 {0xD7, () => r.A = Set(2, r.A) },
@@ -759,7 +727,7 @@ namespace RomTools.Emulator
                                 {0xD3, () => r.E = Set(2, r.E) },
                                 {0xD4, () => r.H = Set(2, r.H) },
                                 {0xD5, () => r.L = Set(2, r.L) },
-                                {0xD6, () => WriteByte(r.HL, Set(2, ReadByte(r.HL))) },
+                                {0xD6, () => mmu.WriteByte(r.HL, Set(2, mmu.ReadByte(r.HL))) },
 
                                 // SET 3, X
                                 {0xDF, () => r.A = Set(3, r.A) },
@@ -769,7 +737,7 @@ namespace RomTools.Emulator
                                 {0xDB, () => r.E = Set(3, r.E) },
                                 {0xDC, () => r.H = Set(3, r.H) },
                                 {0xDD, () => r.L = Set(3, r.L) },
-                                {0xDE, () => WriteByte(r.HL, Set(3, ReadByte(r.HL))) },
+                                {0xDE, () => mmu.WriteByte(r.HL, Set(3, mmu.ReadByte(r.HL))) },
 
                                 // SET 4, X
                                 {0xE7, () => r.A = Set(4, r.A) },
@@ -779,7 +747,7 @@ namespace RomTools.Emulator
                                 {0xE3, () => r.E = Set(4, r.E) },
                                 {0xE4, () => r.H = Set(4, r.H) },
                                 {0xE5, () => r.L = Set(4, r.L) },
-                                {0xE6, () => WriteByte(r.HL, Set(4, ReadByte(r.HL))) },
+                                {0xE6, () => mmu.WriteByte(r.HL, Set(4, mmu.ReadByte(r.HL))) },
 
                                 // SET 5, X
                                 {0xEF, () => r.A = Set(5, r.A) },
@@ -789,7 +757,7 @@ namespace RomTools.Emulator
                                 {0xEB, () => r.E = Set(5, r.E) },
                                 {0xEC, () => r.H = Set(5, r.H) },
                                 {0xED, () => r.L = Set(5, r.L) },
-                                {0xEE, () => WriteByte(r.HL, Set(5, ReadByte(r.HL))) },
+                                {0xEE, () => mmu.WriteByte(r.HL, Set(5, mmu.ReadByte(r.HL))) },
 
                                 // SET 6, X
                                 {0xF7, () => r.A = Set(6, r.A) },
@@ -799,7 +767,7 @@ namespace RomTools.Emulator
                                 {0xF3, () => r.E = Set(6, r.E) },
                                 {0xF4, () => r.H = Set(6, r.H) },
                                 {0xF5, () => r.L = Set(6, r.L) },
-                                {0xF6, () => WriteByte(r.HL, Set(6, ReadByte(r.HL))) },
+                                {0xF6, () => mmu.WriteByte(r.HL, Set(6, mmu.ReadByte(r.HL))) },
 
                                 // SET 7, X
                                 {0xFF, () => r.A = Set(7, r.A) },
@@ -809,21 +777,9 @@ namespace RomTools.Emulator
                                 {0xFB, () => r.E = Set(7, r.E) },
                                 {0xFC, () => r.H = Set(7, r.H) },
                                 {0xFD, () => r.L = Set(7, r.L) },
-                                {0xFE, () => WriteByte(r.HL, Set(7, ReadByte(r.HL))) },
+                                {0xFE, () => mmu.WriteByte(r.HL, Set(7, mmu.ReadByte(r.HL))) },
                                 
                             };
-        }
-
-        private void FindMissingOpcodes()
-        {
-            var sorted = opcodes.Select(kvp => kvp.Key).ToList();
-            sorted.Sort();
-
-            var zeroto255 = Enumerable.Range(0, 255).Select(i => (byte)i);
-            var missing = zeroto255.Where(i => !sorted.Contains(i)).ToArray();
-            var missingnot = missing.Where(i => !new byte[] { 0xD3, 0xDB, 0xDD, 0xE3, 0xE4, 0xEB, 0xEC, 0xED, 0xF2, 0xF4, 0xFC, 0xFD }.Contains(i)).ToArray();
-
-            var missingstr = string.Join(", ", missingnot.Select(b => b.ToString("X")));
         }
     }
 }
