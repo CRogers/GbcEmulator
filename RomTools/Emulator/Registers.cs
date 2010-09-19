@@ -58,59 +58,40 @@ namespace RomTools.Emulator
         }
 
         /// <summary>
-        /// Carry flag
+        /// Zero flag
         /// </summary>
-        public bool FlagC
+        public bool FlagZ
         {
-            get { return F.GetBit(0); }
-            set { F = F.SetBit(0, value); }
+            get { return F.GetBit(7); }
+            set { F = F.SetBit(7, value); }
         }
-        public int FlagCInt { get { return FlagC ? 1 : 0; } }
 
         /// <summary>
         /// Add/Subtract flag
         /// </summary>
         public bool FlagN
         {
-            get { return F.GetBit(1); }
-            set { F = F.SetBit(1, value); }
+            get { return F.GetBit(6); }
+            set { F = F.SetBit(6, value); }
         }
-
-        /// <summary>
-        /// Parity/Overflow flag
-        /// </summary>
-        public bool FlagP
-        {
-            get { return F.GetBit(2); }
-            set { F = F.SetBit(2, value); }
-        }
-        public bool FlagV { get { return FlagP; } set { FlagP = value; } }
 
         /// <summary>
         /// Half Carry flag
         /// </summary>
         public bool FlagH
         {
+            get { return F.GetBit(5); }
+            set { F = F.SetBit(5, value); }
+        }
+
+        /// <summary>
+        /// Carry flag
+        /// </summary>
+        public bool FlagC
+        {
             get { return F.GetBit(4); }
             set { F = F.SetBit(4, value); }
         }
-
-        /// <summary>
-        /// Zero flag
-        /// </summary>
-        public bool FlagZ
-        {
-            get { return F.GetBit(6); }
-            set { F = F.SetBit(6, value); }
-        }
-
-        /// <summary>
-        /// Sign Flag
-        /// </summary>
-        public bool FlagS
-        {
-            get { return F.GetBit(7); }
-            set { F = F.SetBit(7, value); }
-        }
+        public int FlagCInt { get { return FlagC ? 1 : 0; } }
     }
 }

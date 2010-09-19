@@ -312,7 +312,6 @@ namespace RomTools.Emulator
                                           if(r.FlagH || (r.A & 0xF) > 9) v += 6;
                                           if(r.FlagC || r.A > 0x99) v += 0x60;
                                       }
-                                  r.FlagS = r.A.GetBit(7);
                                   r.FlagZ = r.A == 0;
 
                                       r.A = v;

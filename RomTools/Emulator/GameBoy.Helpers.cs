@@ -7,13 +7,11 @@
         private void FlagSZSet(byte value)
         {
             r.FlagZ = value == 0;
-            r.FlagS = (sbyte)value < 0;
         }
 
         private void FlagSZHSet(byte value, byte initial, byte operand)
         {
             r.FlagZ = value == 0;
-            r.FlagS = (sbyte)value < 0;
             r.FlagH = (r.A ^ initial ^ operand).GetBit(4);
         }
 
@@ -67,7 +65,6 @@
             r.FlagN = false;
             r.FlagC = result > byte.MaxValue;
             r.FlagZ = r.HL == 0;
-            r.FlagS = (short)r.HL < 0;
 
             r.HL = (ushort) result;
         }
@@ -75,7 +72,6 @@
         private byte Inc(byte b)
         {
             var result = (byte)(b+1);
-            r.FlagP = b == 0x7F;
             r.FlagN = false;
             FlagSZHSet(result, r.A, b);
 
@@ -85,7 +81,6 @@
         private byte Dec(byte b)
         {
             var result = (byte)(b - 1);
-            r.FlagP = b == 0x80;
             r.FlagN = true;
             FlagSZHSet(result, r.A, b);
 
@@ -165,7 +160,6 @@
         private void RlFlags(byte result)
         {
             r.FlagZ = result == 0;
-            r.FlagP = result % 2 == 0;
             r.FlagH = false;
             r.FlagN = false;
         }
@@ -209,7 +203,6 @@
             r.FlagC = register.GetBit(7);
             var result = (byte)(register << 1);
             RlFlags(result);
-            r.FlagS = result < 0;
 
             return result;
         }
@@ -220,7 +213,6 @@
             // Bit 7 is unchanged during right shift!
             var result = (byte)((register >> 1) + (register & 0x80));
             RlFlags(result);
-            r.FlagS = result < 0;
 
             return result;
         }
@@ -231,7 +223,6 @@
             // Bit 7 is reset during right shift (normal)
             var result = (byte)(register >> 1);
             RlFlags(result);
-            r.FlagS = result < 0;
 
             return result;
         }
