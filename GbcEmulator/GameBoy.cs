@@ -9,7 +9,7 @@ namespace GbcEmulator
         private readonly Registers r = new Registers();
         public Registers Registers { get { return r; } }
 
-        private readonly MemoryManagementUnit mmu;
+        private readonly IMemoryManagementUnit mmu;
 
         public RomInfo romInfo { get; private set; }
 

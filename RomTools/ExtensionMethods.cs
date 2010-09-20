@@ -1,11 +1,8 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
+﻿using System.Linq;
 
 namespace RomTools
 {
-    internal static class ExtensionMethods
+    public static class ExtensionMethods
     {
         public static bool EqualsAny<T>(this T obj, params T[] values)
         {

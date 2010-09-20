@@ -43,6 +43,7 @@
     <Compile Include="CartridgeType.cs" />
     <Compile Include="ExtensionMethods.cs" />
     <Compile Include="MemorySize.cs" />
+    <Compile Include="ReadOnlyArray.cs" />
     <Compile Include="RomInfo.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>

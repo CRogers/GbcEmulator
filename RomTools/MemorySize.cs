@@ -65,29 +65,29 @@ namespace RomTools
 
             if (b == 1)
             {
-                Size = 2*0x800;
+                Size = 2*0x400;
                 Banks = 1;
             }
 
             switch (b)
             {
                 case 1:
-                    Size = 2*0x800;
+                    Size = 2*1024;
                     Banks = 1;
                     break;
 
                 case 2:
-                    Size = 8 * 0x800;
+                    Size = 8 * 1024;
                     Banks = 1;
                     break;
 
                 case 3:
-                    Size = 32 * 0x800;
+                    Size = 32 * 1024;
                     Banks = 4;
                     break;
 
                 case 4:
-                    Size = 128 * 0x800;
+                    Size = 128 * 1024;
                     Banks = 16;
                     break;
             }

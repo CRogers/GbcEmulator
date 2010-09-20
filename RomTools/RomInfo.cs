@@ -7,7 +7,7 @@ namespace RomTools
 
     public class RomInfo
     {
-        public byte[] Rom { get; private set; }
+        public ReadOnlyArray<byte> Rom { get; private set; }
 
         public byte[] NintendoGraphic { get; private set; }
         public string RomName { get; private set; }
@@ -25,12 +25,12 @@ namespace RomTools
 
         public RomInfo(byte[] rom)
         {
-            Rom = rom;
+            Rom = new ReadOnlyArray<byte>(rom);
 
             NintendoGraphic = new byte[48];
             Array.Copy(rom, 0x0104, NintendoGraphic, 0, 48);
 
-            byte[] name = new byte[16];
+            var name = new byte[16];
             Array.Copy(rom, 0x0134, name, 0, 16);
             RomName = new string(name.Where(b => b != 0).Select(b => (char) b).ToArray());
 

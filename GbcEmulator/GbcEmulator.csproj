@@ -40,12 +40,12 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="..\RomTools\ExtensionMethods.cs">
-      <Link>ExtensionMethods.cs</Link>
-    </Compile>
     <Compile Include="GameBoy.cs" />
     <Compile Include="GameBoy.Helpers.cs" />
     <Compile Include="GameBoy.Opcodes.cs" />
+    <Compile Include="Memory\IMemoryManagementUnit.cs" />
+    <Compile Include="Memory\Mbc1.cs" />
+    <Compile Include="Memory\Mbc2.cs" />
     <Compile Include="Memory\MemoryBankController.cs" />
     <Compile Include="Memory\MemoryManagementUnit.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
