@@ -43,6 +43,7 @@
     <Compile Include="GameBoy.cs" />
     <Compile Include="GameBoy.Helpers.cs" />
     <Compile Include="GameBoy.Opcodes.cs" />
+    <Compile Include="Memory\FlatMMU.cs" />
     <Compile Include="Memory\IMemoryManagementUnit.cs" />
     <Compile Include="Memory\Mbc1.cs" />
     <Compile Include="Memory\Mbc2.cs" />
