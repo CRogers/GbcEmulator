@@ -1,6 +1,6 @@
 ﻿using System.IO;
-using RomTools.Emulator;
-using RomTools.Metadata;
+using RomTools;
+using GbcEmulator;
 
 namespace TestProject
 {

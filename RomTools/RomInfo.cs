@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Linq;
 
-namespace RomTools.Metadata
+namespace RomTools
 {
     // Taken from GB Spec at http://www.devrs.com/gb/files/gbspec.txt
 

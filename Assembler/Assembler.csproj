@@ -64,9 +64,9 @@
     <None Include="Resources\opcode_dict.xml" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\RomTools\RomTools.csproj">
-      <Project>{91E84E1D-46B5-46A9-9DB8-462199736BD9}</Project>
-      <Name>RomTools</Name>
+    <ProjectReference Include="..\GbcEmulator\GbcEmulator.csproj">
+      <Project>{CB598502-2A51-4183-8609-0490300F39D5}</Project>
+      <Name>GbcEmulator</Name>
     </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

@@ -3,7 +3,7 @@ using System.IO;
 using System.Linq;
 using System.Text;
 using System.Xml.Serialization;
-using RomTools.Emulator;
+using GbcEmulator;
 
 namespace Assembler
 {

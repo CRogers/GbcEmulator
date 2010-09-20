@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace RomTools.Metadata
+namespace RomTools
 {
     public class RomSize
     {

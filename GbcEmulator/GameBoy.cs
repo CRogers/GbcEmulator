@@ -1,7 +1,8 @@
 ﻿using System;
-using RomTools.Metadata;
+using GbcEmulator.Memory;
+using RomTools;
 
-namespace RomTools.Emulator
+namespace GbcEmulator
 {
     public partial class GameBoy
     {

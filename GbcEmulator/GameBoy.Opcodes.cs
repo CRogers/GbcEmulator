@@ -1,7 +1,8 @@
 ﻿using System;
 using System.Collections.Generic;
+using RomTools;
 
-namespace RomTools.Emulator
+namespace GbcEmulator
 {
     public partial class GameBoy
     {

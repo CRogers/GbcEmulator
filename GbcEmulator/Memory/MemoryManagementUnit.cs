@@ -1,8 +1,8 @@
 ﻿using System;
 using System.Linq;
-using RomTools.Metadata;
+using RomTools;
 
-namespace RomTools.Emulator
+namespace GbcEmulator.Memory
 {
     public class MemoryManagementUnit
     {

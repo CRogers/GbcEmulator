@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace RomTools.Metadata
+namespace RomTools
 {
     // Taken from PAN document at: http://www.devrs.com/gb/files/gbspec.txt
 

@@ -1,6 +1,7 @@
 ﻿using System.Runtime.InteropServices;
+using RomTools;
 
-namespace RomTools.Emulator
+namespace GbcEmulator
 {
     [StructLayout(LayoutKind.Explicit, Size=15)]
     public class Registers

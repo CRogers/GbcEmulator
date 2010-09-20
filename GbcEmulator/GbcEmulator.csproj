@@ -5,11 +5,11 @@
     <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
     <ProductVersion>8.0.30703</ProductVersion>
     <SchemaVersion>2.0</SchemaVersion>
-    <ProjectGuid>{91E84E1D-46B5-46A9-9DB8-462199736BD9}</ProjectGuid>
+    <ProjectGuid>{CB598502-2A51-4183-8609-0490300F39D5}</ProjectGuid>
     <OutputType>Library</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>RomTools</RootNamespace>
-    <AssemblyName>RomTools</AssemblyName>
+    <RootNamespace>GbcEmulator</RootNamespace>
+    <AssemblyName>GbcEmulator</AssemblyName>
     <TargetFrameworkVersion>v4.0</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
   </PropertyGroup>
@@ -40,11 +40,22 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="CartridgeType.cs" />
-    <Compile Include="ExtensionMethods.cs" />
-    <Compile Include="MemorySize.cs" />
-    <Compile Include="RomInfo.cs" />
+    <Compile Include="..\RomTools\ExtensionMethods.cs">
+      <Link>ExtensionMethods.cs</Link>
+    </Compile>
+    <Compile Include="GameBoy.cs" />
+    <Compile Include="GameBoy.Helpers.cs" />
+    <Compile Include="GameBoy.Opcodes.cs" />
+    <Compile Include="Memory\MemoryBankController.cs" />
+    <Compile Include="Memory\MemoryManagementUnit.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Registers.cs" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\RomTools\RomTools.csproj">
+      <Project>{91E84E1D-46B5-46A9-9DB8-462199736BD9}</Project>
+      <Name>RomTools</Name>
+    </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
