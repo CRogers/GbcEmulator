@@ -7,21 +7,23 @@ namespace RomTools
 
     public class RomInfo
     {
-        public ReadOnlyArray<byte> Rom { get; private set; }
+        public ReadOnlyArray<byte> Rom { get; set; }
 
-        public byte[] NintendoGraphic { get; private set; }
-        public string RomName { get; private set; }
-        public bool IsColor { get; private set; }
-        public short LicenseeCode { get; private set; }
-        public bool IsSuperGb { get; private set; }
-        public CartridgeInfo CartridgeInfo { get; private set; }
-        public RomSize RomSize { get; private set; }
-        public RamSize RamSize { get; private set; }
-        public bool Japanese { get; private set; }
-        public byte OldLincenseeCode { get; private set; }
-        public byte MaskRomVersionNumber { get; private set; }
-        public byte ComplementCheck { get; private set; }
-        public short Checksum { get; private set; }
+        public byte[] NintendoGraphic { get; set; }
+        public string RomName { get; set; }
+        public bool IsColor { get; set; }
+        public ushort LicenseeCode { get; set; }
+        public bool IsSuperGb { get; set; }
+        public CartridgeInfo CartridgeInfo { get; set; }
+        public RomSize RomSize { get; set; }
+        public RamSize RamSize { get; set; }
+        public bool Japanese { get; set; }
+        public byte OldLincenseeCode { get; set; }
+        public byte MaskRomVersionNumber { get; set; }
+        public byte ComplementCheck { get; set; }
+        public ushort Checksum { get; set; }
+
+        public RomInfo() { }
 
         public RomInfo(byte[] rom)
         {
@@ -35,7 +37,7 @@ namespace RomTools
             RomName = new string(name.Where(b => b != 0).Select(b => (char) b).ToArray());
 
             IsColor = rom[0x0143] == 0x80;
-            LicenseeCode = (short)((rom[0x0144] << 8) | rom[0x0145]);
+            LicenseeCode = (ushort)((rom[0x0144] << 8) | rom[0x0145]);
             IsSuperGb = rom[0x0146] == 3;
 
             CartridgeInfo = new CartridgeInfo(rom[0x0147]);
@@ -47,7 +49,7 @@ namespace RomTools
             MaskRomVersionNumber = rom[0x014C];
 
             ComplementCheck = rom[0x014D];
-            Checksum = (short)((rom[0x014E] << 8) | rom[0x014F]);
+            Checksum = (ushort)((rom[0x014E] << 8) | rom[0x014F]);
         }
     }
 }

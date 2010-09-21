@@ -36,5 +36,13 @@ namespace RomTools
             int mask = 1 << bit;
             return (b & mask) == mask;
         }
+
+        public static int Max(this int i, int a)
+        {
+            if (i > a)
+                return a;
+
+            return i;
+        }
     }
 }
