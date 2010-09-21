@@ -47,6 +47,7 @@
     <Compile Include="Memory\IMemoryManagementUnit.cs" />
     <Compile Include="Memory\Mbc1.cs" />
     <Compile Include="Memory\Mbc2.cs" />
+    <Compile Include="Memory\Mbc3.cs" />
     <Compile Include="Memory\MemoryBankController.cs" />
     <Compile Include="Memory\MemoryManagementUnit.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
