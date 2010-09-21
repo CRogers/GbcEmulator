@@ -6,8 +6,8 @@ namespace RomTools
 
     public enum MbcType
     {
-        Mbc1 = 1, Mbc2 = 2, Mbc3 = 3, Mbc5 = 5, 
-        Mmm01 = 6, PocketCamera = 7, BandaiTama5 = 8,
+        Mbc1 = 1, Mbc2 = 2, Mbc3 = 3, Mbc5 = 5, Rumble = 6,
+        Mmm01 = 7, PocketCamera = 8, BandaiTama5 = 9,
         HudsonHuC3 = 0xC3, HudsonHuC1 = 0xC1,
     }
 
@@ -18,7 +18,6 @@ namespace RomTools
         public bool Battery { get; private set; }
         public bool Sram { get; private set; }
         public bool Timer { get; private set; }
-        public bool Rumble { get; private set; }
 
         public MbcType MbcType { get; private set; }
 
@@ -60,7 +59,7 @@ namespace RomTools
                 MbcType = MbcType.Mbc5;
 
             if (b >= 0xC && b <= 0x1E)
-                Rumble = true;
+                MbcType = MbcType.Rumble;
 
             switch (b)
             {

@@ -56,6 +56,10 @@ namespace GbcEmulator.Memory
                     return new Mbc2(ri);
                 case MbcType.Mbc3:
                     return new Mbc3(ri);
+                case MbcType.Mbc5:
+                    return new Mbc5(ri);
+                case MbcType.Rumble:
+                    return new MbcRumble(ri);
             }
 
             throw new NotSupportedException("MbcType: " + ri.CartridgeInfo.MbcType + " is not yet supported.");
