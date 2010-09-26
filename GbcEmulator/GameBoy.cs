@@ -1,5 +1,5 @@
 ﻿using System;
-using System.Diagnostics;
+using GbcEmulator.Cpu;
 using GbcEmulator.Memory;
 using RomTools;
 
@@ -7,55 +7,29 @@ namespace GbcEmulator
 {
     public partial class GameBoy
     {
-        private readonly Registers r = new Registers();
-        public Registers Registers { get { return r; } }
+        public IMemoryManagementUnit Mmu { get; set; }
+        public ICpu Cpu { get; set; }
 
-        private IMemoryManagementUnit mmu;
-        public IMemoryManagementUnit Mmu
-        {
-            get { return mmu; }
-            set { mmu = value; }
-        }
+        public ReadOnlyArray<byte> Rom { get; private set; }
 
-        public ReadOnlyArray<byte> rom { get; private set; }
-
-        private bool halted = false;
-        private bool stopped = false;
-
-        private GameBoy()
-        {
-            InitOpcodes();
-        }
-    
-        public GameBoy(byte[] rom): this()
+        public GameBoy(byte[] rom)
         {
             var romInfo = new RomInfo(rom);
-            this.rom = romInfo.Rom;
-            mmu = new MemoryManagementUnit(romInfo, r);
+            Rom = romInfo.Rom;
+            Mmu = new MemoryManagementUnit(romInfo);
+            Cpu = new Z80(Rom, Mmu);
         }
 
-        public GameBoy(byte[] rom, Func<GameBoy, IMemoryManagementUnit> func): this()
+        public GameBoy(byte[] rom, Func<GameBoy, IMemoryManagementUnit> func)
         {
-            this.rom = new ReadOnlyArray<byte>(rom);
-            mmu = func(this);
+            Rom = new ReadOnlyArray<byte>(rom);
+            Mmu = func(this);
+            Cpu = new Z80(Rom, Mmu);
         }
 
-        public void RunCode(ushort address)
+        public void Start()
         {
-            r.PC = address;
-
-            Stopwatch sw = new Stopwatch();
-            sw.Start();
-            for (; r.PC < rom.Length; r.PC++)
-            {
-                byte op = rom[r.PC];
-                Action lambda = op == 0xCB ? cbopcodes[rom[++r.PC]] : opcodes[op];
-                lambda();
-
-                if (stopped)
-                    break;
-            }
-            sw.Stop();
+            Cpu.RunCode(0x100);
         }
     }
 }

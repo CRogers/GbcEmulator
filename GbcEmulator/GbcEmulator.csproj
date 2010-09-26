@@ -40,9 +40,11 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Cpu\ICpu.cs" />
+    <Compile Include="Cpu\Z80.cs" />
+    <Compile Include="Cpu\Z80.Helpers.cs" />
+    <Compile Include="Cpu\Z80.Opcodes.cs" />
     <Compile Include="GameBoy.cs" />
-    <Compile Include="GameBoy.Helpers.cs" />
-    <Compile Include="GameBoy.Opcodes.cs" />
     <Compile Include="Memory\FlatMMU.cs" />
     <Compile Include="Memory\IMemoryManagementUnit.cs" />
     <Compile Include="Memory\Mbc1.cs" />
@@ -53,7 +55,7 @@
     <Compile Include="Memory\MemoryBankController.cs" />
     <Compile Include="Memory\MemoryManagementUnit.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="Registers.cs" />
+    <Compile Include="Cpu\Registers.cs" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\RomTools\RomTools.csproj">

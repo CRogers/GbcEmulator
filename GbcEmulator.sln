@@ -11,7 +11,7 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Assembler", "Assembler\Asse
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution Items", "{8A0B535B-CC99-4E7D-9C5C-00E93587A401}"
 	ProjectSection(SolutionItems) = preProject
-		README = README
+		README.txt = README.txt
 	EndProjectSection
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "GbcEmulator", "GbcEmulator\GbcEmulator.csproj", "{CB598502-2A51-4183-8609-0490300F39D5}"

@@ -1,8 +1,8 @@
 ﻿using RomTools;
 
-namespace GbcEmulator
+namespace GbcEmulator.Cpu
 {
-    public partial class GameBoy
+    public partial class Z80
     {
         // BUG: All FlagH setting for borrows from subractions could be wrong!
 
@@ -68,12 +68,12 @@ namespace GbcEmulator
             r.FlagC = result > byte.MaxValue;
             r.FlagZ = r.HL == 0;
 
-            r.HL = (ushort) result;
+            r.HL = (ushort)result;
         }
 
         private byte Inc(byte b)
         {
-            var result = (byte)(b+1);
+            var result = (byte)(b + 1);
             r.FlagN = false;
             FlagSZHSet(result, r.A, b);
 
@@ -134,7 +134,7 @@ namespace GbcEmulator
             r.FlagC = result < 0;
         }
         #endregion
-        
+
 
         //////////////////////////////////////////////////////////////////////////
         #region Bit Operations

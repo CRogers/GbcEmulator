@@ -32,6 +32,7 @@ Current Jobs/Roadmap:
 		- Needs another good checking against the spec(s)  
 		
 	* GPU
+	* GPU
 		- Research/Needs to be implemented
 		
 	* Sound

@@ -2,9 +2,9 @@
 using System.Collections.Generic;
 using RomTools;
 
-namespace GbcEmulator
+namespace GbcEmulator.Cpu
 {
-    public partial class GameBoy
+    public partial class Z80
     {
         private Dictionary<byte, Action> opcodes;
         private Dictionary<byte, Action> cbopcodes;

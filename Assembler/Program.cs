@@ -4,7 +4,6 @@ using System.Linq;
 using System.Text;
 using System.Xml.Serialization;
 using GbcEmulator;
-using GbcEmulator.Memory;
 
 namespace Assembler
 {
@@ -42,7 +41,7 @@ namespace Assembler
                 if (Debugger.IsAttached)
                 {
                     var gb = new GameBoy(assembled);
-                    gb.RunCode(0x100);
+                    gb.Start();
                 }
             }
         }

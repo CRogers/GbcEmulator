@@ -18,14 +18,11 @@ namespace GbcEmulator.Memory
 
         private MemoryBankController mbc;
 
-        private Registers r;
 
-
-        public MemoryManagementUnit(RomInfo romInfo, Registers registers)
+        public MemoryManagementUnit(RomInfo romInfo)
         {
             ri = romInfo;
             mbc = MemoryBankController.Factory(romInfo);
-            r = registers;
         }
 
 
@@ -102,7 +99,7 @@ namespace GbcEmulator.Memory
 
                                 // Interrupt enable register BUG: What interrupt register should this be?
                                 else
-                                    return r.I;
+                                    return mbc.Zram[0xFFFF];
                             }
                     }
                     break;
@@ -189,7 +186,7 @@ namespace GbcEmulator.Memory
 
                                 // Interrupt enable register BUG: What interrupt register should this be? Interrupt or Interrupt Enable?);
                                 else
-                                    r.I = value;
+                                    mbc.WriteZram(0xFFFF, value);
                                 break;
                             }
                     }
