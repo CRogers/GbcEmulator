@@ -3,112 +3,80 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Text.RegularExpressions;
+using RomTools;
 
 namespace Assembler
 {
-    internal static class Assembler
+    public static partial class Assembler
     {
-        public static byte[] Assemble(string[] code)
+        private const string byteFormat = @"([\dA-F]{1,2}h|(-(1[0-2][0-8]|1[01]\d|\d?\d))|(2[0-5][0-5]|2[0-4]\d|1?\d?\d))";
+        private const string wordFormat = @"([\dA-F]{1,4}h|(6553[0-5]|655[0-2]\d|65[0-4]\d\d|6[0-4]\d{1,3}|[0-5]?\d{1,4})|(-(3276[0-8]|327[0-5]\d|32[0-6]\d\d|3[01]\d{1,3}|[0-2]?\d{1,4})))";
+        private static readonly string[] rsts = Enumerable.Range(0, 8).Select(i => "rst" + (i * 8).ToString("X").PadLeft(2, '0')).ToArray();
+
+        public static byte[] Assemble(string code)
+        {
+            var sections = SplitSections(code);
+
+            var ri = SectionMetadata.GetRomInfo(sections["metadata"]);
+
+            Dictionary<string, ushort> constants;
+            byte[] dataDeclaresAssembled;
+            var dataDeclares = SectionData.GetSectionData(sections["data"], out constants, out dataDeclaresAssembled);
+
+            var dataReserved = SectionBss.GetSectionBss(sections["bss"]);
+
+            var dataJoined = dataDeclares.Concat(dataReserved).ToDictionary();
+
+            int offset = 0x150 + dataDeclaresAssembled.Length;
+            byte[] offsetBytes = BitConverter.GetBytes((ushort) offset);
+
+            // Startcode = nop, jp [offset]
+            byte[] startCode = new byte[]{ 0, 195, offsetBytes[0], offsetBytes[1] };
+
+            var dataCode = SectionCode.AssembleCode(sections, offset, constants, dataJoined);
+
+            // BUG: No interrupt table
+            var rom = RomBuilder.BuildRom(ri,
+                                RomBuilder.BuildJumptable(dataCode["rst00"], dataCode["rst08"], dataCode["rst10"], dataCode["rst18"], dataCode["rst20"], dataCode["rst28"], dataCode["rst30"], dataCode["rst38"]),
+                                RomBuilder.BuildInterruptTable(new byte[0], new byte[0], new byte[0], new byte[0], new byte[0]),
+                                RomBuilder.BuildHeader(ri, startCode),
+                                RomBuilder.BuildCode(dataDeclaresAssembled, dataCode["text"])
+                );
+
+            return rom;
+        }
+
+        /// <summary>
+        /// Splits the assembly code into the section it should be in (so between .section XX and .end) and
+        /// returns a dictionary of the lines of code in each section.
+        /// </summary>
+        /// <param name="code"></param>
+        /// <returns></returns>
+        private static Dictionary<string, string[]> SplitSections(string code)
+        {
+            Regex section = new Regex(@"^\.section\s+([a-zA-Z]\w+)(.*?)\.end", RegexOptions.Multiline | RegexOptions.Singleline);
+            var dict = new Dictionary<string, string[]>();
+
+            foreach (Match match in section.Matches(code))
+                dict.Add(match.Groups[1].Value, match.Groups[2].Value.SplitLines());
+
+            return dict;
+        }
+
+        /// <summary>
+        /// Remove all lines which are whitespace and comments.
+        /// </summary>
+        /// <param name="code"></param>
+        /// <returns></returns>
+        private static IEnumerable<string> RemoveWhitespaceComment(this IEnumerable<string> code)
         {
             Regex whitespaceOrComment = new Regex(@"^\s*(;.*)?\s*$");
-
-            var output = new List<byte>();
-
-            code = ChangeFromHex(code);
-
-            // Add a space on the end so regex can do proper anchoring
-            code = code.Where(s => !whitespaceOrComment.IsMatch(s)).Select(s => s + " ").ToArray();
-
-            var regexOpcodes = GetRegexOpcodes(code);
-            var labelDict = GetLabels(code, regexOpcodes);
-
-            for(int i = 0; i < code.Length; i++)
-            {
-                RegexOpcode op = regexOpcodes[i];
-
-                if(op.Prefix != null)
-                    output.Add((byte)op.Prefix);
-
-                output.Add(op.Code);
-
-                if (op.BytesFollowing > 0)
-                {
-                    Match m = op.Regex.Match(code[i]);
-
-                    // Group 1 is the number, either n, -n, nn, -nn, h or hh or a label
-                    int n;
-                    if (!int.TryParse(m.Groups[1].Value, out n))
-                    {
-                        // Special case for JP opcode, as it can have a label to jump to
-                        var first2Chars = op.Op.Substring(0, 2);
-                        if (first2Chars == "JP" || first2Chars == "CA")
-                            n = labelDict[m.Groups[1].Value];
-                        else
-                            throw new ApplicationException(string.Format("The value {0} cannot be parsed", m.Groups[1].Value));
-                    }
-
-                    if (op.BytesFollowing >= 1)
-                        output.Add(n > 0 ? (byte) n : (byte) (sbyte) n);
-
-                    int top = n >> 8;
-                    if (op.BytesFollowing == 2)
-                        output.Add(top > 0 ? (byte) top : (byte) (sbyte) top);
-                }
-            }
-
-            return output.ToArray();
+            return code.Where(s => !whitespaceOrComment.IsMatch(s));
         }
 
-        private static string[] ChangeFromHex(string[] str)
+        private static string[] SplitLines(this string lines)
         {
-            StringBuilder sb = new StringBuilder(string.Join("\n", str));
-
-            Regex hex = new Regex(@"([0-9A-F]{1,4})h");
-            int removedChars = 0;
-            foreach (Match match in hex.Matches(sb.ToString()))
-            {
-                sb.Remove(match.Index - removedChars, match.Length);
-                string replacement = Convert.ToUInt16(match.Groups[1].Value, 16).ToString();
-                sb.Insert(match.Index - removedChars, replacement);
-                removedChars += match.Length - replacement.Length;
-            }
-
-            return sb.ToString().Split(new[] { '\n', '\r' }, StringSplitOptions.RemoveEmptyEntries);
-        }
-
-        private static RegexOpcode[] GetRegexOpcodes(string[] code)
-        {
-            var regexOpcodes = new RegexOpcode[code.Length];
-
-            for (int i = 0; i < code.Length; i++)
-            {
-                RegexOpcode op = Program.Opcodes.FirstOrDefault(opcode => opcode.Regex.IsMatch(code[i]));
-                if (op == null)
-                    throw new ApplicationException(string.Format("Line {0} is incorrect: '{1}' does not exist, or a number in it is too big/small/malformed for the instruction.", i, code[i]));
-
-                regexOpcodes[i] = op;
-            }
-
-            return regexOpcodes;
-        }
-
-        private static Dictionary<string, ushort> GetLabels(string[] code, RegexOpcode[] regexOpcodes)
-        {
-            Regex label = new Regex(@"^([_a-zA-Z]\w+):");
-            var labels = new Dictionary<string, ushort>();
-
-            ushort pc = 0;
-
-            for (int i = 0; i < code.Length; i++, pc++)
-            {
-                // If there is a label at the start of the line, add it and its position to the label dictionary
-                if (label.IsMatch(code[i]))
-                    labels.Add(label.Match(code[i]).Groups[1].Value, pc);
-
-                pc += (ushort)regexOpcodes[i].BytesFollowing;
-            }
-
-            return labels;
+            return lines.Split(new[] {'\n', '\r'}, StringSplitOptions.RemoveEmptyEntries);
         }
     }
 }

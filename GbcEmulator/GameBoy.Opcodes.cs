@@ -11,14 +11,12 @@ namespace GbcEmulator
 
         private ushort ReadUShort()
         {
-            ushort addr = r.PC;
-            r.PC += 2;
-            return mmu.ReadUShort(addr);
+            return (ushort)(rom[++r.PC] | (rom[++r.PC] << 8));
         }
 
         private byte ReadByte()
         {
-            return mmu.ReadByte(++r.PC);
+            return rom[++r.PC];
         }
 
         private void InitOpcodes()

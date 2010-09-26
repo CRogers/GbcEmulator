@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Diagnostics;
 using GbcEmulator.Memory;
 using RomTools;
 
@@ -9,33 +10,52 @@ namespace GbcEmulator
         private readonly Registers r = new Registers();
         public Registers Registers { get { return r; } }
 
-        private readonly IMemoryManagementUnit mmu;
+        private IMemoryManagementUnit mmu;
+        public IMemoryManagementUnit Mmu
+        {
+            get { return mmu; }
+            set { mmu = value; }
+        }
 
-        public RomInfo romInfo { get; private set; }
+        public ReadOnlyArray<byte> rom { get; private set; }
 
         private bool halted = false;
         private bool stopped = false;
-    
-        public GameBoy(byte[] rom)
+
+        private GameBoy()
         {
-            romInfo = new RomInfo(rom);
-            mmu = new MemoryManagementUnit(romInfo, r);
             InitOpcodes();
         }
+    
+        public GameBoy(byte[] rom): this()
+        {
+            var romInfo = new RomInfo(rom);
+            this.rom = romInfo.Rom;
+            mmu = new MemoryManagementUnit(romInfo, r);
+        }
 
-        public void RunCode(byte address)
+        public GameBoy(byte[] rom, Func<GameBoy, IMemoryManagementUnit> func): this()
+        {
+            this.rom = new ReadOnlyArray<byte>(rom);
+            mmu = func(this);
+        }
+
+        public void RunCode(ushort address)
         {
             r.PC = address;
 
-            for (; r.PC < romInfo.Rom.Length; r.PC++)
+            Stopwatch sw = new Stopwatch();
+            sw.Start();
+            for (; r.PC < rom.Length; r.PC++)
             {
-                byte op = romInfo.Rom[r.PC];
-                Action lambda = op == 0xCB ? cbopcodes[romInfo.Rom[++r.PC]] : opcodes[op];
+                byte op = rom[r.PC];
+                Action lambda = op == 0xCB ? cbopcodes[rom[++r.PC]] : opcodes[op];
                 lambda();
 
                 if (stopped)
                     break;
             }
+            sw.Stop();
         }
     }
 }

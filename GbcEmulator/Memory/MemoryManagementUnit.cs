@@ -10,7 +10,6 @@ namespace GbcEmulator.Memory
         // http://imrannazar.com/GameBoy-Emulation-in-JavaScript:-Memory
         // http://www.devrs.com/gb/files/gbspec.txt
 
-        // BUG: Mbc5 is unsupported
         // BUG: GPU, Keypad interrupts etc not implemented
 
         private readonly RomInfo ri;

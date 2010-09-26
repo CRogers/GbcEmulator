@@ -237,8 +237,8 @@ namespace GbcEmulator
         // BUG: Stack operations are broken until a proper memory management class is implemented
         private void Call(ushort address)
         {
-            mmu.WriteByte(--r.SP, r.SPh);
-            mmu.WriteByte(--r.SP, r.SPl);
+            mmu.WriteByte(--r.SP, r.PCh);
+            mmu.WriteByte(--r.SP, r.PCl);
             r.Address = address;
         }
 
@@ -246,7 +246,9 @@ namespace GbcEmulator
         {
             r.PCl = mmu.ReadByte(r.SP++);
             r.PCh = mmu.ReadByte(r.SP++);
-            r.PC--;
+
+            // Don't need r.PC-- as the address stored on the stack is the address the PC has **come from**.
+            // We want the address after the address it came from.
         }
         #endregion
 

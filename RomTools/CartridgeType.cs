@@ -60,7 +60,7 @@ namespace RomTools
             if(b >= 0x1A && b <= 0x1E)
                 MbcType = MbcType.Mbc5;
 
-            if (b >= 0xC && b <= 0x1E)
+            if (b >= 0x1C && b <= 0x1E)
                 MbcType = MbcType.Rumble;
 
             switch (b)

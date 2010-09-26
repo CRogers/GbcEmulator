@@ -10,12 +10,12 @@ Current Jobs/Roadmap:
 	* Assembler
 		- Supports all opcodes
 		- Supports hexadecimal and labels
-		- Outputs flat binary files
-		- Fancy features like setting/reserving data, macros, pointer arithmetic etc possibly tbi
+		- Outputs ROM files as far as the rest of the emulator supports them
 		
 	* Disassembler
 		- Supports all opcodes that the Assembler supports
 		- Outputs files in a pretty way
+		- Only outputs flat files!
 
 	* Opcodes
 		- All opcodes added
@@ -26,7 +26,8 @@ Current Jobs/Roadmap:
 		- Sorting out timings for each operation
 		
 	* Memory Controller
-		- Is mostly implemented
+		- Is almost completely implemented
+			- Mmm01 is not supported (cannot find docs)
 		- Does not support GPU VRAM or input or I/O
 		- Needs another good checking against the spec(s)  
 		
@@ -44,37 +45,3 @@ Current Jobs/Roadmap:
 		
 	* Timer
 		- Research/Needs to be implemented
-		
----------------------------------------------------------------------------------------------------------
-
-To use the assembler, simply use the exact same instructions from http://imrannazar.com/Gameboy-Z80-Opcode-Map,
-subject to these constraints:
-
-	- Instructions are one per line
-	- Whitespace can be put inbetween instructions, registers, constants and commas
-	- Everything after after the _instruction + a space (or other whitespace character)_ is a comment
-	- There must not be whitespace between registers/constants and brackets: "( HL )" -NO, "(HL)" -YES
-	- It does not yet support commands which have machine code starting with 0xCB as the first byte
-	- Mnemonics are case-insensitive
-	
-For example, this is a valid program:
-
-ld	A, 1
-add	A, 4
-
-ld	B, -128 ; Comment test
-add A, B Everything after space is a comment!
-
-ld	C, 255
-
-label: ld	HL, 12
-
-nop
-nop
-nop
-
-ld	(HL), 123
-inc HL
-ld	(HL), 234
-
-jp  label

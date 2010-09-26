@@ -44,6 +44,10 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Assembler.cs" />
+    <Compile Include="Assembler.SectionBss.cs" />
+    <Compile Include="Assembler.SectionCode.cs" />
+    <Compile Include="Assembler.SectionData.cs" />
+    <Compile Include="Assembler.SectionMetadata.cs" />
     <Compile Include="Disassembler.cs" />
     <Compile Include="Opcode.cs" />
     <Compile Include="Program.cs" />
@@ -67,6 +71,10 @@
     <ProjectReference Include="..\GbcEmulator\GbcEmulator.csproj">
       <Project>{CB598502-2A51-4183-8609-0490300F39D5}</Project>
       <Name>GbcEmulator</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\RomTools\RomTools.csproj">
+      <Project>{91E84E1D-46B5-46A9-9DB8-462199736BD9}</Project>
+      <Name>RomTools</Name>
     </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

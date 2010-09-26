@@ -34,7 +34,8 @@ namespace GbcEmulator
         [FieldOffset(7)] public byte H;
         [FieldOffset(7)] public sbyte SignedH;
 
-        [FieldOffset(8)] public ushort SP;
+        // BUG: Hardcode starting register values somewhere else so they can be changed per implementation!
+        [FieldOffset(8)] public ushort SP = 0xFFFE;
         [FieldOffset(8)] public byte SPl;
         [FieldOffset(9)] public byte SPh;
 

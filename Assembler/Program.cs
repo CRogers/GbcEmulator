@@ -4,6 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Xml.Serialization;
 using GbcEmulator;
+using GbcEmulator.Memory;
 
 namespace Assembler
 {
@@ -22,7 +23,7 @@ namespace Assembler
             }
 
             if (Debugger.IsAttached)
-                args = new[] { "test.asm", "test.bin" };
+                args = new[] { "test_sections.asm", "test_sections.bin" };
                 //args = new[] { "-d", "test.bin", "test_d.asm" };
 
             if(args[0] == "-d")
@@ -33,7 +34,7 @@ namespace Assembler
             }
             else
             {
-                var code = File.ReadAllLines(args[0]);
+                var code = File.ReadAllText(args[0]);
                 var assembled = Assembler.Assemble(code);
 
                 File.WriteAllBytes(args[1], assembled);
@@ -41,7 +42,7 @@ namespace Assembler
                 if (Debugger.IsAttached)
                 {
                     var gb = new GameBoy(assembled);
-                    gb.RunCode(0);
+                    gb.RunCode(0x100);
                 }
             }
         }
