@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Data;
 using RomTools;
 
 namespace GbcEmulator.Memory
@@ -13,16 +14,17 @@ namespace GbcEmulator.Memory
         // BUG: GPU, Keypad interrupts etc not implemented
 
         private readonly RomInfo ri;
-        
-        private byte[] bios;
 
         private MemoryBankController mbc;
 
+        public Timer Timer { get; set; }
 
-        public MemoryManagementUnit(RomInfo romInfo)
+
+        public MemoryManagementUnit(RomInfo romInfo, Timer timer)
         {
             ri = romInfo;
             mbc = MemoryBankController.Factory(romInfo);
+            Timer = timer;
         }
 
 
@@ -85,22 +87,43 @@ namespace GbcEmulator.Memory
 
                         // Zeropage ram, I/O and interrupts
                         // BUG: This bit could be laid out wrong; more stuff in 0x0F00 - 0x0F80
+                        // 0xFFxx
                         case 0x0F00:
+                            switch(address & 0x00F0)
                             {
-                                int addr = address & 0x00FF;
+                                // 0xFF0x
+                                case 0x0:
+                                    switch (address & 0x000F)
+                                    {
+                                        // Joypad
+                                        case 0:
+                                            throw new NotImplementedException();
+
+                                        // Timer and Divider Registers
+                                        case 4:
+                                            return Timer.Div;
+                                        case 5:
+                                            return Timer.Tima;
+                                        case 6:
+                                            return Timer.Tma;
+                                        case 7:
+                                            return Timer.Tac;
+
+                                        // Interrupt register? BUG: What interrupt register should this be?
+                                    }
+                                    break;
 
                                 // I/O Ports
-                                if (addr < 0x80)
+                                case 0x10: case 0x20: case 0x30: case 0x40:
+                                case 0x50: case 0x60: case 0x70:
                                     throw new NotImplementedException();
 
-                                // Zeropage RAM (ZRAM)
-                                else if (addr < 0xFE)
+                                case 0x80: case 0x90: case 0xA0: case 0xB0: 
+                                case 0xC0: case 0xD0: case 0xE0: case 0xF0:
+                                    // 0xFFFF = interrupt enable register. BUG: Should move somewhere else?
                                     return mbc.Zram[address & 0x7F];
-
-                                // Interrupt enable register BUG: What interrupt register should this be?
-                                else
-                                    return mbc.Zram[0xFFFF];
                             }
+                            break;
                     }
                     break;
             }
@@ -173,22 +196,46 @@ namespace GbcEmulator.Memory
                         // Zeropage ram, I/O and interrupts
                         // BUG: This bit could be laid out wrong; more stuff in 0x0F00 - 0x0F80
                         case 0x0F00:
+                            switch(address & 0x00F0)
                             {
-                                int addr = address & 0x00FF;
+                                // 0xFF0x
+                                case 0x0:
+                                    switch (address & 0x000F)
+                                    {
+                                        // Joypad
+                                        case 0:
+                                            throw new NotImplementedException();
+
+                                        // Timer and Divider Registers
+                                        case 4:
+                                            Timer.Div = value;
+                                            break;
+                                        case 5:
+                                            Timer.Tima = value;
+                                            break;
+                                        case 6:
+                                            Timer.Tma = value;
+                                            break;
+                                        case 7:
+                                            Timer.SetTac(value);
+                                            break;
+
+                                        // Interrupt register? BUG: What interrupt register should this be?
+                                    }
+                                    break;
 
                                 // I/O Ports
-                                if (addr < 0x80)
+                                case 0x10: case 0x20: case 0x30: case 0x40:
+                                case 0x50: case 0x60: case 0x70:
                                     throw new NotImplementedException();
 
-                                // Zeropage RAM (ZRAM)
-                                else if (addr < 0xFE)
-                                    mbc.WriteZram(address, value);
-
-                                // Interrupt enable register BUG: What interrupt register should this be? Interrupt or Interrupt Enable?);
-                                else
-                                    mbc.WriteZram(0xFFFF, value);
-                                break;
+                                case 0x80: case 0x90: case 0xA0: case 0xB0: 
+                                case 0xC0: case 0xD0: case 0xE0: case 0xF0:
+                                    // 0xFFFF = interrupt enable register. BUG: Should move somewhere else?
+                                    mbc.Zram[address & 0x7F] = value;
+                                    break;
                             }
+                            break;
                     }
                     break;
             }

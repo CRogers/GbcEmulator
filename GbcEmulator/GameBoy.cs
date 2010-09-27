@@ -5,10 +5,11 @@ using RomTools;
 
 namespace GbcEmulator
 {
-    public partial class GameBoy
+    public class GameBoy
     {
         public IMemoryManagementUnit Mmu { get; set; }
         public ICpu Cpu { get; set; }
+        public Timer Timer { get; set; }
 
         public ReadOnlyArray<byte> Rom { get; private set; }
 
@@ -16,15 +17,21 @@ namespace GbcEmulator
         {
             var romInfo = new RomInfo(rom);
             Rom = romInfo.Rom;
-            Mmu = new MemoryManagementUnit(romInfo);
-            Cpu = new Z80(Rom, Mmu);
+            Mmu = new MemoryManagementUnit(romInfo, Timer);
+            Init();
         }
 
         public GameBoy(byte[] rom, Func<GameBoy, IMemoryManagementUnit> func)
         {
             Rom = new ReadOnlyArray<byte>(rom);
             Mmu = func(this);
+            Init();
+        }
+
+        private void Init()
+        {
             Cpu = new Z80(Rom, Mmu);
+            Timer = new Timer();
         }
 
         public void Start()

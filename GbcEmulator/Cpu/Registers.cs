@@ -1,9 +1,9 @@
 ﻿using System.Runtime.InteropServices;
 using RomTools;
 
-namespace GbcEmulator
+namespace GbcEmulator.Cpu
 {
-    [StructLayout(LayoutKind.Explicit, Size=15)]
+    [StructLayout(LayoutKind.Explicit, Size=16)]
     public class Registers
     {
         [FieldOffset(0)] public ushort AF;
@@ -49,7 +49,8 @@ namespace GbcEmulator
         [FieldOffset(13)] public bool IFF2;
         [FieldOffset(14)] public byte I;
 
-        // Register R for Memomry Refresh Register?
+        // Memory Refresh Register
+        [FieldOffset(15)] public byte R;
 
         /// <summary>
         /// A way to set PC that will auto-decrement the PC after to take account of the for loop increment
