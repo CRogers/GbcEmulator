@@ -44,7 +44,10 @@
     <Compile Include="Cpu\Z80.cs" />
     <Compile Include="Cpu\Z80.Helpers.cs" />
     <Compile Include="Cpu\Z80.Opcodes.cs" />
+    <Compile Include="Cpu\Z80.Timings.cs" />
     <Compile Include="GameBoy.cs" />
+    <Compile Include="Gpu\ColorExtensions.cs" />
+    <Compile Include="Gpu\Gpu.cs" />
     <Compile Include="Memory\FlatMMU.cs" />
     <Compile Include="Memory\IMemoryManagementUnit.cs" />
     <Compile Include="Memory\Mbc1.cs" />

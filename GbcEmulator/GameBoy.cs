@@ -1,6 +1,7 @@
 ﻿using System;
 using GbcEmulator.Cpu;
 using GbcEmulator.Memory;
+using GbcEmulator.Gpu;
 using RomTools;
 
 namespace GbcEmulator
@@ -9,6 +10,7 @@ namespace GbcEmulator
     {
         public IMemoryManagementUnit Mmu { get; set; }
         public ICpu Cpu { get; set; }
+        public Gpu.Gpu Gpu { get; set; }
         public Timer Timer { get; set; }
 
         public ReadOnlyArray<byte> Rom { get; private set; }
@@ -32,6 +34,7 @@ namespace GbcEmulator
         {
             Cpu = new Z80(Rom, Mmu);
             Timer = new Timer();
+            Gpu = new Gpu.Gpu(Timer);
         }
 
         public void Start()

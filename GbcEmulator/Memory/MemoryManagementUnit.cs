@@ -1,5 +1,4 @@
 ﻿using System;
-using System.Data;
 using RomTools;
 
 namespace GbcEmulator.Memory
@@ -207,8 +206,9 @@ namespace GbcEmulator.Memory
                                             throw new NotImplementedException();
 
                                         // Timer and Divider Registers
+                                        // TNG.pdf pg 31
                                         case 4:
-                                            Timer.Div = value;
+                                            Timer.Div = 0;
                                             break;
                                         case 5:
                                             Timer.Tima = value;

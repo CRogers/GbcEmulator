@@ -43,26 +43,26 @@ namespace GbcEmulator.Cpu
                               {0x08, () => mmu.WriteUShort(ReadUShort(), r.SP)},
 
                               // STOP: Stop the processor. BUG: Implementation guessed, possibly wrong
-                              {0x10, () => stopped = true }, 
+                              {0x10, () => stopped = true},
 
-                              {0x22, () => mmu.WriteByte(r.HL++, r.A)}, // LD (HLI), A                              
-                              {0x2A, () => r.A = mmu.ReadByte(r.HL++)}, // LD A, (HLI)
-                              {0x32, () => mmu.WriteByte(r.HL--, r.A)}, // LD (HLD), A                              
-                              {0x3A, () => r.A = mmu.ReadByte(r.HL--)}, // LD A, (HLD)
+                              {0x22, () => mmu.WriteByte(r.HL++, r.A)},     // LD (HLI), A                              
+                              {0x2A, () => r.A = mmu.ReadByte(r.HL++)},     // LD A, (HLI)
+                              {0x32, () => mmu.WriteByte(r.HL--, r.A)},     // LD (HLD), A                              
+                              {0x3A, () => r.A = mmu.ReadByte(r.HL--)},     // LD A, (HLD)
 
-                              // RETI
-                              {0xD9, () => { r.IFF2 = r.IFF1; r.IFF1 = true; r.Address = mmu.ReadUShort(r.SP); r.SP += 2; } },
-                              
-                              {0xE0, () => mmu.WriteByte(ReadByte() + 0xFF00, r.A)},            // LD (byte), A
-                              {0xE2, () => mmu.WriteByte(r.C + 0xFF00, r.A)},                   // LD (C), A
+                              // RETI BUG: This is probably wrong
+                              {0xD9, () =>{r.IFF2 = r.IFF1; r.IFF1 = true; r.Address = mmu.ReadUShort(r.SP); r.SP += 2;}},
 
-                              {0xE8, () => r.SP = (ushort) (r.SP + (sbyte) ReadUShort())},      // ADD SP, offset; offset is signed BUG: Flags?
-                              {0xEA, () => mmu.WriteByte(ReadUShort(), r.A)},                   // LD (word), A
+                              {0xE0, () => mmu.WriteByte(ReadByte() + 0xFF00, r.A)},        // LD (byte), A
+                              {0xE2, () => mmu.WriteByte(r.C + 0xFF00, r.A)},               // LD (C), A
 
-                              {0xF0, () => r.A = mmu.ReadByte(0xFF00 + ReadByte())},            // LD A, (byte)
-                              {0xF8, () => r.HL = (ushort) (r.SP + (sbyte) ReadUShort())},      // LD HL, offset; offset is signed
+                              {0xE8, () => r.SP = (ushort) (r.SP + (sbyte) ReadUShort())},  // ADD SP, offset; offset is signed BUG: Flags?
+                              {0xEA, () => mmu.WriteByte(ReadUShort(), r.A)},               // LD (word), A
 
-                              {0xFA, () => r.A = mmu.ReadByte(ReadUShort())},                   // LD A, (word)
+                              {0xF0, () => r.A = mmu.ReadByte(0xFF00 + ReadByte())},        // LD A, (byte)
+                              {0xF8, () => r.HL = (ushort) (r.SP + (sbyte) ReadUShort())},  // LD HL, offset; offset is signed
+
+                              {0xFA, () => r.A = mmu.ReadByte(ReadUShort())},               // LD A, (word)
 
 
 

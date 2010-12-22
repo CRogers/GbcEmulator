@@ -1,11 +1,13 @@
 ﻿using System.Timers;
-using Timeclock = System.Timers.Timer;
+using SysTimer = System.Timers.Timer;
 using RomTools;
 
 namespace GbcEmulator
 {
     public class Timer
     {
+        // See TheNintendoGameboy.pdf page 31
+
         /// <summary>
         /// FF04 - DIV - Divider Register (R/W) 
         /// This register is incremented at rate of 16384Hz, writing any value to this register resets it to 00h.
@@ -38,16 +40,16 @@ namespace GbcEmulator
 
         public bool TimerOn { get; set; }
 
-        public Timeclock divTimer { get; private set; }
-        public Timeclock timaTimer { get; private set; }
+        private readonly SysTimer divTimer;
+        private readonly SysTimer timaTimer;
 
 
         public Timer()
         {
-            divTimer = new Timeclock(1000.0/16384) {AutoReset = true};
+            divTimer = new SysTimer(1000.0/16384) {AutoReset = true};
             divTimer.Elapsed += StepDiv;
 
-            timaTimer = new Timeclock(1000.0/4096) {AutoReset = true};
+            timaTimer = new SysTimer(1000.0/4096) {AutoReset = true};
             timaTimer.Elapsed += StepTima;
 
             TimerOn = true;

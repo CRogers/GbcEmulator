@@ -16,6 +16,16 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution 
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "GbcEmulator", "GbcEmulator\GbcEmulator.csproj", "{CB598502-2A51-4183-8609-0490300F39D5}"
 EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Documentation", "Documentation", "{C510223A-9D3F-47B1-83EC-C7D757A2F499}"
+	ProjectSection(SolutionItems) = preProject
+		Documentation\GBCribSheet000129.pdf = Documentation\GBCribSheet000129.pdf
+		Documentation\gbspec.txt = Documentation\gbspec.txt
+		Documentation\TheNintendoGameboy.pdf = Documentation\TheNintendoGameboy.pdf
+		Documentation\um0080.pdf = Documentation\um0080.pdf
+		Documentation\z80-documented.pdf = Documentation\z80-documented.pdf
+		Documentation\z80gboy.txt = Documentation\z80gboy.txt
+	EndProjectSection
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -79,5 +89,8 @@ Global
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(NestedProjects) = preSolution
+		{C510223A-9D3F-47B1-83EC-C7D757A2F499} = {8A0B535B-CC99-4E7D-9C5C-00E93587A401}
 	EndGlobalSection
 EndGlobal
